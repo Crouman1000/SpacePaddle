@@ -1,8 +1,7 @@
 
 import pygame
-import random
-import pong.game_constants as const
-import pong.ball as ball
+import game_constants as const
+import ball as ball
 
 
 # METHODS
@@ -16,9 +15,11 @@ pygame.init()
 # GAME VARIABLES
 running = True
 game_surface = pygame.display.set_mode((const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT))
+game_width_surface = game_surface.get_width()
+game_height_surface = game_surface.get_height()
 clock = pygame.time.Clock()
-p1_posY = const.GAME_SURFACE_HEIGHT/2
-p2_posY = const.GAME_SURFACE_HEIGHT/2
+p1_posY = game_height_surface/2
+p2_posY = game_height_surface/2
 p1_paddle = pygame.Rect(100,p1_posY,const.PADDLE_WIDTH,const.PADDLE_HEIGHT)
 p2_paddle = pygame.Rect(const.GAME_SURFACE_WIDTH - 100,p2_posY,const.PADDLE_WIDTH,const.PADDLE_HEIGHT)
 
@@ -87,36 +88,28 @@ while running:
 
         # Handle collisions
         
-        if p1_paddle.colliderect(ball):
-            ball_move_X *= -1
+        if p1_paddle.colliderect(game_ball.ball_rect):
+            game_ball.reverseX()
             #ball_move_Y *= -1
-        elif p2_paddle.colliderect(ball):
-            ball_move_X *= -1
+        elif p2_paddle.colliderect(game_ball.ball_rect):
+            game_ball.reverseX()
             #ball_move_Y *= -1
 
-
-        ball_posX = ball_posX + ball_move_X
-        ball_posY = ball_posY + ball_move_Y
-            
-        ball.x = ball_posX
-        ball.y = ball_posY
-            
-
-        
+        game_ball.move(game_ball.speedX,game_ball.speedY)
 
         # Calculate score
 
     else:
         startGameMessage_surface = score_font.render(f"PRESS ANY KEY TO START",0,(255,255,255))
-        game_surface.blit(startGameMessage_surface,(GAME_SURFACE_WIDTH/2 - startGameMessage_surface.get_width()/2,4*GAME_SURFACE_HEIGHT/10))
+        game_surface.blit(startGameMessage_surface,(game_width_surface/2 - startGameMessage_surface.get_width()/2,4*game_height_surface/10))
 
     # Render
     score_surface = score_font.render(f"SCORE: P1 {scoreP1} | P2 {scoreP2}",0,(255,255,255))
-    game_surface.blit(score_surface,(GAME_SURFACE_WIDTH/2 - score_surface.get_width()/2,GAME_SURFACE_HEIGHT/12))
+    game_surface.blit(score_surface,(game_width_surface/2 - score_surface.get_width()/2,game_height_surface/12))
 
     pygame.draw.rect(game_surface,"red",p1_paddle)
     pygame.draw.rect(game_surface,"green",p2_paddle)
-    pygame.draw.rect(game_surface,"white",ball)
+    pygame.draw.rect(game_surface,"white",game_ball.ball_rect)
     
     
 
