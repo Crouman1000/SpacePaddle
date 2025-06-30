@@ -1,3 +1,5 @@
+from enum import Enum
+
 # CONSTANTS
 
 GAME_SURFACE_WIDTH = 1280
@@ -8,3 +10,7 @@ PADDLE1_OFFSET = 100
 PADDLE2_OFFSET = GAME_SURFACE_WIDTH - 100
 BALL_RADIUS = 20
 BALL_SPEED = 5
+
+class Player(Enum):
+    P1 = 1
+    P2 = 2

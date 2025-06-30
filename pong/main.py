@@ -3,7 +3,7 @@ import pygame
 import game_constants as const
 import ball
 import paddle
-
+import score
 
 # METHODS
 
@@ -18,16 +18,17 @@ running = True
 game_surface = pygame.display.set_mode((const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT))
 game_width_surface = game_surface.get_width()
 game_height_surface = game_surface.get_height()
+
 clock = pygame.time.Clock()
 
-p1_paddle = paddle.Paddle(1)
-p2_paddle = paddle.Paddle(3)
+p1_paddle = paddle.Paddle(const.Player.P1)
+p2_paddle = paddle.Paddle(const.Player.P2)
 
 game_ball = ball.Ball()
+game_scoreboard = score.ScoreBoard()
 
-scoreP1 = 0
-scoreP2 = 0
-score_font = pygame.font.SysFont("Arial",30,True,False)
+
+start_font = pygame.font.SysFont("Arial",30,True,False)
 
 startGame = False
 
@@ -67,20 +68,21 @@ while running:
 
         # Calculate ball position
         
-        if game_ball.y <= 0 or game_ball.y >= game_surface.get_height(): 
+        if game_ball.y <= 0 or game_ball.y >= game_height_surface: 
             game_ball.reverseY()
-        if game_ball.x <= 0 or game_ball.x >= game_surface.get_width(): 
+        if game_ball.x <= 0 or game_ball.x >= game_width_surface: 
             game_ball.reverseX()
 
             if game_ball.x <= 0:
                 print("P2 Scored!")
-                scoreP2 += 1
+                game_scoreboard.increaseScore(const.Player.P2)
             else:
                 print("P1 Scored!")
-                scoreP1 += 1       
-            startGame = False
+                game_scoreboard.increaseScore(const.Player.P1)   
+            
             game_ball.reset()
-
+            paddle.resetAllPaddles(p1_paddle,p2_paddle)
+            startGame = False
 
 
         # Handle collisions
@@ -97,12 +99,11 @@ while running:
         # Calculate score
 
     else:
-        startGameMessage_surface = score_font.render(f"PRESS ANY KEY TO START",0,(255,255,255))
+        startGameMessage_surface = start_font.render(f"PRESS ANY KEY TO START",0,(255,255,255))
         game_surface.blit(startGameMessage_surface,(game_width_surface/2 - startGameMessage_surface.get_width()/2,4*game_height_surface/10))
 
     # Render
-    score_surface = score_font.render(f"SCORE: P1 {scoreP1} | P2 {scoreP2}",0,(255,255,255))
-    game_surface.blit(score_surface,(game_width_surface/2 - score_surface.get_width()/2,game_height_surface/12))
+    game_scoreboard.render(game_surface,game_width_surface,game_height_surface)
 
     pygame.draw.rect(game_surface,"red",p1_paddle)
     pygame.draw.rect(game_surface,"green",p2_paddle)

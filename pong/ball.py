@@ -17,19 +17,19 @@ class Ball(pygame.Rect):
         self.speedX = const.BALL_SPEED*random.choice([-1,1])
         self.speedY = const.BALL_SPEED*random.choice([-1,1])
        
-    def reset(self):
+    def reset(self) -> None:
 
         self.x = (const.GAME_SURFACE_WIDTH - const.BALL_RADIUS)/2 
         self.y = (const.GAME_SURFACE_HEIGHT - const.BALL_RADIUS)/2 
         self.speedX = const.BALL_SPEED*random.choice([-1,1])
         self.speedY = const.BALL_SPEED*random.choice([-1,1])
 
-    def reverseX(self):
+    def reverseX(self) -> None:
         self.speedX *= -1
 
-    def reverseY(self):
+    def reverseY(self) -> None:
         self.speedY *= -1
 
-    def move(self,speedX,speedY):
-        self.x = self.x + speedX
-        self.y = self.y + speedY
+    def move(self,p_speedX: int,p_speedY: int) -> None:
+        self.x = self.x + p_speedX
+        self.y = self.y + p_speedY
