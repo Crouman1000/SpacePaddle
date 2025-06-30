@@ -1,7 +1,8 @@
 
 import pygame
 import game_constants as const
-import ball as ball
+import ball
+import paddle
 
 
 # METHODS
@@ -18,10 +19,9 @@ game_surface = pygame.display.set_mode((const.GAME_SURFACE_WIDTH, const.GAME_SUR
 game_width_surface = game_surface.get_width()
 game_height_surface = game_surface.get_height()
 clock = pygame.time.Clock()
-p1_posY = game_height_surface/2
-p2_posY = game_height_surface/2
-p1_paddle = pygame.Rect(100,p1_posY,const.PADDLE_WIDTH,const.PADDLE_HEIGHT)
-p2_paddle = pygame.Rect(const.GAME_SURFACE_WIDTH - 100,p2_posY,const.PADDLE_WIDTH,const.PADDLE_HEIGHT)
+
+p1_paddle = paddle.Paddle(1)
+p2_paddle = paddle.Paddle(3)
 
 game_ball = ball.Ball()
 
@@ -48,23 +48,20 @@ while running:
 
         # Calculate paddle's positions
         keys_list = pygame.key.get_pressed()
-        if p1_posY > 0: 
+        if p1_paddle.y > 0: 
             if keys_list[pygame.K_w]:
-                p1_posY = p1_posY - 6
-                p1_paddle.y = p1_posY
-        if p1_posY < const.GAME_SURFACE_HEIGHT - const.PADDLE_HEIGHT:
+                p1_paddle.move(-6)
+        if p1_paddle.y < game_height_surface - p1_paddle.height:
             if keys_list[pygame.K_s]:
-                p1_posY = p1_posY + 6
-                p1_paddle.y = p1_posY
+                p1_paddle.move(6)
         
-        if p2_posY > 0: 
+
+        if p2_paddle.y > 0: 
             if keys_list[pygame.K_UP]:
-                p2_posY = p2_posY - 6
-                p2_paddle.y = p2_posY
-        if p2_posY < const.GAME_SURFACE_HEIGHT - const.PADDLE_HEIGHT:
+                p2_paddle.move(-6)
+        if p2_paddle.y < game_height_surface - p2_paddle.height:
             if keys_list[pygame.K_DOWN]:
-                p2_posY = p2_posY + 6
-                p2_paddle.y = p2_posY
+                p2_paddle.move(6)
 
 
 
@@ -88,10 +85,10 @@ while running:
 
         # Handle collisions
         
-        if p1_paddle.colliderect(game_ball.ball_rect):
+        if p1_paddle.colliderect(game_ball):
             game_ball.reverseX()
             #ball_move_Y *= -1
-        elif p2_paddle.colliderect(game_ball.ball_rect):
+        elif p2_paddle.colliderect(game_ball):
             game_ball.reverseX()
             #ball_move_Y *= -1
 
@@ -109,8 +106,7 @@ while running:
 
     pygame.draw.rect(game_surface,"red",p1_paddle)
     pygame.draw.rect(game_surface,"green",p2_paddle)
-    pygame.draw.rect(game_surface,"white",game_ball.ball_rect)
-    
+    pygame.draw.rect(game_surface,"white",game_ball)
     
 
     # flip() the display to put your work on screen
