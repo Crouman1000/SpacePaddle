@@ -3,10 +3,7 @@ import pygame
 import game_constants as const
 import ball
 import paddle
-import score
-
-# METHODS
-
+import gameText
 
 
 # PYGAME INITIALIZE
@@ -25,10 +22,10 @@ p1_paddle = paddle.Paddle(const.Player.P1)
 p2_paddle = paddle.Paddle(const.Player.P2)
 
 game_ball = ball.Ball()
-game_scoreboard = score.ScoreBoard()
 
+game_scoreboard = gameText.ScoreBoard("Arial",30,True,False)
 
-start_font = pygame.font.SysFont("Arial",30,True,False)
+game_startText = gameText.StartText("Arial",30,True,False)
 
 startGame = False
 
@@ -71,8 +68,10 @@ while running:
         if game_ball.y <= 0 or game_ball.y >= game_height_surface: 
             game_ball.reverseY()
         if game_ball.x <= 0 or game_ball.x >= game_width_surface: 
-            game_ball.reverseX()
+            #game_ball.reverseX()
 
+
+            # Calculate score
             if game_ball.x <= 0:
                 print("P2 Scored!")
                 game_scoreboard.increaseScore(const.Player.P2)
@@ -96,15 +95,12 @@ while running:
 
         game_ball.move(game_ball.speedX,game_ball.speedY)
 
-        # Calculate score
+       
 
     else:
-        startGameMessage_surface = start_font.render(f"PRESS ANY KEY TO START",0,(255,255,255))
-        game_surface.blit(startGameMessage_surface,(game_width_surface/2 - startGameMessage_surface.get_width()/2,4*game_height_surface/10))
-
+        game_startText.showMessage(game_surface)
     # Render
-    game_scoreboard.render(game_surface,game_width_surface,game_height_surface)
-
+    game_scoreboard.showScore(game_surface)
     pygame.draw.rect(game_surface,"red",p1_paddle)
     pygame.draw.rect(game_surface,"green",p2_paddle)
     pygame.draw.rect(game_surface,"white",game_ball)
@@ -113,7 +109,7 @@ while running:
     # flip() the display to put your work on screen
     pygame.display.flip()
 
-    clock.tick(120)  # limits FPS to 60
+    clock.tick(120)  # limits FPS
 
 pygame.quit()
 
