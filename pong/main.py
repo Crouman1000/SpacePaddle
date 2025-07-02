@@ -26,6 +26,7 @@ game_ball = ball.Ball()
 game_scoreboard = gameText.ScoreBoard("Arial",30,True,False)
 
 game_startText = gameText.StartText("Arial",30,True,False)
+game_winnerText = gameText.StartText("Arial",30,True,False)
 
 startGame = False
 
@@ -95,10 +96,10 @@ while running:
 
         game_ball.move(game_ball.speedX,game_ball.speedY)
 
-       
-
+    
     else:
         game_startText.showMessage(game_surface)
+
     # Render
     game_scoreboard.showScore(game_surface)
     pygame.draw.rect(game_surface,"red",p1_paddle)
