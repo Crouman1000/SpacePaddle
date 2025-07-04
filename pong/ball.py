@@ -1,6 +1,5 @@
 import pygame
 import random
-import math
 import game_constants as const
 
 class Ball(pygame.Rect):
@@ -38,7 +37,7 @@ class Ball(pygame.Rect):
 
     def increaseSpeed(self) -> None:
 
-        determineSpeed = lambda speed: speed - 1 if speed < 0 else speed + 1 if speed > 0 else speed  
+        determineSpeed = lambda speed: speed - 0.5 if speed < 0 and speed > -9 else speed + 0.5 if speed > 0 and speed < 9 else speed  
         self.speedX = determineSpeed(self.speedX)
         self.speedY = determineSpeed(self.speedY)
 

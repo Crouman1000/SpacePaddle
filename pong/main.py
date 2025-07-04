@@ -25,9 +25,6 @@ game_ball = ball.Ball()
 
 game_scoreboard = gameText.ScoreBoard("Arial",30,True,False)
 
-game_startText = gameText.StartText("Arial",30,True,False)
-game_winnerText = gameText.StartText("Arial",30,True,False)
-
 startGame = False
 
 while running:
@@ -41,6 +38,8 @@ while running:
             
     
     if startGame:
+
+        game_ball.move()
 
         # Wipe away last frames
         game_surface.fill("black")
@@ -62,11 +61,19 @@ while running:
             if keys_list[pygame.K_DOWN]:
                 p2_paddle.move(1*const.PADDLE_SPEED)
 
-
         
-
-
-
+        # Handle collisions
+        
+        if p1_paddle.colliderect(game_ball):
+            p1_paddle.reflectBall(game_ball)
+            game_ball.increaseSpeed()
+            #ball_move_Y *= -1
+        elif p2_paddle.colliderect(game_ball):
+            p2_paddle.reflectBall(game_ball)
+            game_ball.increaseSpeed()
+            #game_ball.reverseX()
+            
+            #ball_move_Y *= -1
 
 
         # Calculate ball position
@@ -91,24 +98,9 @@ while running:
             paddle.resetAllPaddles(p1_paddle,p2_paddle)
             startGame = False
             
-
-
-        # Handle collisions
-        
-        if p1_paddle.colliderect(game_ball):
-            game_ball.reverseX()
-            #game_ball.increaseSpeed()
-            #ball_move_Y *= -1
-        elif p2_paddle.colliderect(game_ball):
-            game_ball.reverseX()
-            #game_ball.increaseSpeed()
-            #ball_move_Y *= -1
-
-        game_ball.move()
-
     
     else:
-        game_startText.showMessage(game_surface)
+        game_scoreboard.showMessage(game_surface)
 
 
     # Render
