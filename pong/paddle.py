@@ -33,3 +33,4 @@ class Paddle(pygame.Rect):
 def resetAllPaddles(*p_paddles: Paddle) -> None:
     for p in p_paddles:
         p.reset(p.player)
+

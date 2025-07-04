@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 import game_constants as const
 
 class Ball(pygame.Rect):
@@ -17,11 +18,12 @@ class Ball(pygame.Rect):
         self.speedX = const.BALL_SPEED*random.choice([-1,1])
         self.speedY = const.BALL_SPEED*random.choice([-1,1])
        
-    def reset(self) -> None:
+    def reset(self,p_player: const.Player) -> None:
 
         self.x = (const.GAME_SURFACE_WIDTH - const.BALL_RADIUS)/2 
         self.y = (const.GAME_SURFACE_HEIGHT - const.BALL_RADIUS)/2 
-        self.speedX = const.BALL_SPEED*random.choice([-1,1])
+
+        self.speedX = const.BALL_SPEED if p_player == const.Player.P1 else -1*const.BALL_SPEED
         self.speedY = const.BALL_SPEED*random.choice([-1,1])
 
     def reverseX(self) -> None:
@@ -30,6 +32,15 @@ class Ball(pygame.Rect):
     def reverseY(self) -> None:
         self.speedY *= -1
 
-    def move(self,p_speedX: int,p_speedY: int) -> None:
-        self.x = self.x + p_speedX
-        self.y = self.y + p_speedY
+    def move(self) -> None:
+        self.x = self.x + self.speedX
+        self.y = self.y + self.speedY
+
+    def increaseSpeed(self) -> None:
+
+        determineSpeed = lambda speed: speed - 1 if speed < 0 else speed + 1 if speed > 0 else speed  
+        self.speedX = determineSpeed(self.speedX)
+        self.speedY = determineSpeed(self.speedY)
+
+
+   

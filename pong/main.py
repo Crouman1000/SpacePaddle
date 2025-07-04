@@ -39,7 +39,7 @@ while running:
         if event.type == pygame.KEYDOWN:
             startGame = True
             
-
+    
     if startGame:
 
         # Wipe away last frames
@@ -49,18 +49,23 @@ while running:
         keys_list = pygame.key.get_pressed()
         if p1_paddle.y > 0: 
             if keys_list[pygame.K_w]:
-                p1_paddle.move(-6)
+                p1_paddle.move(-1*const.PADDLE_SPEED)
         if p1_paddle.y < game_height_surface - p1_paddle.height:
             if keys_list[pygame.K_s]:
-                p1_paddle.move(6)
+                p1_paddle.move(1*const.PADDLE_SPEED)
         
 
         if p2_paddle.y > 0: 
             if keys_list[pygame.K_UP]:
-                p2_paddle.move(-6)
+                p2_paddle.move(-1*const.PADDLE_SPEED)
         if p2_paddle.y < game_height_surface - p2_paddle.height:
             if keys_list[pygame.K_DOWN]:
-                p2_paddle.move(6)
+                p2_paddle.move(1*const.PADDLE_SPEED)
+
+
+        
+
+
 
 
 
@@ -69,36 +74,42 @@ while running:
         if game_ball.y <= 0 or game_ball.y >= game_height_surface: 
             game_ball.reverseY()
         if game_ball.x <= 0 or game_ball.x >= game_width_surface: 
-            #game_ball.reverseX()
-
+            #game_ball.reverseX()s
 
             # Calculate score
             if game_ball.x <= 0:
                 print("P2 Scored!")
                 game_scoreboard.increaseScore(const.Player.P2)
+                game_ball.reset(const.Player.P2)
+                
             else:
                 print("P1 Scored!")
-                game_scoreboard.increaseScore(const.Player.P1)   
+                game_scoreboard.increaseScore(const.Player.P1)
+                game_ball.reset(const.Player.P1)
             
-            game_ball.reset()
+            
             paddle.resetAllPaddles(p1_paddle,p2_paddle)
             startGame = False
+            
 
 
         # Handle collisions
         
         if p1_paddle.colliderect(game_ball):
             game_ball.reverseX()
+            #game_ball.increaseSpeed()
             #ball_move_Y *= -1
         elif p2_paddle.colliderect(game_ball):
             game_ball.reverseX()
+            #game_ball.increaseSpeed()
             #ball_move_Y *= -1
 
-        game_ball.move(game_ball.speedX,game_ball.speedY)
+        game_ball.move()
 
     
     else:
         game_startText.showMessage(game_surface)
+
 
     # Render
     game_scoreboard.showScore(game_surface)

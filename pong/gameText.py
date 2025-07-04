@@ -45,9 +45,11 @@ class ScoreBoard(GameText):
             case const.Player.P1:
                 print("P1 Scored!")
                 self.scoreP1 += 1
+                
             case const.Player.P2:
                 print("P2 Scored!")
                 self.scoreP2 += 1
+                
 
     def showScore(self,p_canvas: pygame.Surface) -> None:
         self.message = f"SCORE: P1 {self.scoreP1} | P2 {self.scoreP2}"
