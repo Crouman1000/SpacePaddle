@@ -30,7 +30,6 @@ class Paddle(pygame.Rect):
         self.y = self.y + p_speedY
 
     def reflectBall(self,p_ball: ball.Ball) -> None:
-
         
         if self.player == const.Player.P2:
 
@@ -41,7 +40,6 @@ class Paddle(pygame.Rect):
            
             reflectAngle = 315 + 90*((p_ball.y - self.topright[1])/const.PADDLE_HEIGHT)
             p_ball.speedX,p_ball.speedY = self.calculateNewVector(p_ball.speedX,p_ball.speedY,reflectAngle)
-
 
     def calculateNewVector(self,p_speedX,p_speedY,p_angle) -> tuple:
         hypot = math.hypot(p_speedX,p_speedY)

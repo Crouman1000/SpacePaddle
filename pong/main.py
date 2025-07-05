@@ -4,10 +4,12 @@ import game_constants as const
 import ball
 import paddle
 import gameText
+import sound
 
 
 # PYGAME INITIALIZE
 pygame.init()
+
 
 
 # GAME VARIABLES
@@ -65,10 +67,12 @@ while running:
         # Handle collisions
         
         if p1_paddle.colliderect(game_ball):
+            sound.paddleHit_sound.play()
             p1_paddle.reflectBall(game_ball)
             game_ball.increaseSpeed()
             #ball_move_Y *= -1
         elif p2_paddle.colliderect(game_ball):
+            sound.paddleHit_sound.play()
             p2_paddle.reflectBall(game_ball)
             game_ball.increaseSpeed()
             #game_ball.reverseX()
@@ -110,7 +114,6 @@ while running:
     pygame.draw.rect(game_surface,"white",game_ball)
     
 
-    # flip() the display to put your work on screen
     pygame.display.flip()
 
     clock.tick(120)  # limits FPS
