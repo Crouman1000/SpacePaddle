@@ -102,13 +102,16 @@ while running:
             paddle.resetAllPaddles(p1_paddle,p2_paddle)
             startGame = False
             
-    
+        
+        game_scoreboard.showScore(game_surface)
     else:
-        game_scoreboard.showMessage(game_surface)
-
-
+        game_scoreboard.showWinner(game_surface)
+        game_scoreboard.showStart(game_surface)
+        
+        
+        
     # Render
-    game_scoreboard.showScore(game_surface)
+    
     pygame.draw.rect(game_surface,"red",p1_paddle)
     pygame.draw.rect(game_surface,"green",p2_paddle)
     pygame.draw.rect(game_surface,"white",game_ball)

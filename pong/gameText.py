@@ -28,7 +28,7 @@ class GameText():
                p_color: colorType  = (255,255,255),
                p_background: colorType | None = None) -> None:
          
-         self.surface = self.font.render(p_text,p_antialias,p_color,p_background)
+        self.surface = self.font.render(p_text,p_antialias,p_color,p_background)
         
         
 class ScoreBoard(GameText):
@@ -38,6 +38,7 @@ class ScoreBoard(GameText):
         self.scoreP1 = 0
         self.scoreP2 = 0
         self.lastWinner = None
+        self.gameOver = False
 
     def increaseScore(self,p_player:const.Player) -> None:
         self.lastWinner = p_player.value
@@ -47,7 +48,10 @@ class ScoreBoard(GameText):
                 
             case const.Player.P2:
                 self.scoreP2 += 1
-                
+        if self.scoreP1 == const.GAME_MAXSCORE or self.scoreP2 == const.GAME_MAXSCORE:
+            self.gameOver = True
+            
+            
 
     def showScore(self,p_canvas: pygame.Surface) -> None:
 
@@ -55,17 +59,37 @@ class ScoreBoard(GameText):
         self.coordXY = ((p_canvas.get_width() - self.surface.get_width())/2,p_canvas.get_height()/12)
         p_canvas.blit(self.surface,self.coordXY)
 
-    def showMessage(self,p_canvas: pygame.Surface) -> None:
-    
-        if self.lastWinner:
-            self.render(f"PLAYER {self.lastWinner} SCORED !",0,(255,255,255))
-            self.coordXY = ((p_canvas.get_width() - self.surface.get_width())/2,3*p_canvas.get_height()/10)
-            p_canvas.blit(self.surface,self.coordXY)
+    def showWinner(self,p_canvas: pygame.Surface) -> None:         
 
+        if self.lastWinner:
+
+            if self.gameOver:
+
+                messageColor_tuple = (255,0,0) if self.lastWinner == 1 else (0,255,0)
+                self.render(f"Player {self.lastWinner} HAS WON THE GAME!",0,messageColor_tuple)
+                self.coordXY = ((p_canvas.get_width() - self.surface.get_width())/2,3*p_canvas.get_height()/10)
+                p_canvas.blit(self.surface,self.coordXY)
+                self.resetScore()
+                
+            else:
+
+                self.render(f"PLAYER {self.lastWinner} SCORED !",0,(255,255,255))
+                self.coordXY = ((p_canvas.get_width() - self.surface.get_width())/2,3*p_canvas.get_height()/10)
+                p_canvas.blit(self.surface,self.coordXY)
+        
+        
+       
+    def showStart(self,p_canvas: pygame.Surface) -> None:
+        
         self.render(f"PRESS ANY KEY TO START",0,(255,255,255))
         self.coordXY = ((p_canvas.get_width() - self.surface.get_width())/2,4*p_canvas.get_height()/10)
         p_canvas.blit(self.surface,self.coordXY)
-
-
+    
+    def resetScore(self) -> None:
+        self.lastWinner = None
+        self.gameOver = False
+        self.scoreP1 = 0
+        self.scoreP2 = 0
+        
 
 
