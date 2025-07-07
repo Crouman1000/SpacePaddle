@@ -15,7 +15,13 @@ BALL_SPEED = 5
 
 
 
-
 class Player(Enum):
     P1 = 1
     P2 = 2
+
+class GameState(Enum):
+    MainMenu = 0
+    Singleplayer = 1
+    Multiplayer = 2
+    Options = 3
+    
