@@ -1,9 +1,33 @@
 from enum import Enum
 
-# CONSTANTS
+### CONSTANTS
+
+class GameState(Enum):
+    Off = -1
+    MainMenu = 0
+    Singleplayer = 1
+    Multiplayer = 2
+    Options = 3
+
 
 GAME_SURFACE_WIDTH = 1280
 GAME_SURFACE_HEIGHT = 720
+
+
+# MainMenu
+
+MENU_BUTTON_HEIGHT = GAME_SURFACE_HEIGHT/8
+MENU_BUTTON_WIDTH = GAME_SURFACE_WIDTH/3
+MENU_BUTTON_SIZE = (MENU_BUTTON_WIDTH,MENU_BUTTON_HEIGHT)
+MENU_BUTTON_BORDER_RAD = 20
+SINGLEPLAYER_BUTTON_COORDS = ((GAME_SURFACE_WIDTH - MENU_BUTTON_WIDTH)/2 ,100)
+MULTIPLAYER_BUTTON_COORDS = ((GAME_SURFACE_WIDTH - MENU_BUTTON_WIDTH)/2,100 + 2* MENU_BUTTON_HEIGHT)
+OPTIONS_BUTTON_COORDS = ((GAME_SURFACE_WIDTH-MENU_BUTTON_WIDTH)/2,100 + 4* MENU_BUTTON_HEIGHT)
+
+
+
+# Singleplayer, Multiplayer
+
 GAME_MAXSCORE = 5
 PADDLE_WIDTH = 20
 PADDLE_HEIGHT = 150
@@ -13,15 +37,10 @@ PADDLE_SPEED = 5
 BALL_RADIUS = 20
 BALL_SPEED = 5
 
-
-
 class Player(Enum):
     P1 = 1
     P2 = 2
 
-class GameState(Enum):
-    MainMenu = 0
-    Singleplayer = 1
-    Multiplayer = 2
-    Options = 3
+
+
     
