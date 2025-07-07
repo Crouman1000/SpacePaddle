@@ -70,19 +70,18 @@ while running:
             sound.paddleHit_sound.play()
             p1_paddle.reflectBall(game_ball)
             game_ball.increaseSpeed()
-            #ball_move_Y *= -1
+  
         elif p2_paddle.colliderect(game_ball):
             sound.paddleHit_sound.play()
             p2_paddle.reflectBall(game_ball)
             game_ball.increaseSpeed()
-            #game_ball.reverseX()
-            
-            #ball_move_Y *= -1
+
 
 
         # Calculate ball position
         
         if game_ball.y <= 0 or game_ball.y >= game_height_surface: 
+            sound.YwallHit_sound.play()
             game_ball.reverseY()
         if game_ball.x <= 0 or game_ball.x >= game_width_surface: 
             #game_ball.reverseX()s
