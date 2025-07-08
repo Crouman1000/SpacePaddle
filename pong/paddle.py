@@ -9,7 +9,7 @@ class Paddle(pygame.Rect):
 
         width_ = const.PADDLE_WIDTH
         height_ = const.PADDLE_HEIGHT
-        offsetX = 100 if p_player == const.Player.P1 else const.GAME_SURFACE_WIDTH - 100
+        offsetX = const.PADDLE1_OFFSET if p_player == const.Player.P1 else const.PADDLE2_OFFSET
         left_ = offsetX
         top_ = (const.GAME_SURFACE_HEIGHT - height_)/2 
         
@@ -21,7 +21,7 @@ class Paddle(pygame.Rect):
     def reset(self,p_player: const.Player) -> None:
 
         height_ = const.PADDLE_HEIGHT
-        offsetX = 100 if p_player == const.Player.P1 else const.GAME_SURFACE_WIDTH - 100
+        offsetX = const.PADDLE1_OFFSET if p_player == const.Player.P1 else const.PADDLE2_OFFSET
         self.left = offsetX
         self.top = (const.GAME_SURFACE_HEIGHT - height_)/2 
         self.speedY = 0

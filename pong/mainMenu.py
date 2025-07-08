@@ -1,11 +1,14 @@
 import pygame
 import game_constants as const
 import image
+import sound
 
 def run_mainMenu() -> const.GameState:
 
     # INITIALIZE PYGAME
+    
     gameState = const.GameState.Off
+    sound.menu_sound.play(-1,0,500)
     
     clock = pygame.time.Clock()
 
@@ -65,6 +68,7 @@ def run_mainMenu() -> const.GameState:
                 if multiPlayer_Rect.collidepoint(mouseClickedCoords_tuple[0],mouseClickedCoords_tuple[1]):
                     running = False
                     gameState = const.GameState.Multiplayer
+                    sound.menu_sound.stop()
                     
         
        
