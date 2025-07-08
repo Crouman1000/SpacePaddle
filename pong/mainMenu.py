@@ -6,10 +6,10 @@ def run_mainMenu() -> const.GameState:
 
     # INITIALIZE PYGAME
     gameState = const.GameState.Off
-    pygame.init()
+    
     clock = pygame.time.Clock()
 
-    buttonText_Font = pygame.font.SysFont("Bank Gothic",50,True,False)
+    buttonText_Font = pygame.font.SysFont("Bank Gothic",50,False,False)
 
     menu_surface = pygame.display.set_mode((const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT))
     image.background_surface = image.background_surface.convert()
@@ -75,6 +75,6 @@ def run_mainMenu() -> const.GameState:
 
         clock.tick(120)  # limits FPS
 
-    pygame.quit()
+
 
     return gameState
