@@ -58,6 +58,7 @@ class ScoreBoard(GameText):
         if self.scoreP1 == const.GAME_MAXSCORE or self.scoreP2 == const.GAME_MAXSCORE:
             self.gameOver = True
 
+        
         self.scoreSurface = self.render(f"SCORE: P1 {self.scoreP1} | P2 {self.scoreP2}",0,(255,255,255))
             
 
@@ -70,10 +71,11 @@ class ScoreBoard(GameText):
 
         if self.lastWinner:
 
+            messageColor_tuple = (255,0,0) if self.lastWinner == 1 else (0,255,0)
+
             if self.gameOver:
 
-                sound.victory_sound.play()
-                messageColor_tuple = (255,0,0) if self.lastWinner == 1 else (0,255,0)
+                sound.victory_sound.play()               
                 self.winnerSurface = self.render(f"Player {self.lastWinner} HAS WON THE GAME!",0,messageColor_tuple)
                 self.coordXY = ((p_canvas.get_width() - self.winnerSurface.get_width())/2,3*p_canvas.get_height()/10)
                 p_canvas.blit(self.winnerSurface,self.coordXY)
@@ -81,7 +83,7 @@ class ScoreBoard(GameText):
                 
             else:
 
-                self.whoScoredSurface = self.render(f"PLAYER {self.lastWinner} SCORED !",0,(255,255,255))
+                self.whoScoredSurface = self.render(f"PLAYER {self.lastWinner} SCORED !",0,messageColor_tuple)
                 self.coordXY = ((p_canvas.get_width() - self.whoScoredSurface.get_width())/2,3*p_canvas.get_height()/10)
                 p_canvas.blit(self.whoScoredSurface,self.coordXY)
         

@@ -69,6 +69,10 @@ def run_mainMenu() -> const.GameState:
                     running = False
                     gameState = const.GameState.Multiplayer
                     sound.menu_sound.stop()
+                elif singlePlayer_Rect.collidepoint(mouseClickedCoords_tuple[0],mouseClickedCoords_tuple[1]):
+                    running = False
+                    gameState = const.GameState.Singleplayer
+                    sound.menu_sound.stop()
                     
         
        
