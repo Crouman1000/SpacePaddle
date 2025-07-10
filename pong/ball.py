@@ -37,9 +37,14 @@ class Ball(pygame.Rect):
 
     def increaseSpeed(self) -> None:
 
-        determineSpeed = lambda speed: speed - 0.5 if speed < 0 and speed > -9 else speed + 0.5 if speed > 0 and speed < 9 else speed  
-        self.speedX = determineSpeed(self.speedX)
-        self.speedY = determineSpeed(self.speedY)
+        #determineSpeed = lambda speed: speed - 0.5 if speed < 0 and speed > -9 else speed + 0.5 if speed > 0 and speed < 9 else speed  
+        self.speedX = self.determineSpeed(self.speedX)
+        self.speedY = self.determineSpeed(self.speedY)
 
-
+    def determineSpeed(self,p_speed: float) -> float:
+        if p_speed < 0 and p_speed > -1*const.BALL_MAX_SPEED:
+            p_speed -= const.BALL_INCREASE_SPEED 
+        elif p_speed > 0 and p_speed < const.BALL_MAX_SPEED:
+            p_speed += const.BALL_INCREASE_SPEED 
+        return p_speed
    
