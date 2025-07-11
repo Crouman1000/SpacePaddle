@@ -11,7 +11,7 @@ def run_multiplayer():
     ### GAME VARIABLES
 
     clock = pygame.time.Clock()
-    #sound.gameplay_sound.play(-1,0,500)
+    sound.gameplay_sound.play(-1,0,500)
 
     game_surface = pygame.display.set_mode((const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT))
 
@@ -40,9 +40,9 @@ def run_multiplayer():
                 if event.key == pygame.K_ESCAPE:
                     running = False
                     startGame = False
-                    gameState = const.GameState.MainMenu
-                ### Start game
+                    gameState = const.GameState.MainMenu        
                 else:
+                    ### Start game
                     startGame = True
                 
         ### Start the game
