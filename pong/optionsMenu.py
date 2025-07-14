@@ -5,58 +5,56 @@ import PygameUtils as pu
 import sound
 import settings
 
+class Menu():
 
+    def __init__(self):
 
-def run_options(p_gameState: const.GameState) -> const.GameState:
+        self.gameState = None
+        self.clock = pygame.time.Clock()
+        self.menu_surface = pygame.display.set_mode((const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT))
+        self.background_surface = pygame.transform.scale(image.background_surface,(const.GAME_SURFACE_WIDTH,const.GAME_SURFACE_HEIGHT))
+        self.music_checkbox = Checkbox_overriden("red", 100, 100, 50,50, outline=0,check=settings.enableMusic, text="MUSIC")
+        self.running = True
 
-    gameState = p_gameState
+    def run_options(self, p_gameState: const.GameState) -> const.GameState:
 
-    clock = pygame.time.Clock()
+        self.gameState = p_gameState
+ 
+        self.menu_surface.blit(self.background_surface,(0,0))
 
-    #buttonText_Font = pygame.font.SysFont("Bank Gothic",50,False,False)
+        self.running = True
+        while self.running:
 
-    menu_surface = pygame.display.set_mode((const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT))
-    image.background_surface = image.background_surface.convert()
-    image.background_surface = pygame.transform.scale(image.background_surface,(const.GAME_SURFACE_WIDTH,const.GAME_SURFACE_HEIGHT))
-    menu_surface.blit(image.background_surface,(0,0))
+            ### Wipe away last frames
+            self.menu_surface.blit(self.background_surface,(0,0))
 
-    music_checkbox = Checkbox_overriden("red", 100, 100, 50,50, outline=0,check=settings.enableMusic, text="MUSIC")
-    
-    running = True
-    while running:
+            # Poll for events
+            for event in pygame.event.get():
+                #print(f"event: {event}")
+                if event.type == pygame.QUIT:
+                    self.running = False
+                    self.gameState = const.GameState.Off
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        self.running = False
+                        self.gameState = const.GameState.MainMenu
+                elif event.type == pygame.MOUSEBUTTONDOWN:   
+                    mouseClickedCoords_tuple = pygame.mouse.get_pos()
+                    if self.music_checkbox.isOver(mouseClickedCoords_tuple):
+                        self.music_checkbox.convert()
+                        if self.music_checkbox.isChecked():
+                            sound.enableMusic()
+                            sound.playMusic(const.MusicChoice.gameMenu)
+                        else:
+                            sound.disableMusic()
 
-        ### Wipe away last frames
-        menu_surface.blit(image.background_surface,(0,0))
+            self.music_checkbox.draw(self.menu_surface)
+            pygame.display.flip()
 
-        # Poll for events
-        for event in pygame.event.get():
-            #print(f"event: {event}")
-            if event.type == pygame.QUIT:
-                running = False
-                gameState = const.GameState.Off
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    running = False
-                    gameState = const.GameState.MainMenu
-            elif event.type == pygame.MOUSEBUTTONDOWN:   
-                mouseClickedCoords_tuple = pygame.mouse.get_pos()
-                if music_checkbox.isOver(mouseClickedCoords_tuple):
-                    music_checkbox.convert()
-                    if music_checkbox.isChecked():
-                        sound.enableMusic()
-                        sound.playMusic(const.MusicChoice.gameMenu)
-                    else:
-                        sound.disableMusic()
+            # FPS
+            self.clock.tick(120)  
 
-
-                
-        music_checkbox.draw(menu_surface)
-        pygame.display.flip()
-
-        # limits FPS
-        clock.tick(120)  
-
-    return gameState
+        return self.gameState
 
 
 class Checkbox_overriden(pu.checkbox):
