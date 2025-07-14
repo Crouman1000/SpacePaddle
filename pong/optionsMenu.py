@@ -9,20 +9,21 @@ class Menu():
 
     def __init__(self):
 
-        self.gameState = None
+        self.running = True
         self.clock = pygame.time.Clock()
         self.menu_surface = pygame.display.set_mode((const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT))
         self.background_surface = pygame.transform.scale(image.background_surface,(const.GAME_SURFACE_WIDTH,const.GAME_SURFACE_HEIGHT))
         self.music_checkbox = Checkbox_overriden("red", 100, 100, 50,50, outline=0,check=settings.enableMusic, text="MUSIC")
-        self.running = True
+        
 
     def run_options(self, p_gameState: const.GameState) -> const.GameState:
 
-        self.gameState = p_gameState
+        gameState = p_gameState
+        self.running = True
  
         self.menu_surface.blit(self.background_surface,(0,0))
 
-        self.running = True
+        
         while self.running:
 
             ### Wipe away last frames
@@ -33,11 +34,11 @@ class Menu():
                 #print(f"event: {event}")
                 if event.type == pygame.QUIT:
                     self.running = False
-                    self.gameState = const.GameState.Off
+                    gameState = const.GameState.Off
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.running = False
-                        self.gameState = const.GameState.MainMenu
+                        gameState = const.GameState.MainMenu
                 elif event.type == pygame.MOUSEBUTTONDOWN:   
                     mouseClickedCoords_tuple = pygame.mouse.get_pos()
                     if self.music_checkbox.isOver(mouseClickedCoords_tuple):
@@ -54,7 +55,7 @@ class Menu():
             # FPS
             self.clock.tick(120)  
 
-        return self.gameState
+        return gameState
 
 
 class Checkbox_overriden(pu.checkbox):

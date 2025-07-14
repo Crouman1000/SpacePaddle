@@ -11,6 +11,8 @@ def run_multiplayer(p_gameState: const.GameState):
     ### GAME VARIABLES
 
     gameState = p_gameState
+    running = True
+    
     clock = pygame.time.Clock()
     sound.playMusic(const.MusicChoice.gamePlay)
 
@@ -22,7 +24,7 @@ def run_multiplayer(p_gameState: const.GameState):
     game_scoreboard = gameText.ScoreBoard("Arial",30,True,False)
     
 
-    running = True
+    
     startGame = False
     while running:
         # Poll for events

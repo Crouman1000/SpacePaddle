@@ -3,90 +3,88 @@ import game_constants as const
 import image
 import sound
 
-def run_mainMenu(p_gameState: const.GameState) -> const.GameState:
-    
-    gameState = p_gameState
-    
-    sound.playMusic(const.MusicChoice.gameMenu)
-    
-    clock = pygame.time.Clock()
+class Menu():
 
-    buttonText_Font = pygame.font.SysFont("Bank Gothic",50,False,False)
+    def __init__(self):
 
-    menu_surface = pygame.display.set_mode((const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT))
-    image.background_surface = image.background_surface.convert()
-    image.background_surface = pygame.transform.scale(image.background_surface,(const.GAME_SURFACE_WIDTH,const.GAME_SURFACE_HEIGHT))
-    menu_surface.blit(image.background_surface,(0,0))
+        self.running = True
+        self.clock = pygame.time.Clock()
+        self.buttonText_Font = pygame.font.SysFont("Bank Gothic",50,False,False)
+        self.menu_surface = pygame.display.set_mode((const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT))
+        self.background_surface = pygame.transform.scale(image.background_surface,(const.GAME_SURFACE_WIDTH,const.GAME_SURFACE_HEIGHT))
+        
+        self.singlePlayer_Rect = pygame.Rect(const.SINGLEPLAYER_BUTTON_COORDS[0],
+                                const.SINGLEPLAYER_BUTTON_COORDS[1],
+                                const.MENU_BUTTON_SIZE[0],
+                                const.MENU_BUTTON_SIZE[1])
+        self.singlePlayerText_surface = self.buttonText_Font.render("SINGLE PLAYER",False,(0,0,0))
 
-
-    singlePlayer_Rect = pygame.draw.rect(menu_surface,"gray",
-                    (const.SINGLEPLAYER_BUTTON_COORDS[0],
-                    const.SINGLEPLAYER_BUTTON_COORDS[1],
-                    const.MENU_BUTTON_SIZE[0],
-                    const.MENU_BUTTON_SIZE[1]),
-                    border_radius = const.MENU_BUTTON_BORDER_RAD)
-    
-    singlePlayerText_surface = buttonText_Font.render("SINGLE PLAYER",False,(0,0,0))
-    menu_surface.blit(singlePlayerText_surface,
-                    (singlePlayer_Rect.centerx - singlePlayerText_surface.get_width()/2,
-                    singlePlayer_Rect.centery - singlePlayerText_surface.get_height()/2))
-
-    
-    multiPlayer_Rect = pygame.draw.rect(menu_surface,"gray",
-                    (const.MULTIPLAYER_BUTTON_COORDS[0],
-                    const.MULTIPLAYER_BUTTON_COORDS[1],
-                    const.MENU_BUTTON_SIZE[0],
-                    const.MENU_BUTTON_SIZE[1]),
-                    border_radius = const.MENU_BUTTON_BORDER_RAD)
-    
-    multiPlayerText_surface = buttonText_Font.render("MULTIPLAYER",False,(0,0,0))
-    menu_surface.blit(multiPlayerText_surface,
-                    (multiPlayer_Rect.centerx - multiPlayerText_surface.get_width()/2,
-                    multiPlayer_Rect.centery - multiPlayerText_surface.get_height()/2))
-
-    options_Rect = pygame.draw.rect(menu_surface,"gray",
-                    (const.OPTIONS_BUTTON_COORDS[0],
-                    const.OPTIONS_BUTTON_COORDS[1],
-                    const.MENU_BUTTON_SIZE[0],
-                    const.MENU_BUTTON_SIZE[1]),
-                    border_radius = const.MENU_BUTTON_BORDER_RAD)
-    
-    optionText_surface = buttonText_Font.render("OPTIONS",False,(0,0,0))
-    menu_surface.blit(optionText_surface,
-                    (options_Rect.centerx - optionText_surface.get_width()/2,
-                    options_Rect.centery - optionText_surface.get_height()/2))
-    
-    running = True
-    while running:
-        # Poll for events
-        for event in pygame.event.get():
-            #print(f"event: {event}")
-            if event.type == pygame.QUIT:
-                running = False
-                gameState = const.GameState.Off
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mouseClickedCoords_tuple = pygame.mouse.get_pos()
+        self.multiPlayer_Rect = pygame.Rect(const.MULTIPLAYER_BUTTON_COORDS[0],
+                        const.MULTIPLAYER_BUTTON_COORDS[1],
+                        const.MENU_BUTTON_SIZE[0],
+                        const.MENU_BUTTON_SIZE[1])
+        self.multiPlayerText_surface = self.buttonText_Font.render("MULTIPLAYER",False,(0,0,0))
+        
+        self.options_Rect = pygame.Rect(const.OPTIONS_BUTTON_COORDS[0],
+                        const.OPTIONS_BUTTON_COORDS[1],
+                        const.MENU_BUTTON_SIZE[0],
+                        const.MENU_BUTTON_SIZE[1])                    
+        self.optionText_surface = self.buttonText_Font.render("OPTIONS",False,(0,0,0))
+        
+    def run_mainMenu(self,p_gameState: const.GameState) -> const.GameState:
+        
+        gameState = p_gameState
+        self.running = True
+        
+        
+        sound.playMusic(const.MusicChoice.gameMenu)
 
 
-                if singlePlayer_Rect.collidepoint(mouseClickedCoords_tuple[0],mouseClickedCoords_tuple[1]):
-                    running = False
-                    gameState = const.GameState.Singleplayer
+        self.menu_surface.blit(self.background_surface,(0,0))
+
+        
+        pygame.draw.rect(self.menu_surface,"gray",self.singlePlayer_Rect,border_radius= const.MENU_BUTTON_BORDER_RAD)   
+        self.menu_surface.blit(self.singlePlayerText_surface,
+                        (self.singlePlayer_Rect.centerx - self.singlePlayerText_surface.get_width()/2,
+                        self.singlePlayer_Rect.centery - self.singlePlayerText_surface.get_height()/2))
+        
+        pygame.draw.rect(self.menu_surface,"gray",self.multiPlayer_Rect,border_radius= const.MENU_BUTTON_BORDER_RAD)
+        self.menu_surface.blit(self.multiPlayerText_surface,
+                        (self.multiPlayer_Rect.centerx - self.multiPlayerText_surface.get_width()/2,
+                        self.multiPlayer_Rect.centery - self.multiPlayerText_surface.get_height()/2))
+
+        pygame.draw.rect(self.menu_surface,"gray",self.options_Rect,border_radius= const.MENU_BUTTON_BORDER_RAD)    
+        self.menu_surface.blit(self.optionText_surface,
+                        (self.options_Rect.centerx - self.optionText_surface.get_width()/2,
+                        self.options_Rect.centery - self.optionText_surface.get_height()/2))
+        
+
+        while self.running:
+            # Poll for events
+            for event in pygame.event.get():
+                #print(f"event: {event}")
+                if event.type == pygame.QUIT:
+                    self.running = False
+                    gameState = const.GameState.Off
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mouseClickedCoords_tuple = pygame.mouse.get_pos()
+
+                    if self.singlePlayer_Rect.collidepoint(mouseClickedCoords_tuple[0],mouseClickedCoords_tuple[1]):
+                        self.running = False
+                        gameState = const.GameState.Singleplayer
+                                         
+                    elif self.multiPlayer_Rect.collidepoint(mouseClickedCoords_tuple[0],mouseClickedCoords_tuple[1]):
+                        self.running = False
+                        gameState = const.GameState.Multiplayer               
                     
-                
-                elif multiPlayer_Rect.collidepoint(mouseClickedCoords_tuple[0],mouseClickedCoords_tuple[1]):
-                    running = False
-                    gameState = const.GameState.Multiplayer
-                    
-                
-                elif options_Rect.collidepoint(mouseClickedCoords_tuple[0],mouseClickedCoords_tuple[1]):  
-                    running = False
-                    gameState = const.GameState.Options
-                       
+                    elif self.options_Rect.collidepoint(mouseClickedCoords_tuple[0],mouseClickedCoords_tuple[1]):  
+                        self.running = False
+                        gameState = const.GameState.Options
+                        
+            #menu_surface.fill("black")
 
-        #menu_surface.fill("black")
+            pygame.display.flip()
 
-        pygame.display.flip()
+            self.clock.tick(120)  # limits FPS
 
-        clock.tick(120)  # limits FPS
-
-    return gameState
+        return gameState
