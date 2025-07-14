@@ -8,7 +8,8 @@ def run_mainMenu() -> const.GameState:
     # INITIALIZE PYGAME
     
     gameState = const.GameState.MainMenu
-    #sound.menu_sound.play(-1,0,500)
+    
+    sound.playMusic(const.MusicChoice.gameMenu)
     
     clock = pygame.time.Clock()
 
@@ -72,14 +73,14 @@ def run_mainMenu() -> const.GameState:
                 if singlePlayer_Rect.collidepoint(mouseClickedCoords_tuple[0],mouseClickedCoords_tuple[1]):
                     running = False
                     gameState = const.GameState.Singleplayer
-                    sound.menu_sound.stop()
+                    
                 
                 elif multiPlayer_Rect.collidepoint(mouseClickedCoords_tuple[0],mouseClickedCoords_tuple[1]):
                     running = False
                     gameState = const.GameState.Multiplayer
-                    sound.menu_sound.stop()
+                    
                 
-                elif options_Rect.collidepoint(mouseClickedCoords_tuple[0],mouseClickedCoords_tuple[1]):
+                elif options_Rect.collidepoint(mouseClickedCoords_tuple[0],mouseClickedCoords_tuple[1]):  
                     running = False
                     gameState = const.GameState.Options
                        
@@ -89,7 +90,5 @@ def run_mainMenu() -> const.GameState:
         pygame.display.flip()
 
         clock.tick(120)  # limits FPS
-
-
 
     return gameState

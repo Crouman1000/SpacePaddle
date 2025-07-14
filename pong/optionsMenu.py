@@ -2,11 +2,15 @@ import pygame
 import game_constants as const
 import image
 import PygameUtils as pu
+import sound
+import settings
+
+
 
 def run_options() -> const.GameState:
 
     gameState = const.GameState.Options
-    
+
     clock = pygame.time.Clock()
 
 
@@ -17,8 +21,7 @@ def run_options() -> const.GameState:
     image.background_surface = pygame.transform.scale(image.background_surface,(const.GAME_SURFACE_WIDTH,const.GAME_SURFACE_HEIGHT))
     menu_surface.blit(image.background_surface,(0,0))
 
-
-    checkb = Checkbox_overriden("red", 100, 100, 50,50, outline=0, text="MUSIC")
+    music_checkbox = Checkbox_overriden("red", 100, 100, 50,50, outline=0,check=settings.enableMusic, text="MUSIC")
     
     running = True
     while running:
@@ -38,26 +41,34 @@ def run_options() -> const.GameState:
                     gameState = const.GameState.MainMenu
             elif event.type == pygame.MOUSEBUTTONDOWN:   
                 mouseClickedCoords_tuple = pygame.mouse.get_pos()
-                if checkb.isOver(mouseClickedCoords_tuple):
-                    checkb.convert()
+                if music_checkbox.isOver(mouseClickedCoords_tuple):
+                    music_checkbox.convert()
+                    if music_checkbox.isChecked():
+                        sound.enableMusic()
+                        sound.playMusic(const.MusicChoice.gameMenu)
+                    else:
+                        sound.disableMusic()
+
                     
                 #    running = False
                 #    gameState = const.GameState.Multiplayer
-                #    sound.menu_sound.stop()
+
                 
-        checkb.draw(menu_surface)
+        music_checkbox.draw(menu_surface)
         pygame.display.flip()
 
-        clock.tick(120)  # limits FPS
-
-
+        # limits FPS
+        clock.tick(120)  
 
     return gameState
+
 
 class Checkbox_overriden(pu.checkbox):
 
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
+
+    #@override
     def draw(self, win):
 
         but = pu.button(self.color, self.x, self.y, self.width, self.height, outline=self.outline)
@@ -70,3 +81,4 @@ class Checkbox_overriden(pu.checkbox):
         if self.check:
             pygame.draw.line(win, (255, 255, 255), (self.x, self.y), (self.x + self.width - self.outline, self.y + self.height - self.outline),3)
             pygame.draw.line(win, (255, 255, 255), (self.x - self.outline + self.width, self.y), (self.x, self.y + self.height - self.outline),3)
+

@@ -3,7 +3,7 @@ import pygame
 import game_constants as const
 import mainMenu
 import playMode as playMode
-import options
+import optionsMenu as optionsMenu
 
 
 
@@ -23,7 +23,7 @@ def main() -> None:
         elif gameState == const.GameState.Multiplayer:
             gameState = playMode.run_multiplayer()
         elif gameState == const.GameState.Options:
-            gameState = options.run_options()
+            gameState = optionsMenu.run_options()
 
     # QUIT PYGAME
     pygame.quit()

@@ -2,6 +2,15 @@ from enum import Enum
 
 ### CONSTANTS
 
+class SoundState(Enum):
+    Off = 0
+    On = 1
+
+class MusicChoice(Enum):
+    gameMenu = "pong/assets/sounds/gameMenu.mp3"
+    gamePlay = "pong/assets/sounds/gameplay.mp3"
+    
+
 class GameState(Enum):
     Off = -1
     MainMenu = 0
@@ -30,7 +39,7 @@ OPTIONS_BUTTON_COORDS = ((GAME_SURFACE_WIDTH-MENU_BUTTON_WIDTH)/2,100 + 4* MENU_
 
 GAME_MAXSCORE = 5
 PADDLE_WIDTH = 20
-PADDLE_HEIGHT = 150
+PADDLE_HEIGHT = 100
 PADDLE1_OFFSET = 100
 PADDLE2_OFFSET = GAME_SURFACE_WIDTH - PADDLE1_OFFSET - PADDLE_WIDTH
 PADDLE_SPEED = 5
