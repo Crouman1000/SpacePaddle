@@ -2,8 +2,8 @@
 import pygame
 import game_constants as const
 import mainMenu
-import playMode as playMode
-import optionsMenu as optionsMenu
+import playMode
+import optionsMenu
 
 
 
@@ -15,15 +15,15 @@ def main() -> None:
     gameState = const.GameState.MainMenu
 
     while gameState != const.GameState.Off:
-
+ 
         if gameState == const.GameState.MainMenu:
-            gameState = mainMenu.run_mainMenu()
+            gameState = mainMenu.run_mainMenu(gameState)
         elif gameState == const.GameState.Singleplayer:
-            gameState = playMode.run_singleplayer()
+            gameState = playMode.run_singleplayer(gameState)
         elif gameState == const.GameState.Multiplayer:
-            gameState = playMode.run_multiplayer()
+            gameState = playMode.run_multiplayer(gameState)
         elif gameState == const.GameState.Options:
-            gameState = optionsMenu.run_options()
+            gameState = optionsMenu.run_options(gameState)
 
     # QUIT PYGAME
     pygame.quit()

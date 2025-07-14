@@ -3,11 +3,9 @@ import game_constants as const
 import image
 import sound
 
-def run_mainMenu() -> const.GameState:
-
-    # INITIALIZE PYGAME
+def run_mainMenu(p_gameState: const.GameState) -> const.GameState:
     
-    gameState = const.GameState.MainMenu
+    gameState = p_gameState
     
     sound.playMusic(const.MusicChoice.gameMenu)
     

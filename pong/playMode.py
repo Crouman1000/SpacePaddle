@@ -6,10 +6,11 @@ import gameText
 import sound
 import opponentAI
 
-def run_multiplayer():
+def run_multiplayer(p_gameState: const.GameState):
     
     ### GAME VARIABLES
 
+    gameState = p_gameState
     clock = pygame.time.Clock()
     sound.playMusic(const.MusicChoice.gamePlay)
 
@@ -128,10 +129,11 @@ def run_multiplayer():
     return gameState
 
 
-def run_singleplayer():
+def run_singleplayer(p_gameState: const.GameState):
     
     ### GAME VARIABLES
 
+    gameState = p_gameState
     clock = pygame.time.Clock()
     sound.playMusic(const.MusicChoice.gamePlay)
 

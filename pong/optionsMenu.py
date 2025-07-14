@@ -7,14 +7,13 @@ import settings
 
 
 
-def run_options() -> const.GameState:
+def run_options(p_gameState: const.GameState) -> const.GameState:
 
-    gameState = const.GameState.Options
+    gameState = p_gameState
 
     clock = pygame.time.Clock()
 
-
-    buttonText_Font = pygame.font.SysFont("Bank Gothic",50,False,False)
+    #buttonText_Font = pygame.font.SysFont("Bank Gothic",50,False,False)
 
     menu_surface = pygame.display.set_mode((const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT))
     image.background_surface = image.background_surface.convert()
@@ -49,9 +48,6 @@ def run_options() -> const.GameState:
                     else:
                         sound.disableMusic()
 
-                    
-                #    running = False
-                #    gameState = const.GameState.Multiplayer
 
                 
         music_checkbox.draw(menu_surface)

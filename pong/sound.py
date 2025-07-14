@@ -31,14 +31,14 @@ def playMusic(p_song:const.MusicChoice):
             case const.MusicChoice.gameMenu:       
                 
                 if settings.currentSong != const.MusicChoice.gameMenu:
-                    pygame.mixer.music.load("pong/assets/sounds/gameMenu.mp3")
+                    pygame.mixer.music.load(const.MusicChoice.gameMenu.value)
                     pygame.mixer.music.play(-1)
                     settings.currentSong = const.MusicChoice.gameMenu
 
             case const.MusicChoice.gamePlay:
 
                 if settings.currentSong != const.MusicChoice.gamePlay:
-                    pygame.mixer.music.load("pong/assets/sounds/gameplay.mp3")
+                    pygame.mixer.music.load(const.MusicChoice.gamePlay.value)
                     pygame.mixer.music.play(-1)
                     settings.currentSong = const.MusicChoice.gamePlay
             
