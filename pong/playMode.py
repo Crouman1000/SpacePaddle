@@ -11,7 +11,7 @@ def run_multiplayer():
     ### GAME VARIABLES
 
     clock = pygame.time.Clock()
-    #sound.gameplay_sound.play(-1,0,500)
+    sound.playMusic(const.MusicChoice.gamePlay)
 
     game_surface = pygame.display.set_mode((const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT))
 
@@ -40,9 +40,9 @@ def run_multiplayer():
                 if event.key == pygame.K_ESCAPE:
                     running = False
                     startGame = False
-                    gameState = const.GameState.MainMenu
-                ### Start game
+                    gameState = const.GameState.MainMenu        
                 else:
+                    ### Start game
                     startGame = True
                 
         ### Start the game
@@ -81,7 +81,7 @@ def run_multiplayer():
                 game_ball.increaseSpeed()
     
             elif p2_paddle.colliderect(game_ball):
-                sound.paddleHit_sound.play(0)
+                sound.paddleHit_sound.play()
                 p2_paddle.reflectBall(game_ball)
                 game_ball.increaseSpeed()
 
@@ -125,7 +125,6 @@ def run_multiplayer():
         ### limit FPS
         clock.tick(120)  
 
-    
     return gameState
 
 
@@ -134,7 +133,7 @@ def run_singleplayer():
     ### GAME VARIABLES
 
     clock = pygame.time.Clock()
-    #sound.gameplay_sound.play(-1,0,500)
+    sound.playMusic(const.MusicChoice.gamePlay)
 
     game_surface = pygame.display.set_mode((const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT))
 
@@ -199,7 +198,7 @@ def run_singleplayer():
                 game_ball.increaseSpeed()
     
             elif p2_paddle.colliderect(game_ball):
-                sound.paddleHit_sound.play(0)
+                sound.paddleHit_sound.play()
                 p2_paddle.reflectBall(game_ball)
                 game_ball.increaseSpeed()
 
@@ -241,7 +240,7 @@ def run_singleplayer():
         pygame.display.flip()
 
         ### limit FPS
-        clock.tick(120)  
+        clock.tick(120)
 
     return gameState
 

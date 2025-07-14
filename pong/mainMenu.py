@@ -7,8 +7,9 @@ def run_mainMenu() -> const.GameState:
 
     # INITIALIZE PYGAME
     
-    gameState = const.GameState.Off
-    sound.menu_sound.play(-1,0,500)
+    gameState = const.GameState.MainMenu
+    
+    sound.playMusic(const.MusicChoice.gameMenu)
     
     clock = pygame.time.Clock()
 
@@ -39,6 +40,7 @@ def run_mainMenu() -> const.GameState:
                     const.MENU_BUTTON_SIZE[0],
                     const.MENU_BUTTON_SIZE[1]),
                     border_radius = const.MENU_BUTTON_BORDER_RAD)
+    
     multiPlayerText_surface = buttonText_Font.render("MULTIPLAYER",False,(0,0,0))
     menu_surface.blit(multiPlayerText_surface,
                     (multiPlayer_Rect.centerx - multiPlayerText_surface.get_width()/2,
@@ -50,6 +52,7 @@ def run_mainMenu() -> const.GameState:
                     const.MENU_BUTTON_SIZE[0],
                     const.MENU_BUTTON_SIZE[1]),
                     border_radius = const.MENU_BUTTON_BORDER_RAD)
+    
     optionText_surface = buttonText_Font.render("OPTIONS",False,(0,0,0))
     menu_surface.blit(optionText_surface,
                     (options_Rect.centerx - optionText_surface.get_width()/2,
@@ -62,27 +65,30 @@ def run_mainMenu() -> const.GameState:
             #print(f"event: {event}")
             if event.type == pygame.QUIT:
                 running = False
+                gameState = const.GameState.Off
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouseClickedCoords_tuple = pygame.mouse.get_pos()
 
-                if multiPlayer_Rect.collidepoint(mouseClickedCoords_tuple[0],mouseClickedCoords_tuple[1]):
-                    running = False
-                    gameState = const.GameState.Multiplayer
-                    sound.menu_sound.stop()
-                elif singlePlayer_Rect.collidepoint(mouseClickedCoords_tuple[0],mouseClickedCoords_tuple[1]):
+
+                if singlePlayer_Rect.collidepoint(mouseClickedCoords_tuple[0],mouseClickedCoords_tuple[1]):
                     running = False
                     gameState = const.GameState.Singleplayer
-                    sound.menu_sound.stop()
                     
-        
-       
+                
+                elif multiPlayer_Rect.collidepoint(mouseClickedCoords_tuple[0],mouseClickedCoords_tuple[1]):
+                    running = False
+                    gameState = const.GameState.Multiplayer
+                    
+                
+                elif options_Rect.collidepoint(mouseClickedCoords_tuple[0],mouseClickedCoords_tuple[1]):  
+                    running = False
+                    gameState = const.GameState.Options
+                       
 
         #menu_surface.fill("black")
 
         pygame.display.flip()
 
         clock.tick(120)  # limits FPS
-
-
 
     return gameState

@@ -8,7 +8,6 @@ import random as rnd
 
 def calculatePaddlePosition(p_p2_paddle: paddle.Paddle, p_ball: ball.Ball):
             
-    
     ### AI V1
 
     varianceY = p_p2_paddle.centery - p_ball.centery
@@ -17,7 +16,7 @@ def calculatePaddlePosition(p_p2_paddle: paddle.Paddle, p_ball: ball.Ball):
     if p_p2_paddle.y > 0: 
         if p_ball.centery < p_p2_paddle.centery:
             speedY = -1*const.PADDLE_SPEED
-            if varianceX < 100 and abs(varianceY) < const.PADDLE_HEIGHT/2:
+            if varianceX < 50: #and abs(varianceY) < const.PADDLE_HEIGHT/2:
                 speedY *= rnd.random()
             p_p2_paddle.move(speedY)
 
@@ -25,7 +24,7 @@ def calculatePaddlePosition(p_p2_paddle: paddle.Paddle, p_ball: ball.Ball):
     if p_p2_paddle.y < const.GAME_SURFACE_HEIGHT - p_p2_paddle.height:
         if p_ball.centery > p_p2_paddle.centery:
             speedY = const.PADDLE_SPEED
-            if varianceX < 100 and abs(varianceY) < const.PADDLE_HEIGHT/2:
+            if varianceX < 50: #and abs(varianceY) < const.PADDLE_HEIGHT/2:
                speedY *= rnd.random()
             p_p2_paddle.move(speedY)
 
