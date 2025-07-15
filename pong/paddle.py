@@ -3,7 +3,7 @@ import game_constants as const
 import ball
 import math
 import random as rnd
-import typing
+import sound
 
 class Paddle(pygame.Rect):
 
@@ -52,13 +52,12 @@ class Paddle(pygame.Rect):
     
 
     def controlPaddle_Player(self) -> None:
-
+        #@@@ optimize with a Protocol
         keys_list = pygame.key.get_pressed()
 
         upKey = pygame.K_w if self.player == const.Player.P1 else pygame.K_UP
         downKey = pygame.K_s if self.player == const.Player.P1 else pygame.K_DOWN
 
-        
         if self.y > 0: 
             if keys_list[upKey]:
                 self.move(-1*const.PADDLE_SPEED)
@@ -68,8 +67,8 @@ class Paddle(pygame.Rect):
 
 
     def controlPaddle_AI(self, p_ball: ball.Ball) -> None:
-            
-        ### AI V1
+        #@@@ Improve AI    
+        ## AI V1
         varianceY = self.centery - p_ball.centery
         varianceX = self.centerx - p_ball.centerx
 
@@ -87,7 +86,12 @@ class Paddle(pygame.Rect):
                     self.speedY *= rnd.random()
                 self.move(self.speedY)
 
+    def handleHitBounce(self, p_ball: ball.Ball) -> None:
 
+        if self.colliderect(p_ball):
+            sound.paddleHit_sound.play()
+            self.reflectBall(p_ball)
+            p_ball.increaseSpeed()
 
 
 def resetAllPaddles(*p_paddles: Paddle) -> None:

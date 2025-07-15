@@ -19,8 +19,6 @@ class gamePlay():
         self.game_scoreboard = gameText.ScoreBoard("Arial",30,True,False)
 
     def run_multiplayer(self,p_gameState: const.GameState):
-        
-        ### GAME VARIABLES
 
         gameState = p_gameState
         self.running = True
@@ -29,88 +27,36 @@ class gamePlay():
         sound.playMusic(const.MusicChoice.gamePlay)
 
         while self.running:
-            # Poll for events
-            for event in pygame.event.get():
-                
-                ### Close the game window
-                if event.type == pygame.QUIT:
-                    self.startGame = False
-                    self.running = False            
-                    gameState = const.GameState.Off
-
-                elif event.type == pygame.KEYDOWN:
-                    #print(f"{event.key}=?={pygame.K_ESCAPE}")
-                    #if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-                    ### Return to game menu
-                    if event.key == pygame.K_ESCAPE:
-                        self.startGame = False
-                        self.running = False                     
-                        gameState = const.GameState.MainMenu        
-                    else:
-                        ### Start game
-                        self.startGame = True
+            
+            gameState = self.pollEvents(gameState)
                     
-            ### Start the game
+            ## Start the game
             if self.startGame:
 
-                ### Wipe away last frames
+                ## Wipe away last frames
                 self.game_surface.fill("black")
-
-                ### Move the ball
-                self.game_ball.move()
-
-                ### Calculate paddle's positions
-
+                ## Move the ball
+                self.game_ball.move()        
                 
-                #keys_list = tuple(keys_list_scancodewrapper)
-                
-                ## P1 Paddle
+                ## P1 paddle
                 self.p1_paddle.controlPaddle_Player()            
-                ## P2 Paddle
-                self.p2_paddle.controlPaddle_Player()
-                
-                ### Handle collisions
-                
-                if self.p1_paddle.colliderect(self.game_ball):
-                    sound.paddleHit_sound.play()
-                    self.p1_paddle.reflectBall(self.game_ball)
-                    self.game_ball.increaseSpeed()
-        
-                elif self.p2_paddle.colliderect(self.game_ball):
-                    sound.paddleHit_sound.play()
-                    self.p2_paddle.reflectBall(self.game_ball)
-                    self.game_ball.increaseSpeed()
-
-
-                ### Calculate ball position
-                
-                if self.game_ball.y <= 0 or self.game_ball.y >= const.GAME_SURFACE_HEIGHT: 
-                    sound.YwallHit_sound.play(0,1000)
-                    self.game_ball.reverseY()
-                if self.game_ball.x <= 0 or self.game_ball.x >= const.GAME_SURFACE_WIDTH: 
-
-                    ### Calculate score
-                    if self.game_ball.x <= 0:
-                        print("P2 Scored!")
-                        self.game_scoreboard.increaseScore(const.Player.P2)
-                        self.game_ball.reset(const.Player.P2)
-                        
-                    else:
-                        print("P1 Scored!")
-                        self.game_scoreboard.increaseScore(const.Player.P1)
-                        self.game_ball.reset(const.Player.P1)
-                    
-                    
-                    paddle.resetAllPaddles(self.p1_paddle,self.p2_paddle)
-                    self.startGame = False
-                        
+                ## P2 paddle
+                self.p2_paddle.controlPaddle_Player()      
+                ## Handle P1 paddle collisions
+                self.p1_paddle.handleHitBounce(self.game_ball)
+                ## Handle P2 paddle collisions
+                self.p2_paddle.handleHitBounce(self.game_ball)    
+                ## Handle floor and ceiling bounce
+                self.handleWallBounce()
+                ## Handle goal
+                self.handleGoal()
+                ## Blit the score on the screen
                 self.game_scoreboard.showScore(self.game_surface)
             else:
                 self.game_scoreboard.showWinner(self.game_surface)
                 self.game_scoreboard.showStart(self.game_surface)
                 
-                
-            ### Render elements
+            ## Render elements
             
             pygame.draw.rect(self.game_surface,"red",self.p1_paddle)
             pygame.draw.rect(self.game_surface,"green",self.p2_paddle)
@@ -118,7 +64,7 @@ class gamePlay():
 
             pygame.display.flip()
 
-            ### limit FPS
+            ## limit FPS
             self.clock.tick(120)  
 
         return gameState
@@ -126,8 +72,6 @@ class gamePlay():
 
     def run_singleplayer(self,p_gameState: const.GameState):
         
-        ### GAME VARIABLES
-
         gameState = p_gameState
         self.running = True
         self.startGame = False
@@ -135,94 +79,36 @@ class gamePlay():
         sound.playMusic(const.MusicChoice.gamePlay)
 
         while self.running:
-            # Poll for events
-            for event in pygame.event.get():
-                
-                ### Close the game window
-                if event.type == pygame.QUIT:
-                    self.startGame = False
-                    self.running = False            
-                    gameState = const.GameState.Off
-
-                elif event.type == pygame.KEYDOWN:
-                    #print(f"{event.key}=?={pygame.K_ESCAPE}")
-                    #if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-                    ### Return to game menu
-                    if event.key == pygame.K_ESCAPE:
-                        self.startGame = False
-                        self.running = False                     
-                        gameState = const.GameState.MainMenu        
-                    else:
-                        ### Start game
-                        self.startGame = True
+            
+            gameState = self.pollEvents(gameState)
                     
-            ### Start the game
+            ## Start the game
             if self.startGame:
 
-                ### Wipe away last frames
+                ## Wipe away last frames
                 self.game_surface.fill("black")
-
-                ### Move the ball
-                self.game_ball.move()
-
-                ### Calculate paddle's positions
-
-                keys_list = pygame.key.get_pressed()
-                ## P1 Paddle
+                ## Move the ball
+                self.game_ball.move()        
                 
-                if self.p1_paddle.y > 0: 
-                    if keys_list[pygame.K_w]:
-                        self.p1_paddle.move(-1*const.PADDLE_SPEED)
-                if self.p1_paddle.y < const.GAME_SURFACE_HEIGHT - self.p1_paddle.height:
-                    if keys_list[pygame.K_s]:
-                        self.p1_paddle.move(1*const.PADDLE_SPEED)
-                
-                ## AI Paddle
-
-                self.p2_paddle.controlPaddle_AI(self.game_ball)
-                
-                ### Handle collisions
-                
-                if self.p1_paddle.colliderect(self.game_ball):
-                    sound.paddleHit_sound.play()
-                    self.p1_paddle.reflectBall(self.game_ball)
-                    self.game_ball.increaseSpeed()
-        
-                elif self.p2_paddle.colliderect(self.game_ball):
-                    sound.paddleHit_sound.play()
-                    self.p2_paddle.reflectBall(self.game_ball)
-                    self.game_ball.increaseSpeed()
-
-
-                ### Calculate ball position
-                
-                if self.game_ball.y <= 0 or self.game_ball.y >= const.GAME_SURFACE_HEIGHT: 
-                    sound.YwallHit_sound.play(0,1000)
-                    self.game_ball.reverseY()
-                if self.game_ball.x <= 0 or self.game_ball.x >= const.GAME_SURFACE_WIDTH: 
-
-                    ### Calculate score
-                    if self.game_ball.x <= 0:
-                        print("P2 Scored!")
-                        self.game_scoreboard.increaseScore(const.Player.P2)
-                        self.game_ball.reset(const.Player.P2)
-                        
-                    else:
-                        print("P1 Scored!")
-                        self.game_scoreboard.increaseScore(const.Player.P1)
-                        self.game_ball.reset(const.Player.P1)
-                    
-                    
-                    paddle.resetAllPaddles(self.p1_paddle,self.p2_paddle)
-                    self.startGame = False
-                        
+                ## P1 paddle
+                self.p1_paddle.controlPaddle_Player()            
+                ## AI paddle
+                self.p2_paddle.controlPaddle_AI(self.game_ball)      
+                ## Handle P1 paddle collisions
+                self.p1_paddle.handleHitBounce(self.game_ball)
+                ## Handle P2 paddle collisions
+                self.p2_paddle.handleHitBounce(self.game_ball)    
+                ## Handle floor and ceiling bounce
+                self.handleWallBounce()
+                ## Handle goal
+                self.handleGoal()
+                ## Blit the score on the screen
                 self.game_scoreboard.showScore(self.game_surface)
             else:
                 self.game_scoreboard.showWinner(self.game_surface)
                 self.game_scoreboard.showStart(self.game_surface)
                 
-                
-            ### Render elements
+            ## Render elements
             
             pygame.draw.rect(self.game_surface,"red",self.p1_paddle)
             pygame.draw.rect(self.game_surface,"green",self.p2_paddle)
@@ -230,12 +116,61 @@ class gamePlay():
 
             pygame.display.flip()
 
-            ### limit FPS
+            ## limit FPS
             self.clock.tick(120)  
 
         return gameState
     
+
+    def pollEvents(self,p_gameState: const.GameState) -> const.GameState:
+
+        gameState = p_gameState
+        ## Poll for events
+        for event in pygame.event.get():
+            
+            ## Close the game window
+            if event.type == pygame.QUIT:
+                self.startGame = False
+                self.running = False            
+                gameState = const.GameState.Off
+
+            elif event.type == pygame.KEYDOWN:
+                #print(f"{event.key}=?={pygame.K_ESCAPE}")
+                #if pygame.key.get_pressed()[pygame.K_ESCAPE]:
+                ### Return to game menu
+                if event.key == pygame.K_ESCAPE:
+                    self.startGame = False
+                    self.running = False                     
+                    gameState = const.GameState.MainMenu        
+                else:
+                    ### Start game
+                    self.startGame = True
+
+        return gameState
+
+    def handleGoal(self) -> None:
+
+        if self.game_ball.x <= 0 or self.game_ball.x >= const.GAME_SURFACE_WIDTH: 
+
+            ### Calculate score
+            if self.game_ball.x <= 0:
+                print("P2 Scored!")
+                self.game_scoreboard.increaseScore(const.Player.P2)
+                self.game_ball.reset(const.Player.P2)
+                
+            else:
+                print("P1 Scored!")
+                self.game_scoreboard.increaseScore(const.Player.P1)
+                self.game_ball.reset(const.Player.P1)   
+            
+            paddle.resetAllPaddles(self.p1_paddle,self.p2_paddle)
+            self.startGame = False
     
+    def handleWallBounce(self) -> None:
+
+        if self.game_ball.y <= 0 or self.game_ball.y >= const.GAME_SURFACE_HEIGHT: 
+            sound.YwallHit_sound.play(0,1000)
+            self.game_ball.reverseY()
 
 
 

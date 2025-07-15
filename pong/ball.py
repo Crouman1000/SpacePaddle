@@ -1,10 +1,9 @@
 import pygame
-import random
 import game_constants as const
+import random
 
 class Ball(pygame.Rect):
 
-    
     def __init__(self):
 
         width_ = const.BALL_RADIUS
@@ -47,4 +46,6 @@ class Ball(pygame.Rect):
         elif p_speed > 0 and p_speed < const.BALL_MAX_SPEED:
             p_speed += const.BALL_INCREASE_SPEED 
         return p_speed
+    
+
    
