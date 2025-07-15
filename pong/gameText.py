@@ -1,7 +1,7 @@
 import pygame
 import game_constants as const
 import sound
-from typing import Hashable, Iterable, Union, Literal, Tuple
+from typing import Iterable, Union, Literal, Tuple
 
 colorType = Union[
     Tuple[int,int,int],
@@ -86,7 +86,6 @@ class ScoreBoard(GameText):
                 self.whoScoredSurface = self.render(f"PLAYER {self.lastWinner} SCORED !",0,messageColor_tuple)
                 self.coordXY = ((p_canvas.get_width() - self.whoScoredSurface.get_width())/2,3*p_canvas.get_height()/10)
                 p_canvas.blit(self.whoScoredSurface,self.coordXY)
-        
         
        
     def showStart(self,p_canvas: pygame.Surface) -> None:

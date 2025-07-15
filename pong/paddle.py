@@ -2,6 +2,8 @@ import pygame
 import game_constants as const
 import ball
 import math
+import random as rnd
+import typing
 
 class Paddle(pygame.Rect):
 
@@ -42,10 +44,50 @@ class Paddle(pygame.Rect):
             p_ball.speedX,p_ball.speedY = self.calculateNewVector(p_ball.speedX,p_ball.speedY,reflectAngle)
 
     def calculateNewVector(self,p_speedX,p_speedY,p_angle) -> tuple:
+
         hypot = math.hypot(p_speedX,p_speedY)
         speedX = math.cos(math.radians(p_angle))*hypot
         speedY = math.sin(math.radians(p_angle))*hypot
         return speedX,speedY
+    
+
+    def controlPaddle_Player(self) -> None:
+
+        keys_list = pygame.key.get_pressed()
+
+        upKey = pygame.K_w if self.player == const.Player.P1 else pygame.K_UP
+        downKey = pygame.K_s if self.player == const.Player.P1 else pygame.K_DOWN
+
+        
+        if self.y > 0: 
+            if keys_list[upKey]:
+                self.move(-1*const.PADDLE_SPEED)
+        if self.y < const.GAME_SURFACE_HEIGHT - self.height:
+            if keys_list[downKey]:
+                self.move(1*const.PADDLE_SPEED)
+
+
+    def controlPaddle_AI(self, p_ball: ball.Ball) -> None:
+            
+        ### AI V1
+        varianceY = self.centery - p_ball.centery
+        varianceX = self.centerx - p_ball.centerx
+
+        if self.y > 0: 
+            if p_ball.centery < self.centery:
+                self.speedY = -1*const.PADDLE_SPEED
+                if varianceX < 50 and abs(varianceY) < const.PADDLE_HEIGHT/2:
+                    self.speedY *= rnd.random()
+                self.move(self.speedY)
+
+        if self.y < const.GAME_SURFACE_HEIGHT - self.height:
+            if p_ball.centery > self.centery:
+                self.speedY = const.PADDLE_SPEED
+                if varianceX < 50 and abs(varianceY) < const.PADDLE_HEIGHT/2:
+                    self.speedY *= rnd.random()
+                self.move(self.speedY)
+
+
 
 
 def resetAllPaddles(*p_paddles: Paddle) -> None:

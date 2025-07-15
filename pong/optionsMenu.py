@@ -14,15 +14,13 @@ class Menu():
         self.menu_surface = pygame.display.set_mode((const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT))
         self.background_surface = pygame.transform.scale(image.background_surface,(const.GAME_SURFACE_WIDTH,const.GAME_SURFACE_HEIGHT))
         self.music_checkbox = Checkbox_overriden("red", 100, 100, 50,50, outline=0,check=settings.enableMusic, text="MUSIC")
-        
 
-    def run_options(self, p_gameState: const.GameState) -> const.GameState:
+    def _run_options(self, p_gameState: const.GameState) -> const.GameState:
 
         gameState = p_gameState
         self.running = True
  
         self.menu_surface.blit(self.background_surface,(0,0))
-
         
         while self.running:
 
@@ -49,7 +47,7 @@ class Menu():
                         else:
                             sound.disableMusic()
 
-            self.music_checkbox.draw(self.menu_surface)
+            self.music_checkbox._draw(self.menu_surface)
             pygame.display.flip()
 
             # FPS
@@ -64,7 +62,7 @@ class Checkbox_overriden(pu.checkbox):
         super().__init__(*args,**kwargs)
 
     #@override
-    def draw(self, win):
+    def _draw(self, win):
 
         but = pu.button(self.color, self.x, self.y, self.width, self.height, outline=self.outline)
         but.draw(win)

@@ -31,7 +31,7 @@ class Menu():
                         const.MENU_BUTTON_SIZE[1])                    
         self.optionText_surface = self.buttonText_Font.render("OPTIONS",False,(0,0,0))
         
-    def run_mainMenu(self,p_gameState: const.GameState) -> const.GameState:
+    def _run_mainMenu(self,p_gameState: const.GameState) -> const.GameState:
         
         gameState = p_gameState
         self.running = True

@@ -5,6 +5,9 @@ import os
 import typing
 import settings
 
+
+# This file is treated like a singleton
+
 AnyPath = typing.Union[str, bytes, os.PathLike[str], os.PathLike[bytes]]
 FileArg = typing.Union[AnyPath, typing.IO[bytes], typing.IO[str]]
 
