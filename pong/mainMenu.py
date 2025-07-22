@@ -31,18 +31,15 @@ class Menu():
                         const.MENU_BUTTON_SIZE[1])                    
         self.optionText_surface = self.buttonText_Font.render("OPTIONS",False,(0,0,0))
         
-    def _run_mainMenu(self,p_gameState: const.GameState) -> const.GameState:
+    def run_mainMenu(self,p_gameState: const.GameState) -> const.GameState:
         
         gameState = p_gameState
-        self.running = True
+        self.running = True    
         
-        
-        sound.playMusic(const.MusicChoice.gameMenu)
-
+        sound.soundTools.playMusic(const.MusicChoice.gameMenu)
 
         self.menu_surface.blit(self.background_surface,(0,0))
-
-        
+ 
         pygame.draw.rect(self.menu_surface,"gray",self.singlePlayer_Rect,border_radius= const.MENU_BUTTON_BORDER_RAD)   
         self.menu_surface.blit(self.singlePlayerText_surface,
                         (self.singlePlayer_Rect.centerx - self.singlePlayerText_surface.get_width()/2,
@@ -56,8 +53,7 @@ class Menu():
         pygame.draw.rect(self.menu_surface,"gray",self.options_Rect,border_radius= const.MENU_BUTTON_BORDER_RAD)    
         self.menu_surface.blit(self.optionText_surface,
                         (self.options_Rect.centerx - self.optionText_surface.get_width()/2,
-                        self.options_Rect.centery - self.optionText_surface.get_height()/2))
-        
+                        self.options_Rect.centery - self.optionText_surface.get_height()/2))       
 
         while self.running:
             # Poll for events

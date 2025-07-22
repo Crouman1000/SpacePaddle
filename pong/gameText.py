@@ -1,7 +1,8 @@
 import pygame
+from typing import Iterable, Union, Literal, Tuple
 import game_constants as const
 import sound
-from typing import Iterable, Union, Literal, Tuple
+
 
 colorType = Union[
     Tuple[int,int,int],
@@ -23,7 +24,7 @@ class GameText():
         self.coordXY = None
         
 
-    def render(self,
+    def render_(self,
                p_text: str | bytes | None,
                p_antialias: bool | Literal[0, 1],
                p_color: colorType  = (255,255,255),
@@ -41,8 +42,8 @@ class ScoreBoard(GameText):
         self.lastWinner = None
         self.gameOver = False
 
-        self.scoreSurface = self.render(f"SCORE: P1 {self.scoreP1} | P2 {self.scoreP2}",0,(255,255,255))
-        self.startSurface = self.render(f"PRESS ANY KEY TO START",0,(255,255,255))
+        self.scoreSurface = self.render_(f"SCORE: P1 {self.scoreP1} | P2 {self.scoreP2}",0,(255,255,255))
+        self.startSurface = self.render_(f"PRESS ANY KEY TO START",0,(255,255,255))
         self.whoScoredSurface = None
         self.winnerSurface = None
        
@@ -59,7 +60,7 @@ class ScoreBoard(GameText):
             self.gameOver = True
 
         
-        self.scoreSurface = self.render(f"SCORE: P1 {self.scoreP1} | P2 {self.scoreP2}",0,(255,255,255))
+        self.scoreSurface = self.render_(f"SCORE: P1 {self.scoreP1} | P2 {self.scoreP2}",0,(255,255,255))
             
 
     def showScore(self,p_canvas: pygame.Surface) -> None:
@@ -75,15 +76,15 @@ class ScoreBoard(GameText):
 
             if self.gameOver:
 
-                sound.victory_sound.play()               
-                self.winnerSurface = self.render(f"Player {self.lastWinner} HAS WON THE GAME!",0,messageColor_tuple)
+                sound.soundTools.playSound(const.SoundChoice.victory)     
+                self.winnerSurface = self.render_(f"Player {self.lastWinner} HAS WON THE GAME!",0,messageColor_tuple)
                 self.coordXY = ((p_canvas.get_width() - self.winnerSurface.get_width())/2,3*p_canvas.get_height()/10)
                 p_canvas.blit(self.winnerSurface,self.coordXY)
-                self.resetScore()
+                self.resetScore__()
                 
             else:
 
-                self.whoScoredSurface = self.render(f"PLAYER {self.lastWinner} SCORED !",0,messageColor_tuple)
+                self.whoScoredSurface = self.render_(f"PLAYER {self.lastWinner} SCORED !",0,messageColor_tuple)
                 self.coordXY = ((p_canvas.get_width() - self.whoScoredSurface.get_width())/2,3*p_canvas.get_height()/10)
                 p_canvas.blit(self.whoScoredSurface,self.coordXY)
         
@@ -93,12 +94,12 @@ class ScoreBoard(GameText):
         self.coordXY = ((p_canvas.get_width() - self.startSurface.get_width())/2,4*p_canvas.get_height()/10)
         p_canvas.blit(self.startSurface,self.coordXY)
     
-    def resetScore(self) -> None:
+    def resetScore__(self) -> None:
         self.lastWinner = None
         self.gameOver = False
         self.scoreP1 = 0
         self.scoreP2 = 0
-        self.scoreSurface = self.render(f"SCORE: P1 {self.scoreP1} | P2 {self.scoreP2}",0,(255,255,255))
+        self.scoreSurface = self.render_(f"SCORE: P1 {self.scoreP1} | P2 {self.scoreP2}",0,(255,255,255))
         
 
 

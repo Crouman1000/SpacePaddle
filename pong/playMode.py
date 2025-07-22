@@ -24,11 +24,11 @@ class gamePlay():
         self.running = True
         self.startGame = False
         
-        sound.playMusic(const.MusicChoice.gamePlay)
+        sound.soundTools.playMusic(const.MusicChoice.gamePlay)
 
         while self.running:
             
-            gameState = self.pollEvents(gameState)
+            gameState = self.__pollEvents(gameState)
                     
             ## Start the game
             if self.startGame:
@@ -36,20 +36,20 @@ class gamePlay():
                 ## Wipe away last frames
                 self.game_surface.fill("black")
                 ## Move the ball
-                self.game_ball.move()        
+                self.game_ball.travel()        
                 
                 ## P1 paddle
                 self.p1_paddle.controlPaddle_Player()            
                 ## P2 paddle
                 self.p2_paddle.controlPaddle_Player()      
                 ## Handle P1 paddle collisions
-                self.p1_paddle.handleHitBounce(self.game_ball)
+                self.p1_paddle.handleHitBall(self.game_ball)
                 ## Handle P2 paddle collisions
-                self.p2_paddle.handleHitBounce(self.game_ball)    
+                self.p2_paddle.handleHitBall(self.game_ball)    
                 ## Handle floor and ceiling bounce
-                self.handleWallBounce()
+                self.__handleWallBounce()
                 ## Handle goal
-                self.handleGoal()
+                self.__handleGoal()
                 ## Blit the score on the screen
                 self.game_scoreboard.showScore(self.game_surface)
             else:
@@ -68,7 +68,6 @@ class gamePlay():
             self.clock.tick(120)  
 
         return gameState
-
 
     def run_singleplayer(self,p_gameState: const.GameState):
         
@@ -76,11 +75,11 @@ class gamePlay():
         self.running = True
         self.startGame = False
         
-        sound.playMusic(const.MusicChoice.gamePlay)
+        sound.soundTools.playMusic(const.MusicChoice.gamePlay)
 
         while self.running:
             
-            gameState = self.pollEvents(gameState)
+            gameState = self.__pollEvents(gameState)
                     
             ## Start the game
             if self.startGame:
@@ -88,20 +87,20 @@ class gamePlay():
                 ## Wipe away last frames
                 self.game_surface.fill("black")
                 ## Move the ball
-                self.game_ball.move()        
+                self.game_ball.travel()        
                 
                 ## P1 paddle
                 self.p1_paddle.controlPaddle_Player()            
                 ## AI paddle
                 self.p2_paddle.controlPaddle_AI(self.game_ball)      
                 ## Handle P1 paddle collisions
-                self.p1_paddle.handleHitBounce(self.game_ball)
+                self.p1_paddle.handleHitBall(self.game_ball)
                 ## Handle P2 paddle collisions
-                self.p2_paddle.handleHitBounce(self.game_ball)    
+                self.p2_paddle.handleHitBall(self.game_ball)    
                 ## Handle floor and ceiling bounce
-                self.handleWallBounce()
+                self.__handleWallBounce()
                 ## Handle goal
-                self.handleGoal()
+                self.__handleGoal()
                 ## Blit the score on the screen
                 self.game_scoreboard.showScore(self.game_surface)
             else:
@@ -120,9 +119,8 @@ class gamePlay():
             self.clock.tick(120)  
 
         return gameState
-    
 
-    def pollEvents(self,p_gameState: const.GameState) -> const.GameState:
+    def __pollEvents(self,p_gameState: const.GameState) -> const.GameState:
 
         gameState = p_gameState
         ## Poll for events
@@ -148,11 +146,11 @@ class gamePlay():
 
         return gameState
 
-    def handleGoal(self) -> None:
+    def __handleGoal(self) -> None:
 
         if self.game_ball.x <= 0 or self.game_ball.x >= const.GAME_SURFACE_WIDTH: 
 
-            ### Calculate score
+            ## Calculate score
             if self.game_ball.x <= 0:
                 print("P2 Scored!")
                 self.game_scoreboard.increaseScore(const.Player.P2)
@@ -163,13 +161,13 @@ class gamePlay():
                 self.game_scoreboard.increaseScore(const.Player.P1)
                 self.game_ball.reset(const.Player.P1)   
             
-            paddle.resetAllPaddles(self.p1_paddle,self.p2_paddle)
+            paddle.PaddleTools.resetAllPaddles(self.p1_paddle,self.p2_paddle)
             self.startGame = False
     
-    def handleWallBounce(self) -> None:
+    def __handleWallBounce(self) -> None:
 
         if self.game_ball.y <= 0 or self.game_ball.y >= const.GAME_SURFACE_HEIGHT: 
-            sound.YwallHit_sound.play(0,1000)
+            sound.soundTools.playSound(const.SoundChoice.yWallHit,1000)
             self.game_ball.reverseY()
 
 
