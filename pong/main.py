@@ -2,7 +2,7 @@
 import pygame
 import game_constants as const
 import audio
-import image
+import graphics
 import mainMenu as main_menu
 import optionsMenu as options_menu
 import playMode
@@ -12,7 +12,7 @@ def main() -> None:
 
     # Initialize modules
     pygame.init()
-    image.imageTools.loadImages()
+    graphics.imageTools.loadImages()
     audio.soundTools.loadSounds()
     
     mainMenu = main_menu.Menu()
@@ -37,7 +37,7 @@ def main() -> None:
 
     # QUIT
     
-    image.imageTools.unloadImages()
+    graphics.imageTools.unloadImages()
     audio.soundTools.unloadAudio()
 
     pygame.quit()

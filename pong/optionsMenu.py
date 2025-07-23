@@ -1,7 +1,7 @@
 import pygame
 import PygameUtils as pu
 import settings
-import image
+import graphics
 import audio
 import game_constants as const
 
@@ -14,7 +14,7 @@ class Menu():
         self.running = True
         self.clock = pygame.time.Clock()
         self.menu_surface = pygame.display.set_mode((const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT))
-        self.background_surface = pygame.transform.scale(image.imageTools.images.get(const.imageChoice.backgroundMenu),
+        self.background_surface = pygame.transform.scale(graphics.imageTools.images.get(const.imageChoice.backgroundMenu),
                                                          (const.GAME_SURFACE_WIDTH,const.GAME_SURFACE_HEIGHT))
         self.music_checkbox = Menu.Checkbox_overriden("red", 100, 100, 50,50, outline=0,check=settings.enableMusic, text="MUSIC")
 
