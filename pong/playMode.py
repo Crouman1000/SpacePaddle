@@ -1,9 +1,12 @@
 import pygame
 import game_constants as const
-import ball
-import paddle
+import audio
 import gameText
-import sound
+import paddle
+import ball
+
+
+
 
 class gamePlay():
 
@@ -24,7 +27,7 @@ class gamePlay():
         self.running = True
         self.startGame = False
         
-        sound.soundTools.playMusic(const.MusicChoice.gamePlay)
+        audio.soundTools.playMusic(const.MusicChoice.gamePlay)
 
         while self.running:
             
@@ -75,7 +78,7 @@ class gamePlay():
         self.running = True
         self.startGame = False
         
-        sound.soundTools.playMusic(const.MusicChoice.gamePlay)
+        audio.soundTools.playMusic(const.MusicChoice.gamePlay)
 
         while self.running:
             
@@ -167,7 +170,7 @@ class gamePlay():
     def __handleWallBounce(self) -> None:
 
         if self.game_ball.y <= 0 or self.game_ball.y >= const.GAME_SURFACE_HEIGHT: 
-            sound.soundTools.playSound(const.SoundChoice.yWallHit,1000)
+            audio.soundTools.playSound(const.SoundChoice.yWallHit,1000)
             self.game_ball.reverseY()
 
 

@@ -1,7 +1,8 @@
-import pygame
 from typing import Iterable, Union, Literal, Tuple
+import pygame
+import audio
 import game_constants as const
-import sound
+
 
 
 colorType = Union[
@@ -76,7 +77,7 @@ class ScoreBoard(GameText):
 
             if self.gameOver:
 
-                sound.soundTools.playSound(const.SoundChoice.victory)     
+                audio.soundTools.playSound(const.SoundChoice.victory)     
                 self.winnerSurface = self.render_(f"Player {self.lastWinner} HAS WON THE GAME!",0,messageColor_tuple)
                 self.coordXY = ((p_canvas.get_width() - self.winnerSurface.get_width())/2,3*p_canvas.get_height()/10)
                 p_canvas.blit(self.winnerSurface,self.coordXY)

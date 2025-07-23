@@ -1,7 +1,7 @@
 import pygame
 import game_constants as const
 import image
-import sound
+import audio
 
 class Menu():
 
@@ -11,7 +11,8 @@ class Menu():
         self.clock = pygame.time.Clock()
         self.buttonText_Font = pygame.font.SysFont("Bank Gothic",50,False,False)
         self.menu_surface = pygame.display.set_mode((const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT))
-        self.background_surface = pygame.transform.scale(image.background_surface,(const.GAME_SURFACE_WIDTH,const.GAME_SURFACE_HEIGHT))
+        self.background_surface = pygame.transform.scale(image.imageTools.images.get(const.imageChoice.backgroundMenu),
+                                                         (const.GAME_SURFACE_WIDTH,const.GAME_SURFACE_HEIGHT))
         
         self.singlePlayer_Rect = pygame.Rect(const.SINGLEPLAYER_BUTTON_COORDS[0],
                                 const.SINGLEPLAYER_BUTTON_COORDS[1],
@@ -36,7 +37,7 @@ class Menu():
         gameState = p_gameState
         self.running = True    
         
-        sound.soundTools.playMusic(const.MusicChoice.gameMenu)
+        audio.soundTools.playMusic(const.MusicChoice.gameMenu)
 
         self.menu_surface.blit(self.background_surface,(0,0))
  

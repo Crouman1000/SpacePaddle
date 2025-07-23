@@ -1,3 +1,16 @@
 import pygame
+import game_constants as const
 
-background_surface = pygame.image.load("pong/assets/images/menu_background3.png")
+
+#@final
+class imageTools():
+
+    images = {}
+
+    @classmethod
+    def loadImages(cls) -> None:
+        cls.images[const.imageChoice.backgroundMenu] = pygame.image.load(const.imageChoice.backgroundMenu.value)
+
+    @classmethod
+    def unloadImages(cls) -> None:
+        cls.images.clear()

@@ -18,6 +18,11 @@ class MusicChoice(Enum):
     gameMenu = "pong/assets/sounds/gameMenu.mp3"
     gamePlay = "pong/assets/sounds/gameplay.mp3"
     
+## IMAGE
+
+class imageChoice(Enum):
+
+    backgroundMenu = "pong/assets/images/menu_background3.png"
 
 ## GAMESTATE
 class GameState(Enum):

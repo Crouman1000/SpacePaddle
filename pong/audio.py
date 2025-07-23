@@ -1,8 +1,7 @@
-
-import pygame
-import game_constants as const
 import os
 import typing
+import pygame
+import game_constants as const
 import settings
 
 
@@ -10,6 +9,7 @@ AnyPath = typing.Union[str, bytes, os.PathLike[str], os.PathLike[bytes]]
 FileArg = typing.Union[AnyPath, typing.IO[bytes], typing.IO[str]]
 
 
+#@final
 class soundTools():
 
     sounds = {}
@@ -23,6 +23,11 @@ class soundTools():
         cls.sounds[const.SoundChoice.paddleHit] = pygame.mixer.Sound(const.SoundChoice.paddleHit.value)
         cls.sounds[const.SoundChoice.yWallHit] = pygame.mixer.Sound(const.SoundChoice.yWallHit.value)
         cls.sounds[const.SoundChoice.victory] = pygame.mixer.Sound(const.SoundChoice.victory.value)  
+
+    @classmethod
+    def unloadAudio(cls) -> None:
+        cls.sounds.clear()
+        cls.musics.clear()
 
     @classmethod
     def playSound(cls,p_soundChoice: const.SoundChoice, p_maxTime=None) -> None:
@@ -67,6 +72,8 @@ class soundTools():
     def enableMusic() -> None:
 
         settings.enableMusic = True
+
+    
 
     #def controlSound(p_sound: pygame.mixer.,p_state: const.SoundState) -> None:
 #    if not p_sound.get_busy():

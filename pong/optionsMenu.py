@@ -1,9 +1,11 @@
 import pygame
-import game_constants as const
-import image
 import PygameUtils as pu
-import sound
 import settings
+import image
+import audio
+import game_constants as const
+
+
 
 class Menu():
 
@@ -12,7 +14,8 @@ class Menu():
         self.running = True
         self.clock = pygame.time.Clock()
         self.menu_surface = pygame.display.set_mode((const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT))
-        self.background_surface = pygame.transform.scale(image.background_surface,(const.GAME_SURFACE_WIDTH,const.GAME_SURFACE_HEIGHT))
+        self.background_surface = pygame.transform.scale(image.imageTools.images.get(const.imageChoice.backgroundMenu),
+                                                         (const.GAME_SURFACE_WIDTH,const.GAME_SURFACE_HEIGHT))
         self.music_checkbox = Menu.Checkbox_overriden("red", 100, 100, 50,50, outline=0,check=settings.enableMusic, text="MUSIC")
 
     def run_options(self, p_gameState: const.GameState) -> const.GameState:
@@ -42,10 +45,10 @@ class Menu():
                     if self.music_checkbox.isOver(mouseClickedCoords_tuple):
                         self.music_checkbox.convert()
                         if self.music_checkbox.isChecked():
-                            sound.soundTools.enableMusic()
-                            sound.soundTools.playMusic(const.MusicChoice.gameMenu)
+                            audio.soundTools.enableMusic()
+                            audio.soundTools.playMusic(const.MusicChoice.gameMenu)
                         else:
-                            sound.soundTools.disableMusic()
+                            audio.soundTools.disableMusic()
 
             self.music_checkbox.draw_(self.menu_surface)
             pygame.display.flip()

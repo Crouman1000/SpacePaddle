@@ -1,9 +1,10 @@
-import pygame
-import game_constants as const
-import ball
 import math
 import random as rnd
-import sound
+import pygame
+import game_constants as const
+import audio
+import ball
+
 
 class Paddle(pygame.Rect):
 
@@ -59,7 +60,7 @@ class Paddle(pygame.Rect):
     def handleHitBall(self, p_ball: ball.Ball) -> None:
 
         if self.colliderect(p_ball):
-            sound.soundTools.playSound(const.SoundChoice.paddleHit)
+            audio.soundTools.playSound(const.SoundChoice.paddleHit)
             self.__reflectBall(p_ball)
             p_ball.increaseSpeed()
 

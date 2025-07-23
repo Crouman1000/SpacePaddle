@@ -1,17 +1,20 @@
 
 import pygame
 import game_constants as const
-import sound
+import audio
+import image
 import mainMenu as main_menu
-import playMode
 import optionsMenu as options_menu
+import playMode
 
 
 def main() -> None:
 
-    # INITIALIZE
+    # Initialize modules
     pygame.init()
-    sound.soundTools.loadSounds()
+    image.imageTools.loadImages()
+    audio.soundTools.loadSounds()
+    
     mainMenu = main_menu.Menu()
     gameState = const.GameState.MainMenu
 
@@ -33,6 +36,10 @@ def main() -> None:
             del optionsMenu
 
     # QUIT
+    
+    image.imageTools.unloadImages()
+    audio.soundTools.unloadAudio()
+
     pygame.quit()
 
 

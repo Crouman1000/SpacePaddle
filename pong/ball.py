@@ -1,6 +1,7 @@
+import random
 import pygame
 import game_constants as const
-import random
+
 
 class Ball(pygame.Rect):
 
