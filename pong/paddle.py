@@ -15,11 +15,15 @@ class Paddle(pygame.Rect):
         offsetX = const.PADDLE1_OFFSET if p_player == const.Player.P1 else const.PADDLE2_OFFSET
         left_ = offsetX
         top_ = (const.GAME_SURFACE_HEIGHT - height_)/2 
+
         
         super().__init__(left_,top_,width_,height_)
        
+       
         self.speedY = 0
         self.player = p_player
+        self.predictPosY = None
+
     
 
     def controlPaddle_Player(self) -> None:
@@ -38,31 +42,83 @@ class Paddle(pygame.Rect):
 
 
     def controlPaddle_AI(self, p_ball: ball.Ball) -> None:
+
         #@@@ Improve AI    
-        ## AI V1
-        varianceY = self.centery - p_ball.centery
-        varianceX = self.centerx - p_ball.centerx
+        ## AI V2
+
+        ## trigger this code when player1 hits
+        
+        targetPosY = p_ball.centery
+        ## distance chunks of speedX until collision
+        if self.predictPosY:
+            targetPosY = self.predictPosY
+
 
         if self.y > 0: 
-            if p_ball.centery < self.centery:
+            if targetPosY < self.centery:
                 self.speedY = -1*const.PADDLE_SPEED
-                if varianceX < 50 and abs(varianceY) < const.PADDLE_HEIGHT/2:
-                    self.speedY *= rnd.random()
+                #if varianceX < 50 and abs(varianceY) < const.PADDLE_HEIGHT/2:
+                #    self.speedY *= rnd.random()
                 self.__stir(self.speedY)
 
         if self.y < const.GAME_SURFACE_HEIGHT - self.height:
-            if p_ball.centery > self.centery:
+            if targetPosY > self.centery:
                 self.speedY = const.PADDLE_SPEED
-                if varianceX < 50 and abs(varianceY) < const.PADDLE_HEIGHT/2:
-                    self.speedY *= rnd.random()
+                #if varianceX < 50 and abs(varianceY) < const.PADDLE_HEIGHT/2:
+                #    self.speedY *= rnd.random()
                 self.__stir(self.speedY)
 
-    def handleHitBall(self, p_ball: ball.Ball) -> None:
+        if(p_ball.centerx < const.PADDLE2_OFFSET):
+            print(f"self.predictPosY: {self.predictPosY}")
+            print(f"self.centery: {self.centery}")   
+            print(f"p_ball.centery: {p_ball.centery}")
+        else:
+            pass
 
+    def calculateTarget_AI(self,p_ball: ball.Ball) -> None:
+
+        ballSpeedX = p_ball.speedX
+        ballSpeedY = p_ball.speedY
+        ballCenterNewX = p_ball.centerx
+        ballCenterNewY = p_ball.centery       
+        ballWidth = p_ball.width
+
+        #framesUntilCollision = (const.PADDLE2_OFFSET - (p_ball.x + p_ball.width))/ballSpeedX
+        while ballCenterNewX < const.PADDLE2_OFFSET:
+    
+            ballCenterNewY = ballCenterNewY + ballSpeedY
+
+            if ballCenterNewY - ballWidth/2 <= 0:
+                #overflow = -(ballCenterNewY - ballWidth/2)
+                #ballCenterNewY = ballWidth/2 + overflow
+                ballSpeedY *= -1 
+
+            elif ballCenterNewY + ballWidth/2 >= const.GAME_SURFACE_HEIGHT:
+                #overflow = (ballCenterNewY + ballWidth/2) - const.GAME_SURFACE_HEIGHT
+                #ballCenterNewY = const.GAME_SURFACE_HEIGHT - ballWidth/2 - overflow
+                ballSpeedY *= -1 
+
+            ballCenterNewX = ballCenterNewX + ballSpeedX
+            #framesUntilCollision = framesUntilCollision - 1
+        
+        self.predictPosY = ballCenterNewY
+    
+
+    def handleHitBall(self, p_ball: ball.Ball) -> bool:
+
+        hit_occured = False
         if self.colliderect(p_ball):
             audio.soundTools.playSound(const.SoundChoice.paddleHit)
-            self.__reflectBall(p_ball)
             p_ball.increaseSpeed()
+            self.__reflectBall(p_ball)
+            
+            
+            if self.player == const.Player.P1:
+                hit_occured = True
+            if self.player == const.Player.P2:
+                self.predictPosY = None
+
+        return hit_occured
 
     def _reset(self,p_player: const.Player) -> None:
 
@@ -71,8 +127,9 @@ class Paddle(pygame.Rect):
         self.left = offsetX
         self.top = (const.GAME_SURFACE_HEIGHT - height_)/2 
         self.speedY = 0
+        self.predictPosY = None
 
-    def __stir(self,p_speedY: int) -> None:
+    def __stir(self,p_speedY: float) -> None:
         self.y = self.y + p_speedY
 
     def __reflectBall(self,p_ball: ball.Ball) -> None:

@@ -93,11 +93,13 @@ class gamePlay():
                 self.game_ball.travel()        
                 
                 ## P1 paddle
-                self.p1_paddle.controlPaddle_Player()            
-                ## AI paddle
-                self.p2_paddle.controlPaddle_AI(self.game_ball)      
+                self.p1_paddle.controlPaddle_Player()                  
                 ## Handle P1 paddle collisions
-                self.p1_paddle.handleHitBall(self.game_ball)
+                p1HitOccured = self.p1_paddle.handleHitBall(self.game_ball)
+                if p1HitOccured:
+                    self.p2_paddle.calculateTarget_AI(self.game_ball)
+                ## AI paddle
+                self.p2_paddle.controlPaddle_AI(self.game_ball)
                 ## Handle P2 paddle collisions
                 self.p2_paddle.handleHitBall(self.game_ball)    
                 ## Handle floor and ceiling bounce
@@ -155,12 +157,12 @@ class gamePlay():
 
             ## Calculate score
             if self.game_ball.x <= 0:
-                print("P2 Scored!")
+                #print("P2 Scored!")
                 self.game_scoreboard.increaseScore(const.Player.P2)
                 self.game_ball.reset(const.Player.P2)
                 
             else:
-                print("P1 Scored!")
+                #print("P1 Scored!")
                 self.game_scoreboard.increaseScore(const.Player.P1)
                 self.game_ball.reset(const.Player.P1)   
             
@@ -169,7 +171,7 @@ class gamePlay():
     
     def __handleWallBounce(self) -> None:
 
-        if self.game_ball.y <= 0 or self.game_ball.y >= const.GAME_SURFACE_HEIGHT: 
+        if self.game_ball.y <= 0 or self.game_ball.y + self.game_ball.height >= const.GAME_SURFACE_HEIGHT: 
             audio.soundTools.playSound(const.SoundChoice.yWallHit,1000)
             self.game_ball.reverseY()
 
