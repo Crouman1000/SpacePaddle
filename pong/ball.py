@@ -12,15 +12,21 @@ class Ball(pygame.Rect):
         left_ = (const.GAME_SURFACE_WIDTH - width_)/2 
         top_ = (const.GAME_SURFACE_HEIGHT - height_)/2 
 
+
         
         super().__init__(left_,top_,width_,height_)
         self.speedX = const.BALL_SPEED*random.choice([-1,1])
         self.speedY = const.BALL_SPEED*random.choice([-1,1])
+        self.x_f = float(self.x)
+        self.y_f = float(self.y)
        
     def reset(self,p_player: const.Player) -> None:
 
-        self.x = (const.GAME_SURFACE_WIDTH - const.BALL_RADIUS)/2 
-        self.y = (const.GAME_SURFACE_HEIGHT - const.BALL_RADIUS)/2 
+        
+        self.x_f = (const.GAME_SURFACE_WIDTH - const.BALL_RADIUS)/2 
+        self.y_f = (const.GAME_SURFACE_HEIGHT - const.BALL_RADIUS)/2 
+        self.x = int(self.x_f)
+        self.y = int(self.y_f)
 
         self.speedX = const.BALL_SPEED if p_player == const.Player.P1 else -1*const.BALL_SPEED
         self.speedY = const.BALL_SPEED*random.choice([-1,1])
@@ -32,8 +38,11 @@ class Ball(pygame.Rect):
         self.speedY *= -1
 
     def travel(self) -> None:
-        self.x = self.x + self.speedX
-        self.y = self.y + self.speedY
+
+        self.x_f = self.x_f + self.speedX
+        self.y_f = self.y_f + self.speedY
+        self.x = int(self.x_f)
+        self.y = int(self.y_f)
 
     def increaseSpeed(self) -> None:
 

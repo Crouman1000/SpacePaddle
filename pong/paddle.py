@@ -43,8 +43,8 @@ class Paddle(pygame.Rect):
 
     def controlPaddle_AI(self, p_ball: ball.Ball) -> None:
 
-        #@@@ Improve AI    
-        ## AI V2
+
+        ## AI V3
 
         ## trigger this code when player1 hits
         
@@ -53,19 +53,20 @@ class Paddle(pygame.Rect):
         if self.predictPosY:
             targetPosY = self.predictPosY
 
-
+        varianceX = self.centerx - p_ball.centerx
+        varianceY = self.centery - p_ball.centery
         if self.y > 0: 
             if targetPosY < self.centery:
                 self.speedY = -1*const.PADDLE_SPEED
-                #if varianceX < 50 and abs(varianceY) < const.PADDLE_HEIGHT/2:
-                #    self.speedY *= rnd.random()
+                if varianceX < 50 and abs(varianceY) < const.PADDLE_HEIGHT/2:
+                    self.speedY *= rnd.random()
                 self.__stir(self.speedY)
 
         if self.y < const.GAME_SURFACE_HEIGHT - self.height:
             if targetPosY > self.centery:
                 self.speedY = const.PADDLE_SPEED
-                #if varianceX < 50 and abs(varianceY) < const.PADDLE_HEIGHT/2:
-                #    self.speedY *= rnd.random()
+                if varianceX < 50 and abs(varianceY) < const.PADDLE_HEIGHT/2:
+                    self.speedY *= rnd.random()
                 self.__stir(self.speedY)
 
         if(p_ball.centerx < const.PADDLE2_OFFSET):
@@ -79,27 +80,23 @@ class Paddle(pygame.Rect):
 
         ballSpeedX = p_ball.speedX
         ballSpeedY = p_ball.speedY
-        ballCenterNewX = p_ball.centerx
-        ballCenterNewY = p_ball.centery       
-        ballWidth = p_ball.width
+        #ballCenterNewX = float(p_ball.centerx)
+        ballCenterNewY = float(p_ball.centery)       
+        ballWidth = float(p_ball.width)
 
-        #framesUntilCollision = (const.PADDLE2_OFFSET - (p_ball.x + p_ball.width))/ballSpeedX
-        while ballCenterNewX < const.PADDLE2_OFFSET:
-    
+        framesUntilCollision = (const.PADDLE2_OFFSET - (p_ball.x_f + p_ball.width))/ballSpeedX
+        #while ballCenterNewX < const.PADDLE2_OFFSET:
+        while framesUntilCollision > 0:
             ballCenterNewY = ballCenterNewY + ballSpeedY
 
             if ballCenterNewY - ballWidth/2 <= 0:
-                #overflow = -(ballCenterNewY - ballWidth/2)
-                #ballCenterNewY = ballWidth/2 + overflow
                 ballSpeedY *= -1 
 
             elif ballCenterNewY + ballWidth/2 >= const.GAME_SURFACE_HEIGHT:
-                #overflow = (ballCenterNewY + ballWidth/2) - const.GAME_SURFACE_HEIGHT
-                #ballCenterNewY = const.GAME_SURFACE_HEIGHT - ballWidth/2 - overflow
                 ballSpeedY *= -1 
 
-            ballCenterNewX = ballCenterNewX + ballSpeedX
-            #framesUntilCollision = framesUntilCollision - 1
+            #ballCenterNewX = ballCenterNewX + ballSpeedX
+            framesUntilCollision = framesUntilCollision - 1
         
         self.predictPosY = ballCenterNewY
     
