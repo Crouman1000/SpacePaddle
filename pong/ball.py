@@ -11,9 +11,7 @@ class Ball(pygame.Rect):
         height_ = const.BALL_RADIUS
         left_ = (const.GAME_SURFACE_WIDTH - width_)/2 
         top_ = (const.GAME_SURFACE_HEIGHT - height_)/2 
-
-
-        
+    
         super().__init__(left_,top_,width_,height_)
         self.speedX = const.BALL_SPEED*random.choice([-1,1])
         self.speedY = const.BALL_SPEED*random.choice([-1,1])

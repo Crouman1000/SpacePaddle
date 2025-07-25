@@ -43,9 +43,7 @@ class Paddle(pygame.Rect):
 
     def controlPaddle_AI(self, p_ball: ball.Ball) -> None:
 
-
         ## AI V3
-
         ## trigger this code when player1 hits
         
         targetPosY = p_ball.centery
@@ -98,7 +96,12 @@ class Paddle(pygame.Rect):
             #ballCenterNewX = ballCenterNewX + ballSpeedX
             framesUntilCollision = framesUntilCollision - 1
         
-        self.predictPosY = ballCenterNewY
+
+        feintY = (rnd.random() * const.PADDLE_HEIGHT) - const.PADDLE_HEIGHT/2
+        if feintY <= 0 and feintY >= const.GAME_SURFACE_HEIGHT:
+            feintY = 0
+
+        self.predictPosY = ballCenterNewY + feintY
     
 
     def handleHitBall(self, p_ball: ball.Ball) -> bool:
