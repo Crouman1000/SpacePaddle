@@ -145,7 +145,7 @@ class gamePlay():
                     self.startGame = False
                     self.running = False                     
                     gameState = const.GameState.MainMenu        
-                else:
+                elif event.key == pygame.K_SPACE:
                     ### Start game
                     self.startGame = True
 

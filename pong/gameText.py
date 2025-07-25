@@ -44,7 +44,7 @@ class ScoreBoard(GameText):
         self.gameOver = False
 
         self.scoreSurface = self.render_(f"SCORE: P1 {self.scoreP1} | P2 {self.scoreP2}",0,(255,255,255))
-        self.startSurface = self.render_(f"PRESS ANY KEY TO START",0,(255,255,255))
+        self.startSurface = self.render_(f"PRESS SPACEBAR TO START",0,(255,255,255))
         self.whoScoredSurface = None
         self.winnerSurface = None
        
