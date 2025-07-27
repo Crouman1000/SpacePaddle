@@ -1,3 +1,5 @@
+"""This module contains all the game constants used in the game."""
+
 from enum import Enum
 
 ### CONSTANTS
@@ -5,31 +7,47 @@ from enum import Enum
 
 ## SOUND
 class SoundState(Enum):
-    Off = 0
-    On = 1
-    
+    """Enum for sound states."""
+
+    OFF = 0
+    ON = 1
+
+
 class SoundChoice(Enum):
-    paddleHit = "pong/assets/sounds/paddle_hit.mp3"
-    yWallHit = "pong/assets/sounds/yWall_hit.mp3"
-    victory = "pong/assets/sounds/victory.mp3"
+    """Enum for sound choices."""
+
+    PADDLE_HIT = "pong/assets/sounds/paddle_hit.mp3"
+    Y_WALL_HIT = "pong/assets/sounds/yWall_hit.mp3"
+    VICTORY = "pong/assets/sounds/victory.mp3"
+
 
 ## MUSIC
 class MusicChoice(Enum):
-    gameMenu = "pong/assets/sounds/gameMenu.mp3"
-    gamePlay = "pong/assets/sounds/gameplay.mp3"
-    
+    """Enum for music choices."""
+
+    GAME_MENU = "pong/assets/sounds/gameMenu.mp3"
+    GAME_PLAY = "pong/assets/sounds/gameplay.mp3"
+
+
 ## IMAGE
 
-class imageChoice(Enum):
-    backgroundMenu = "pong/assets/images/menu_background3.png"
+
+class ImageChoice(Enum):
+    """Enum for image choices."""
+
+    BACKGROUND_MENU = "pong/assets/images/menu_background3.png"
+
 
 ## GAMESTATE
 class GameState(Enum):
-    Off = -1
-    MainMenu = 0
-    Singleplayer = 1
-    Multiplayer = 2
-    Options = 3
+    """Enum for game states."""
+
+    OFF = -1
+    MAIN_MENU = 0
+    SINGLE_PLAYER = 1
+    MULTIPLAYER = 2
+    OPTIONS = 3
+
 
 ## GAMEWIDE
 
@@ -39,16 +57,22 @@ GAME_SURFACE_HEIGHT = 720
 
 ## MAIN MENU
 
-MENU_BUTTON_HEIGHT = GAME_SURFACE_HEIGHT/8
-MENU_BUTTON_WIDTH = GAME_SURFACE_WIDTH/3
-MENU_BUTTON_SIZE = (MENU_BUTTON_WIDTH,MENU_BUTTON_HEIGHT)
+MENU_BUTTON_HEIGHT = GAME_SURFACE_HEIGHT / 8
+MENU_BUTTON_WIDTH = GAME_SURFACE_WIDTH / 3
+MENU_BUTTON_SIZE = (MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT)
 MENU_BUTTON_BORDER_RAD = 20
-SINGLEPLAYER_BUTTON_COORDS = ((GAME_SURFACE_WIDTH - MENU_BUTTON_WIDTH)/2 ,100)
-MULTIPLAYER_BUTTON_COORDS = ((GAME_SURFACE_WIDTH - MENU_BUTTON_WIDTH)/2,100 + 2* MENU_BUTTON_HEIGHT)
+SINGLEPLAYER_BUTTON_COORDS = ((GAME_SURFACE_WIDTH - MENU_BUTTON_WIDTH) / 2, 100)
+MULTIPLAYER_BUTTON_COORDS = (
+    (GAME_SURFACE_WIDTH - MENU_BUTTON_WIDTH) / 2,
+    100 + 2 * MENU_BUTTON_HEIGHT,
+)
 
 ## OPTIONS MENU
 
-OPTIONS_BUTTON_COORDS = ((GAME_SURFACE_WIDTH-MENU_BUTTON_WIDTH)/2,100 + 4* MENU_BUTTON_HEIGHT)
+OPTIONS_BUTTON_COORDS = (
+    (GAME_SURFACE_WIDTH - MENU_BUTTON_WIDTH) / 2,
+    100 + 4 * MENU_BUTTON_HEIGHT,
+)
 
 
 ## SINGLE PLAYER, MULTIPLAYER
@@ -65,10 +89,9 @@ BALL_MAX_SPEED = 10.0
 BALL_MIN_SPEED = 0.0
 BALL_INCREASE_SPEED = 0.5
 
+
 class Player(Enum):
+    """Enum for players."""
+
     P1 = 1
     P2 = 2
-
-
-
-    

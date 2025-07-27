@@ -1,9 +1,9 @@
-#import dataclasses as dc
+# import dataclasses as dc
 
-#@dc.dataclass
-#class OptionSettings():
+# @dc.dataclass
+# class OptionSettings():
 #    pass
 
 
-enableMusic = True
-currentSong = None
+ENABLE_MUSIC = True
+CURRENT_SONG = None
