@@ -23,7 +23,7 @@ class SoundTools:
     def load_sounds(cls):
         """Load all sound effects used in the game."""
         pygame.mixer.init()
-        # Sound
+
         cls.sounds[const.SoundChoice.PADDLE_HIT] = pygame.mixer.Sound(
             const.SoundChoice.PADDLE_HIT.value
         )

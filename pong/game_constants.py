@@ -30,8 +30,6 @@ class MusicChoice(Enum):
 
 
 ## IMAGE
-
-
 class ImageChoice(Enum):
     """Enum for image choices."""
 
@@ -50,13 +48,11 @@ class GameState(Enum):
 
 
 ## GAMEWIDE
-
 GAME_SURFACE_WIDTH = 1280
 GAME_SURFACE_HEIGHT = 720
 
 
 ## MAIN MENU
-
 MENU_BUTTON_HEIGHT = GAME_SURFACE_HEIGHT / 8
 MENU_BUTTON_WIDTH = GAME_SURFACE_WIDTH / 3
 MENU_BUTTON_SIZE = (MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT)
@@ -68,7 +64,6 @@ MULTIPLAYER_BUTTON_COORDS = (
 )
 
 ## OPTIONS MENU
-
 OPTIONS_BUTTON_COORDS = (
     (GAME_SURFACE_WIDTH - MENU_BUTTON_WIDTH) / 2,
     100 + 4 * MENU_BUTTON_HEIGHT,
@@ -76,6 +71,12 @@ OPTIONS_BUTTON_COORDS = (
 
 
 ## SINGLE PLAYER, MULTIPLAYER
+class Player(Enum):
+    """Enum for players."""
+
+    P1 = 1
+    P2 = 2
+
 
 GAME_MAXSCORE = 5
 PADDLE_WIDTH = 20.0
@@ -88,10 +89,3 @@ BALL_SPEED = 5.0
 BALL_MAX_SPEED = 10.0
 BALL_MIN_SPEED = 0.0
 BALL_INCREASE_SPEED = 0.5
-
-
-class Player(Enum):
-    """Enum for players."""
-
-    P1 = 1
-    P2 = 2

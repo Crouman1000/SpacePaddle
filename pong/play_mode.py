@@ -72,7 +72,7 @@ class GamePlay:
             pygame.draw.rect(self.game_surface, "green", self.p2_paddle)
             pygame.draw.rect(self.game_surface, "white", self.game_ball)
 
-            ## Blit the game surface
+            ## Update the display on the screen
             pygame.display.flip()
 
             ## Limit FPS
@@ -106,6 +106,7 @@ class GamePlay:
                 ## Handle P1 paddle collisions
                 p1_hit_occured = self.p1_paddle.handle_hit_ball(self.game_ball)
                 if p1_hit_occured:
+                    ## If P1 hit the ball, AI paddle will predict the ball's position
                     self.p2_paddle.calculate_target_ai(self.game_ball)
                 ## AI paddle
                 self.p2_paddle.control_paddle_ai(self.game_ball)
@@ -128,10 +129,10 @@ class GamePlay:
             pygame.draw.rect(self.game_surface, "green", self.p2_paddle)
             pygame.draw.rect(self.game_surface, "white", self.game_ball)
 
-            ## Blit the game surface
+            ## Update the display on the screen
             pygame.display.flip()
 
-            ## limit FPS
+            ## Limit FPS
             self.clock.tick(120)
 
         return game_state
@@ -144,26 +145,27 @@ class GamePlay:
         for event in pygame.event.get():
 
             ## Close the game window
-            if event.type == pygame.QUIT:  # pylint: disable=no-member
+            if event.type == pygame.QUIT:  ## pylint: disable=no-member
                 self.start_game = False
                 self.running = False
                 game_state = const.GameState.OFF
 
-            elif event.type == pygame.KEYDOWN:  # pylint: disable=no-member
+            elif event.type == pygame.KEYDOWN:  ## pylint: disable=no-member
                 # print(f"{event.key}=?={pygame.K_ESCAPE}")
                 # if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-                ### Return to game menu
-                if event.key == pygame.K_ESCAPE:  # pylint: disable=no-member
+                ## Return to game menu
+                if event.key == pygame.K_ESCAPE:  ## pylint: disable=no-member
                     self.start_game = False
                     self.running = False
                     game_state = const.GameState.MAIN_MENU
-                elif event.key == pygame.K_SPACE:  # pylint: disable=no-member
-                    ### Start game
+                elif event.key == pygame.K_SPACE:  ## pylint: disable=no-member
+                    ## Start game
                     self.start_game = True
 
         return game_state
 
     def __handle_goal(self) -> None:
+        """Handle scoring when the ball goes out of bounds."""
 
         if self.game_ball.x <= 0 or self.game_ball.x >= const.GAME_SURFACE_WIDTH:
 
@@ -182,7 +184,7 @@ class GamePlay:
             self.start_game = False
 
     def __handle_wall_bounce(self) -> None:
-
+        """Handle the ball bouncing off the top and bottom walls."""
         if (
             self.game_ball.y <= 0
             or self.game_ball.y + self.game_ball.height >= const.GAME_SURFACE_HEIGHT

@@ -92,7 +92,7 @@ class ScoreBoard(GameText):
             message_color_tuple = (255, 0, 0) if self.last_winner == 1 else (0, 255, 0)
 
             if self.game_over:
-
+                # If the game is over, display the final winner message
                 audio.SoundTools.play_sound(const.SoundChoice.VICTORY)
                 self.winner_surface = self.render_(
                     f"Player {self.last_winner} HAS WON THE GAME!",
@@ -104,10 +104,10 @@ class ScoreBoard(GameText):
                     3 * p_canvas.get_height() / 10,
                 )
                 p_canvas.blit(self.winner_surface, self.coord_xy)
-                self.reset_score__()
+                self.__reset_score()
 
             else:
-
+                # If the game is still ongoing, display who scored
                 self.who_scored_surface = self.render_(
                     f"PLAYER {self.last_winner} SCORED !", 0, message_color_tuple
                 )
@@ -128,7 +128,7 @@ class ScoreBoard(GameText):
     def show_controls(
         self, p_canvas: pygame.Surface, p_game_state: const.GameState
     ) -> None:
-        """Display the controls for players to know."""
+        """Display the controls for players."""
 
         self.coord_xy = (
             19 * (p_canvas.get_width() - self.escape_surface.get_width()) / 20,
@@ -147,7 +147,7 @@ class ScoreBoard(GameText):
             )
             p_canvas.blit(self.control_surface_p2, self.coord_xy)
 
-    def reset_score__(self) -> None:
+    def __reset_score(self) -> None:
         """Reset the score for a new game."""
         self.last_winner = None
         self.game_over = False

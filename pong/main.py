@@ -15,7 +15,7 @@ def main() -> None:
     Upon exiting the main loop, it unloads resources and quits the game."""
 
     # Initialize modules
-    pygame.init()  # pylint: disable=no-member
+    pygame.init()  ## pylint: disable=no-member
     graphics.ImageTools.load_images()
     audio.SoundTools.load_sounds()
 
@@ -44,9 +44,9 @@ def main() -> None:
     graphics.ImageTools.unload_images()
     audio.SoundTools.unload_audio()
 
-    pygame.quit()  # pylint: disable=no-member
+    pygame.quit()  ## pylint: disable=no-member
 
 
-# EXECUTION
+# Game execution
 
 main()

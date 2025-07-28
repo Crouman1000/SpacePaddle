@@ -44,10 +44,10 @@ class Menu:
         game_state = p_game_state
         self.running = True
 
-        self.menu_surface.blit(self.background_surface, (0, 0))
-
+        # Main loop of the menu
         while self.running:
 
+            # Render the background
             self.menu_surface.blit(self.background_surface, (0, 0))
             coord_xy = (
                 19
@@ -59,15 +59,16 @@ class Menu:
 
             # Poll for events
             for event in pygame.event.get():
-                # print(f"event: {event}")
-                if event.type == pygame.QUIT:  # pylint: disable=no-member
+                ## print(f"event: {event}")
+                if event.type == pygame.QUIT:  ## pylint: disable=no-member
                     self.running = False
                     game_state = const.GameState.OFF
-                elif event.type == pygame.KEYDOWN:  # pylint: disable=no-member
-                    if event.key == pygame.K_ESCAPE:  # pylint: disable=no-member
+                elif event.type == pygame.KEYDOWN:  ## pylint: disable=no-member
+                    if event.key == pygame.K_ESCAPE:  ## pylint: disable=no-member
                         self.running = False
                         game_state = const.GameState.MAIN_MENU
-                elif event.type == pygame.MOUSEBUTTONDOWN:  # pylint: disable=no-member
+                elif event.type == pygame.MOUSEBUTTONDOWN:  ## pylint: disable=no-member
+                    ## Check which button was clicked
                     mouse_clicked_coords_tuple = pygame.mouse.get_pos()
                     if self.music_checkbox.isOver(mouse_clicked_coords_tuple):
                         self.music_checkbox.convert()
@@ -78,9 +79,11 @@ class Menu:
                             audio.SoundTools.disable_music()
 
             self.music_checkbox.draw_(self.menu_surface)
+
+            ## Update the display on the screen
             pygame.display.flip()
 
-            # FPS
+            # Limit FPS
             self.clock.tick(120)
 
         return game_state

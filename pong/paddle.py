@@ -34,16 +34,16 @@ class Paddle(pygame.Rect):
         """Control the paddle movement based on player input."""
         # @@@ optimize with a Protocol
         keys_list = pygame.key.get_pressed()
-        y = self.y  # pylint: disable=no-member
+        y = self.y  ## pylint: disable=no-member
         up_key = (
-            pygame.K_w  # pylint: disable=no-member
+            pygame.K_w  ## pylint: disable=no-member
             if self.player == const.Player.P1
-            else pygame.K_UP  # pylint: disable=no-member
+            else pygame.K_UP  ## pylint: disable=no-member
         )
         down_key = (
-            pygame.K_s  # pylint: disable=no-member
+            pygame.K_s  ## pylint: disable=no-member
             if self.player == const.Player.P1
-            else pygame.K_DOWN  # pylint: disable=no-member
+            else pygame.K_DOWN  ## pylint: disable=no-member
         )
 
         if y > 0:
@@ -56,28 +56,30 @@ class Paddle(pygame.Rect):
     def control_paddle_ai(self, p_ball: ball.Ball) -> None:
         """Control the paddle movement for AI, predicting the ball's position."""
         ## AI V3
-        ## trigger this code when player1 hits
 
         target_pos_y = p_ball.centery
-        ## distance chunks of speedX until collision
+        ## If the AI has a predicted position, use it
         if self.predict_pos_y:
             target_pos_y = self.predict_pos_y
 
-        variance_x = self.centerx - p_ball.centerx
-        variance_y = self.centery - p_ball.centery
-        y = self.y  # pylint: disable=no-member
+        # variance_x = self.centerx - p_ball.centerx
+        # variance_y = self.centery - p_ball.centery
+
+        ## If the paddle is too far from the target position,
+        ## move towards it without going out of bounds
+        y = self.y  ## pylint: disable=no-member
         if y > 0:
             if target_pos_y < self.centery:
                 self.speed_y = -1 * const.PADDLE_SPEED
-                if variance_x < 50 and abs(variance_y) < const.PADDLE_HEIGHT / 2:
-                    self.speed_y *= rnd.random()
+                # if variance_x < 50 and abs(variance_y) < const.PADDLE_HEIGHT / 2:
+                #    self.speed_y *= rnd.random()
                 self.__stir(self.speed_y)
 
         if y < const.GAME_SURFACE_HEIGHT - self.height:
             if target_pos_y > self.centery:
                 self.speed_y = const.PADDLE_SPEED
-                if variance_x < 50 and abs(variance_y) < const.PADDLE_HEIGHT / 2:
-                    self.speed_y *= rnd.random()
+                # if variance_x < 50 and abs(variance_y) < const.PADDLE_HEIGHT / 2:
+                #    self.speed_y *= rnd.random()
                 self.__stir(self.speed_y)
 
         ##DEBUG
@@ -95,11 +97,12 @@ class Paddle(pygame.Rect):
         # ballCenterNewX = float(p_ball.centerx)
         ball_center_new_y = float(p_ball.centery)
         ball_width = float(p_ball.width)
-
+        ## Calculate the frames until the ball reaches the paddle
         frames_until_collision = (
             const.PADDLE2_OFFSET - (p_ball.x_f + p_ball.width)
         ) / ball_speed_x
         # while ballCenterNewX < const.PADDLE2_OFFSET:
+        ## Calculate the new Y position of the ball after the frames until collision
         while frames_until_collision > 0:
             ball_center_new_y = ball_center_new_y + ball_speed_y
 
@@ -112,6 +115,7 @@ class Paddle(pygame.Rect):
             # ballCenterNewX = ballCenterNewX + ballSpeedX
             frames_until_collision = frames_until_collision - 1
 
+        ## Calculate the AI feint
         feint_y = (rnd.random() * const.PADDLE_HEIGHT) - const.PADDLE_HEIGHT / 2
         if feint_y <= 0 and feint_y >= const.GAME_SURFACE_HEIGHT:
             feint_y = 0
@@ -121,6 +125,7 @@ class Paddle(pygame.Rect):
     def handle_hit_ball(self, p_ball: ball.Ball) -> bool:
         """Handle the interaction when the paddle hits the ball."""
         hit_occured = False
+        ## Check if the paddle collides with the ball
         if self.colliderect(p_ball):
             audio.SoundTools.play_sound(const.SoundChoice.PADDLE_HIT)
             p_ball.increase_speed()
@@ -133,7 +138,7 @@ class Paddle(pygame.Rect):
 
         return hit_occured
 
-    def _reset(self, p_player: const.Player) -> None:
+    def reset(self, p_player: const.Player) -> None:
         """Reset the paddle's position and speed."""
         height_ = const.PADDLE_HEIGHT
         offset_x = (
@@ -141,8 +146,8 @@ class Paddle(pygame.Rect):
             if p_player == const.Player.P1
             else const.PADDLE2_OFFSET
         )
-        self.left = offset_x  # pylint: disable=attribute-defined-outside-init
-        self.top = (  # pylint: disable=attribute-defined-outside-init
+        self.left = offset_x  ## pylint: disable=attribute-defined-outside-init
+        self.top = (  ## pylint: disable=attribute-defined-outside-init
             const.GAME_SURFACE_HEIGHT - height_
         ) / 2
         self.speed_y = 0
@@ -150,7 +155,7 @@ class Paddle(pygame.Rect):
 
     def __stir(self, p_speed_y: float) -> None:
         """Move the paddle vertically by a given speed."""
-        self.y += p_speed_y  # pylint: disable=no-member
+        self.y += p_speed_y  ## pylint: disable=no-member
 
     def __reflect_ball(self, p_ball: ball.Ball) -> None:
         """Reflect the ball's in a vector based on the paddle's position."""
@@ -187,4 +192,4 @@ class PaddleTools:
     def reset_all_paddles(*p_paddles: Paddle) -> None:
         """Reset all paddles to their initial positions."""
         for p in p_paddles:
-            p._reset(p.player)
+            p.reset(p.player)

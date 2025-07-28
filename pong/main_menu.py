@@ -56,11 +56,11 @@ class Menu:
         """Run the main menu loop, handling button clicks and transitions to other states."""
         game_state = p_game_state
         self.running = True
-
+        # Load the background image and play menu music
         audio.SoundTools.play_music(const.MusicChoice.GAME_MENU)
-
+        # Render the background
         self.menu_surface.blit(self.background_surface, (0, 0))
-
+        # Draw the buttons
         pygame.draw.rect(
             self.menu_surface,
             "gray",
@@ -106,17 +106,17 @@ class Menu:
                 self.options_rect.centery - self.option_text_surface.get_height() / 2,
             ),
         )
-
+        # Main loop of the menu
         while self.running:
             # Poll for events
             for event in pygame.event.get():
-                # print(f"event: {event}")
-                if event.type == pygame.QUIT:  # pylint: disable=no-member
+                ## print(f"event: {event}")
+                if event.type == pygame.QUIT:  ## pylint: disable=no-member
                     self.running = False
                     game_state = const.GameState.OFF
-                if event.type == pygame.MOUSEBUTTONDOWN:  # pylint: disable=no-member
+                if event.type == pygame.MOUSEBUTTONDOWN:  ## pylint: disable=no-member
                     mouse_clicked_coords_tuple = pygame.mouse.get_pos()
-
+                    # Check which button was clicked
                     if self.single_player_rect.collidepoint(
                         mouse_clicked_coords_tuple[0], mouse_clicked_coords_tuple[1]
                     ):
@@ -135,10 +135,10 @@ class Menu:
                         self.running = False
                         game_state = const.GameState.OPTIONS
 
-            # menu_surface.fill("black")
-
+            ## Update the display on the screen
             pygame.display.flip()
 
-            self.clock.tick(120)  # limits FPS
+            # limit FPS
+            self.clock.tick(120)
 
         return game_state
