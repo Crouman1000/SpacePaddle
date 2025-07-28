@@ -24,7 +24,6 @@ class GameText:
         self.font = pygame.font.SysFont(
             p_font_name, p_font_size, p_is_font_bold, p_is_font_italic
         )
-        self.coord_xy = None
 
     def render_(
         self,
@@ -79,11 +78,11 @@ class ScoreBoard(GameText):
     def show_score(self, p_canvas: pygame.Surface) -> None:
         """Display the current score on the given surface."""
 
-        self.coord_xy = (
+        coord_xy = (
             (p_canvas.get_width() - self.score_surface.get_width()) / 2,
             p_canvas.get_height() / 12,
         )
-        p_canvas.blit(self.score_surface, self.coord_xy)
+        p_canvas.blit(self.score_surface, coord_xy)
 
     def show_winner(self, p_canvas: pygame.Surface) -> None:
         """Display the round or game winner message"""
@@ -99,11 +98,11 @@ class ScoreBoard(GameText):
                     0,
                     message_color_tuple,
                 )
-                self.coord_xy = (
+                coord_xy = (
                     (p_canvas.get_width() - self.winner_surface.get_width()) / 2,
                     3 * p_canvas.get_height() / 10,
                 )
-                p_canvas.blit(self.winner_surface, self.coord_xy)
+                p_canvas.blit(self.winner_surface, coord_xy)
                 self.__reset_score()
 
             else:
@@ -111,41 +110,41 @@ class ScoreBoard(GameText):
                 self.who_scored_surface = self.render_(
                     f"PLAYER {self.last_winner} SCORED !", 0, message_color_tuple
                 )
-                self.coord_xy = (
+                coord_xy = (
                     (p_canvas.get_width() - self.who_scored_surface.get_width()) / 2,
                     3 * p_canvas.get_height() / 10,
                 )
-                p_canvas.blit(self.who_scored_surface, self.coord_xy)
+                p_canvas.blit(self.who_scored_surface, coord_xy)
 
     def show_start(self, p_canvas: pygame.Surface) -> None:
         """Display the start message on the given surface."""
-        self.coord_xy = (
+        coord_xy = (
             (p_canvas.get_width() - self.start_surface.get_width()) / 2,
             4 * p_canvas.get_height() / 10,
         )
-        p_canvas.blit(self.start_surface, self.coord_xy)
+        p_canvas.blit(self.start_surface, coord_xy)
 
     def show_controls(
         self, p_canvas: pygame.Surface, p_game_state: const.GameState
     ) -> None:
         """Display the controls for players."""
 
-        self.coord_xy = (
+        coord_xy = (
             19 * (p_canvas.get_width() - self.escape_surface.get_width()) / 20,
             1 * p_canvas.get_height() / 20,
         )
-        p_canvas.blit(self.escape_surface, self.coord_xy)
-        self.coord_xy = (
+        p_canvas.blit(self.escape_surface, coord_xy)
+        coord_xy = (
             (p_canvas.get_width() - self.control_surface_p2.get_width()) / 2,
             17 * p_canvas.get_height() / 20,
         )
-        p_canvas.blit(self.control_surface_p1, self.coord_xy)
+        p_canvas.blit(self.control_surface_p1, coord_xy)
         if p_game_state == const.GameState.MULTIPLAYER:
-            self.coord_xy = (
+            coord_xy = (
                 (p_canvas.get_width() - self.control_surface_p2.get_width()) / 2,
                 18 * p_canvas.get_height() / 20,
             )
-            p_canvas.blit(self.control_surface_p2, self.coord_xy)
+            p_canvas.blit(self.control_surface_p2, coord_xy)
 
     def __reset_score(self) -> None:
         """Reset the score for a new game."""
