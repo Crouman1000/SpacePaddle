@@ -16,24 +16,24 @@ class SoundState(Enum):
 class SoundChoice(Enum):
     """Enum for sound choices."""
 
-    PADDLE_HIT = "pong/assets/sounds/paddle_hit.mp3"
-    Y_WALL_HIT = "pong/assets/sounds/yWall_hit.mp3"
-    VICTORY = "pong/assets/sounds/victory.mp3"
+    PADDLE_HIT = "spacepaddle/assets/sounds/paddle_hit.mp3"
+    Y_WALL_HIT = "spacepaddle/assets/sounds/yWall_hit.mp3"
+    VICTORY = "spacepaddle/assets/sounds/victory.mp3"
 
 
 ## MUSIC
 class MusicChoice(Enum):
     """Enum for music choices."""
 
-    GAME_MENU = "pong/assets/sounds/gameMenu.mp3"
-    GAME_PLAY = "pong/assets/sounds/gameplay.mp3"
+    GAME_MENU = "spacepaddle/assets/sounds/gameMenu.mp3"
+    GAME_PLAY = "spacepaddle/assets/sounds/gameplay.mp3"
 
 
 ## IMAGE
 class ImageChoice(Enum):
     """Enum for image choices."""
 
-    BACKGROUND_MENU = "pong/assets/images/menu_background3.png"
+    BACKGROUND_MENU = "spacepaddle/assets/images/menu_background3.png"
 
 
 ## GAMESTATE
