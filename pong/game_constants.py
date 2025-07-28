@@ -1,8 +1,13 @@
 """This module contains all the game constants used in the game."""
 
 from enum import Enum
+import os
 
 ### CONSTANTS
+
+## PATHING
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # path to pong/
 
 
 ## SOUND
@@ -16,24 +21,24 @@ class SoundState(Enum):
 class SoundChoice(Enum):
     """Enum for sound choices."""
 
-    PADDLE_HIT = "pong/assets/sounds/paddle_hit.mp3"
-    Y_WALL_HIT = "pong/assets/sounds/yWall_hit.mp3"
-    VICTORY = "pong/assets/sounds/victory.mp3"
+    PADDLE_HIT = os.path.join(BASE_DIR, "assets", "sounds", "paddle_hit.mp3")
+    Y_WALL_HIT = os.path.join(BASE_DIR, "assets", "sounds", "yWall_hit.mp3")
+    VICTORY = os.path.join(BASE_DIR, "assets", "sounds", "victory.mp3")
 
 
 ## MUSIC
 class MusicChoice(Enum):
     """Enum for music choices."""
 
-    GAME_MENU = "pong/assets/sounds/gameMenu.mp3"
-    GAME_PLAY = "pong/assets/sounds/gameplay.mp3"
+    GAME_MENU = os.path.join(BASE_DIR, "assets", "sounds", "gameMenu.mp3")
+    GAME_PLAY = os.path.join(BASE_DIR, "assets", "sounds", "gameplay.mp3")
 
 
 ## IMAGE
 class ImageChoice(Enum):
     """Enum for image choices."""
 
-    BACKGROUND_MENU = "pong/assets/images/menu_background3.png"
+    BACKGROUND_MENU = os.path.join(BASE_DIR, "assets", "images", "menu_background3.png")
 
 
 ## GAMESTATE
