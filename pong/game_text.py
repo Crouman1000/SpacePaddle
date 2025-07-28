@@ -92,7 +92,7 @@ class ScoreBoard(GameText):
             message_color_tuple = (255, 0, 0) if self.last_winner == 1 else (0, 255, 0)
 
             if self.game_over:
-                # If the game is over, display the final winner message
+                ## If the game is over, display the final winner message
                 audio.SoundTools.play_sound(const.SoundChoice.VICTORY)
                 self.winner_surface = self.render_(
                     f"Player {self.last_winner} HAS WON THE GAME!",
@@ -107,7 +107,7 @@ class ScoreBoard(GameText):
                 self.__reset_score()
 
             else:
-                # If the game is still ongoing, display who scored
+                ## If the game is still ongoing, display who scored
                 self.who_scored_surface = self.render_(
                     f"PLAYER {self.last_winner} SCORED !", 0, message_color_tuple
                 )

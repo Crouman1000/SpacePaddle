@@ -14,15 +14,15 @@ def main() -> None:
     main game loop. It handles transitions between different game states.
     Upon exiting the main loop, it unloads resources and quits the game."""
 
-    # Initialize modules
-    pygame.init()  ## pylint: disable=no-member
+    ## Initialize modules
+    pygame.init()  # pylint: disable=no-member
     graphics.ImageTools.load_images()
     audio.SoundTools.load_sounds()
 
     main_menu = mm.Menu()
     game_state = const.GameState.MAIN_MENU
 
-    # Main game loop, switching between game states
+    ## Main game loop, switching between game states
     while game_state != const.GameState.OFF:
 
         if game_state == const.GameState.MAIN_MENU:
@@ -40,13 +40,13 @@ def main() -> None:
             game_state = options_menu.run_options(game_state)
             del options_menu
 
-    # Unload resources and quit the game
+    ## Unload resources and quit the game
     graphics.ImageTools.unload_images()
     audio.SoundTools.unload_audio()
 
-    pygame.quit()  ## pylint: disable=no-member
+    pygame.quit()  # pylint: disable=no-member
 
 
-# Game execution
+## Game execution
 
 main()

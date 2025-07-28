@@ -25,16 +25,16 @@ class Ball(pygame.Rect):
         """Reset the ball's position and speed based on who scored."""
         self.x_f = (const.GAME_SURFACE_WIDTH - const.BALL_RADIUS) / 2
         self.y_f = (const.GAME_SURFACE_HEIGHT - const.BALL_RADIUS) / 2
-        self.x = int(self.x_f)  ## pylint: disable=attribute-defined-outside-init
-        self.y = int(self.y_f)  ## pylint: disable=attribute-defined-outside-init
+        self.x = int(self.x_f)  # pylint: disable=attribute-defined-outside-init
+        self.y = int(self.y_f)  # pylint: disable=attribute-defined-outside-init
 
         self.speed_x = (
             const.BALL_SPEED if p_player == const.Player.P1 else -1 * const.BALL_SPEED
         )
         self.speed_y = const.BALL_SPEED * random.choice([-1, 1])
 
-        ## def reverseX(self) -> None:
-        ##    self.speedX *= -1
+        # def reverseX(self) -> None:
+        #    self.speedX *= -1
 
     def reverse_y(self) -> None:
         """Reverse the vertical speed of the ball."""
@@ -44,13 +44,13 @@ class Ball(pygame.Rect):
         """Update the ball's position based on its speed."""
         self.x_f = self.x_f + self.speed_x
         self.y_f = self.y_f + self.speed_y
-        self.x = int(self.x_f)  ## pylint: disable=attribute-defined-outside-init
-        self.y = int(self.y_f)  ## pylint: disable=attribute-defined-outside-init
+        self.x = int(self.x_f)  # pylint: disable=attribute-defined-outside-init
+        self.y = int(self.y_f)  # pylint: disable=attribute-defined-outside-init
 
     def increase_speed(self) -> None:
         """Increase the speed of the ball."""
-        ## determineSpeed = lambda speed: speed - 0.5 if speed < 0 and speed > -9
-        ## else speed + 0.5 if speed > 0 and speed < 9 else speed
+        # determineSpeed = lambda speed: speed - 0.5 if speed < 0 and speed > -9
+        # else speed + 0.5 if speed > 0 and speed < 9 else speed
         self.speed_x = self.__determine_speed(self.speed_x)
         self.speed_y = self.__determine_speed(self.speed_y)
 

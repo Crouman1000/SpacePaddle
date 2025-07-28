@@ -61,6 +61,7 @@ class SoundTools:
 
                     if settings.CURRENT_SONG != const.MusicChoice.GAME_MENU:
                         pygame.mixer.music.load(const.MusicChoice.GAME_MENU.value)
+                        pygame.mixer.music.set_volume(0.6)
                         pygame.mixer.music.play(-1)
                         settings.CURRENT_SONG = const.MusicChoice.GAME_MENU
 
@@ -68,6 +69,7 @@ class SoundTools:
 
                     if settings.CURRENT_SONG != const.MusicChoice.GAME_PLAY:
                         pygame.mixer.music.load(const.MusicChoice.GAME_PLAY.value)
+                        pygame.mixer.music.set_volume(0.6)
                         pygame.mixer.music.play(-1)
                         settings.CURRENT_SONG = const.MusicChoice.GAME_PLAY
 
@@ -85,7 +87,6 @@ class SoundTools:
         settings.ENABLE_MUSIC = True
 
     # def controlSound(p_sound: pygame.mixer.,p_state: const.SoundState) -> None:
-
     #    if not p_sound.get_busy():
     #        if p_state == const.SoundState.On:
     #            p_sound.play(-1,0,0)

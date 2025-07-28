@@ -1,3 +1,5 @@
+"""Settings for the game."""
+
 # import dataclasses as dc
 
 # @dc.dataclass

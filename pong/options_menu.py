@@ -44,10 +44,10 @@ class Menu:
         game_state = p_game_state
         self.running = True
 
-        # Main loop of the menu
+        ## Main loop of the menu
         while self.running:
 
-            # Render the background
+            ## Render the background
             self.menu_surface.blit(self.background_surface, (0, 0))
             coord_xy = (
                 19
@@ -57,17 +57,17 @@ class Menu:
             )
             self.menu_surface.blit(self.escape_surface, coord_xy)
 
-            # Poll for events
+            ## Poll for events
             for event in pygame.event.get():
-                ## print(f"event: {event}")
-                if event.type == pygame.QUIT:  ## pylint: disable=no-member
+                # print(f"event: {event}")
+                if event.type == pygame.QUIT:  # pylint: disable=no-member
                     self.running = False
                     game_state = const.GameState.OFF
-                elif event.type == pygame.KEYDOWN:  ## pylint: disable=no-member
-                    if event.key == pygame.K_ESCAPE:  ## pylint: disable=no-member
+                elif event.type == pygame.KEYDOWN:  # pylint: disable=no-member
+                    if event.key == pygame.K_ESCAPE:  # pylint: disable=no-member
                         self.running = False
                         game_state = const.GameState.MAIN_MENU
-                elif event.type == pygame.MOUSEBUTTONDOWN:  ## pylint: disable=no-member
+                elif event.type == pygame.MOUSEBUTTONDOWN:  # pylint: disable=no-member
                     ## Check which button was clicked
                     mouse_clicked_coords_tuple = pygame.mouse.get_pos()
                     if self.music_checkbox.isOver(mouse_clicked_coords_tuple):
@@ -83,7 +83,7 @@ class Menu:
             ## Update the display on the screen
             pygame.display.flip()
 
-            # Limit FPS
+            ## Limit FPS
             self.clock.tick(120)
 
         return game_state
@@ -97,7 +97,7 @@ class Menu:
         # @override
         def draw_(self, win):
             """Draw the checkbox with custom text and check state."""
-            but = pu.button(
+            button = pu.button(
                 self.color,
                 self.x,
                 self.y,
@@ -105,7 +105,7 @@ class Menu:
                 self.height,
                 outline=self.outline,
             )
-            but.draw(win)
+            button.draw(win)
 
             if self.text != "":
                 text = self.font.render(self.text, 1, (255, 255, 255))

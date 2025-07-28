@@ -32,18 +32,18 @@ class Paddle(pygame.Rect):
 
     def control_paddle_player(self) -> None:
         """Control the paddle movement based on player input."""
-        # @@@ optimize with a Protocol
+        ## @@@ optimize with a Protocol
         keys_list = pygame.key.get_pressed()
-        y = self.y  ## pylint: disable=no-member
+        y = self.y  # pylint: disable=no-member
         up_key = (
-            pygame.K_w  ## pylint: disable=no-member
+            pygame.K_w  # pylint: disable=no-member
             if self.player == const.Player.P1
-            else pygame.K_UP  ## pylint: disable=no-member
+            else pygame.K_UP  # pylint: disable=no-member
         )
         down_key = (
-            pygame.K_s  ## pylint: disable=no-member
+            pygame.K_s  # pylint: disable=no-member
             if self.player == const.Player.P1
-            else pygame.K_DOWN  ## pylint: disable=no-member
+            else pygame.K_DOWN  # pylint: disable=no-member
         )
 
         if y > 0:
@@ -146,8 +146,8 @@ class Paddle(pygame.Rect):
             if p_player == const.Player.P1
             else const.PADDLE2_OFFSET
         )
-        self.left = offset_x  ## pylint: disable=attribute-defined-outside-init
-        self.top = (  ## pylint: disable=attribute-defined-outside-init
+        self.left = offset_x  # pylint: disable=attribute-defined-outside-init
+        self.top = (  # pylint: disable=attribute-defined-outside-init
             const.GAME_SURFACE_HEIGHT - height_
         ) / 2
         self.speed_y = 0
@@ -155,7 +155,7 @@ class Paddle(pygame.Rect):
 
     def __stir(self, p_speed_y: float) -> None:
         """Move the paddle vertically by a given speed."""
-        self.y += p_speed_y  ## pylint: disable=no-member
+        self.y += p_speed_y  # pylint: disable=no-member
 
     def __reflect_ball(self, p_ball: ball.Ball) -> None:
         """Reflect the ball's in a vector based on the paddle's position."""
