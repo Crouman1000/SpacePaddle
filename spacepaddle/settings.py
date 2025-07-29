@@ -1,11 +1,8 @@
 """Settings for the game."""
 
-# import dataclasses as dc
-
-# @dc.dataclass
-# class OptionSettings():
-#    pass
+from typing import Optional
+import game_constants as const
 
 
 ENABLE_MUSIC = True
-CURRENT_SONG = None
+CURRENT_SONG: Optional[const.MusicChoice] = None
