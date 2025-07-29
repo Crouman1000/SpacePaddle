@@ -8,6 +8,7 @@ import game_constants as const
 
 
 ColorType = Union[Tuple[int, int, int], Tuple[int, int, int, int], str, pygame.Color]
+NameType = Union[str, bytes, Iterable[Union[str, bytes]], None]
 
 
 class GameText:
@@ -39,7 +40,13 @@ class GameText:
 class ScoreBoard(GameText):
     """Class for managing and displaying the game score."""
 
-    def __init__(self, p_name, p_size, p_bold, p_italic):
+    def __init__(
+        self,
+        p_name: NameType,
+        p_size: int,
+        p_bold: bool = False,
+        p_italic: bool = False,
+    ):
         super().__init__(p_name, p_size, p_bold, p_italic)
         self.score_p1 = 0
         self.score_p2 = 0
