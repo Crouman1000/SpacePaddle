@@ -18,7 +18,7 @@ class Menu:
             (const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT)
         )
         self.background_surface = pygame.transform.scale(
-            graphics.ImageTools.images.get(const.ImageChoice.BACKGROUND_MENU),
+            graphics.ImageTools.images[const.ImageChoice.BACKGROUND_MENU],
             (const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT),
         )
 
