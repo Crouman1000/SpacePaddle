@@ -4,7 +4,7 @@ from typing import Tuple
 import math
 import random as rnd
 import pygame
-import game_constants as const
+import game_constants as gconst
 import audio
 import ball
 
@@ -13,17 +13,17 @@ class Paddle(pygame.Rect):
     """This class represents a paddle in the game, handling its position,
     movement, and interactions with the ball."""
 
-    def __init__(self, p_player: const.Player):
+    def __init__(self, p_player: gconst.Player):
 
         self.player = p_player
-        width_ = const.PADDLE_WIDTH
-        height_ = const.PADDLE_HEIGHT
+        width_ = gconst.PADDLE_WIDTH
+        height_ = gconst.PADDLE_HEIGHT
         self.left = (
-            const.PADDLE1_OFFSET
-            if self.player == const.Player.P1
-            else const.PADDLE2_OFFSET
+            gconst.PADDLE1_OFFSET
+            if self.player == gconst.Player.P1
+            else gconst.PADDLE2_OFFSET
         )
-        self.top = int((const.GAME_SURFACE_HEIGHT - height_) / 2)
+        self.top = int((gconst.GAME_SURFACE_HEIGHT - height_) / 2)
 
         super().__init__(self.left, self.top, width_, height_)
 
@@ -37,21 +37,21 @@ class Paddle(pygame.Rect):
         y = self.y  # pylint: disable=no-member
         up_key = (
             pygame.K_w  # pylint: disable=no-member
-            if self.player == const.Player.P1
+            if self.player == gconst.Player.P1
             else pygame.K_UP  # pylint: disable=no-member
         )
         down_key = (
             pygame.K_s  # pylint: disable=no-member
-            if self.player == const.Player.P1
+            if self.player == gconst.Player.P1
             else pygame.K_DOWN  # pylint: disable=no-member
         )
 
         if y > 0:
             if keys_list[up_key]:
-                self.__stir(-1 * const.PADDLE_SPEED)
-        if y < const.GAME_SURFACE_HEIGHT - self.height:
+                self.__stir(-1 * gconst.PADDLE_SPEED)
+        if y < gconst.GAME_SURFACE_HEIGHT - self.height:
             if keys_list[down_key]:
-                self.__stir(1 * const.PADDLE_SPEED)
+                self.__stir(1 * gconst.PADDLE_SPEED)
 
     def control_paddle_ai(self, p_ball: ball.Ball) -> None:
         """Control the paddle movement for AI, predicting the ball's position."""
@@ -70,14 +70,14 @@ class Paddle(pygame.Rect):
         y = self.y  ## pylint: disable=no-member
         if y > 0:
             if target_pos_y < self.centery:
-                self.speed_y = -1 * const.PADDLE_SPEED
+                self.speed_y = -1 * gconst.PADDLE_SPEED
                 # if variance_x < 50 and abs(variance_y) < const.PADDLE_HEIGHT / 2:
                 #    self.speed_y *= rnd.random()
                 self.__stir(self.speed_y)
 
-        if y < const.GAME_SURFACE_HEIGHT - self.height:
+        if y < gconst.GAME_SURFACE_HEIGHT - self.height:
             if target_pos_y > self.centery:
-                self.speed_y = const.PADDLE_SPEED
+                self.speed_y = gconst.PADDLE_SPEED
                 # if variance_x < 50 and abs(variance_y) < const.PADDLE_HEIGHT / 2:
                 #    self.speed_y *= rnd.random()
                 self.__stir(self.speed_y)
@@ -99,7 +99,7 @@ class Paddle(pygame.Rect):
         ball_width = float(p_ball.width)
         ## Calculate the frames until the ball reaches the paddle
         frames_until_collision = (
-            const.PADDLE2_OFFSET - (p_ball.x_f + p_ball.width)
+            gconst.PADDLE2_OFFSET - (p_ball.x_f + p_ball.width)
         ) / ball_speed_x
         # while ballCenterNewX < const.PADDLE2_OFFSET:
         ## Calculate the new Y position of the ball after the frames until collision
@@ -109,15 +109,15 @@ class Paddle(pygame.Rect):
             if ball_center_new_y - ball_width / 2 <= 0:
                 ball_speed_y *= -1
 
-            elif ball_center_new_y + ball_width / 2 >= const.GAME_SURFACE_HEIGHT:
+            elif ball_center_new_y + ball_width / 2 >= gconst.GAME_SURFACE_HEIGHT:
                 ball_speed_y *= -1
 
             # ballCenterNewX = ballCenterNewX + ballSpeedX
             frames_until_collision = frames_until_collision - 1
 
         ## Calculate the AI feint
-        feint_y = (rnd.random() * const.PADDLE_HEIGHT) - const.PADDLE_HEIGHT / 2
-        if feint_y <= 0 and feint_y >= const.GAME_SURFACE_HEIGHT:
+        feint_y = (rnd.random() * gconst.PADDLE_HEIGHT) - gconst.PADDLE_HEIGHT / 2
+        if feint_y <= 0 and feint_y >= gconst.GAME_SURFACE_HEIGHT:
             feint_y = 0
 
         self.predict_pos_y = ball_center_new_y + feint_y
@@ -127,25 +127,25 @@ class Paddle(pygame.Rect):
         hit_occured = False
         ## Check if the paddle collides with the ball
         if self.colliderect(p_ball):
-            audio.SoundTools.play_sound(const.SoundChoice.PADDLE_HIT)
+            audio.SoundTools.play_sound(gconst.SoundChoice.PADDLE_HIT)
             p_ball.increase_speed()
             self.__reflect_ball(p_ball)
 
-            if self.player == const.Player.P1:
+            if self.player == gconst.Player.P1:
                 hit_occured = True
-            if self.player == const.Player.P2:
+            if self.player == gconst.Player.P2:
                 self.predict_pos_y = None
 
         return hit_occured
 
-    def reset(self, p_player: const.Player) -> None:
+    def reset(self, p_player: gconst.Player) -> None:
         """Reset the paddle's position and speed."""
         self.left = (
-            const.PADDLE1_OFFSET
-            if p_player == const.Player.P1
-            else const.PADDLE2_OFFSET
+            gconst.PADDLE1_OFFSET
+            if p_player == gconst.Player.P1
+            else gconst.PADDLE2_OFFSET
         )
-        self.top = int((const.GAME_SURFACE_HEIGHT - const.PADDLE_HEIGHT) / 2)
+        self.top = int((gconst.GAME_SURFACE_HEIGHT - gconst.PADDLE_HEIGHT) / 2)
         self.speed_y = 0
         self.predict_pos_y = None
 
@@ -155,19 +155,19 @@ class Paddle(pygame.Rect):
 
     def __reflect_ball(self, p_ball: ball.Ball) -> None:
         """Reflect the ball's in a vector based on the paddle's position."""
-        if self.player == const.Player.P2:
+        if self.player == gconst.Player.P2:
 
             reflect_angle = 225 - 90 * (
-                (p_ball.y - self.topleft[1]) / const.PADDLE_HEIGHT
+                (p_ball.y - self.topleft[1]) / gconst.PADDLE_HEIGHT
             )
             p_ball.speed_x, p_ball.speed_y = self.__calculate_new_direction_ball(
                 p_ball.speed_x, p_ball.speed_y, reflect_angle
             )
 
-        elif self.player == const.Player.P1:
+        elif self.player == gconst.Player.P1:
 
             reflect_angle = 315 + 90 * (
-                (p_ball.y - self.topright[1]) / const.PADDLE_HEIGHT
+                (p_ball.y - self.topright[1]) / gconst.PADDLE_HEIGHT
             )
             p_ball.speed_x, p_ball.speed_y = self.__calculate_new_direction_ball(
                 p_ball.speed_x, p_ball.speed_y, reflect_angle

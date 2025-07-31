@@ -2,7 +2,7 @@
 
 import random
 import pygame
-import game_constants as const
+import game_constants as gconst
 
 
 class Ball(pygame.Rect):
@@ -10,28 +10,30 @@ class Ball(pygame.Rect):
 
     def __init__(self):
 
-        width_ = const.BALL_RADIUS
-        height_ = const.BALL_RADIUS
-        left_ = (const.GAME_SURFACE_WIDTH - width_) / 2
-        top_ = (const.GAME_SURFACE_HEIGHT - height_) / 2
+        width_ = gconst.BALL_RADIUS
+        height_ = gconst.BALL_RADIUS
+        left_ = (gconst.GAME_SURFACE_WIDTH - width_) / 2
+        top_ = (gconst.GAME_SURFACE_HEIGHT - height_) / 2
 
         super().__init__(left_, top_, width_, height_)
-        self.speed_x = const.BALL_SPEED * random.choice([-1, 1])
-        self.speed_y = const.BALL_SPEED * random.choice([-1, 1])
+        self.speed_x = gconst.BALL_SPEED * random.choice([-1, 1])
+        self.speed_y = gconst.BALL_SPEED * random.choice([-1, 1])
         self.x_f = float(self.x)
         self.y_f = float(self.y)
 
-    def reset(self, p_player: const.Player) -> None:
+    def reset(self, p_player: gconst.Player) -> None:
         """Reset the ball's position and speed based on who scored."""
-        self.x_f = (const.GAME_SURFACE_WIDTH - const.BALL_RADIUS) / 2
-        self.y_f = (const.GAME_SURFACE_HEIGHT - const.BALL_RADIUS) / 2
+        self.x_f = (gconst.GAME_SURFACE_WIDTH - gconst.BALL_RADIUS) / 2
+        self.y_f = (gconst.GAME_SURFACE_HEIGHT - gconst.BALL_RADIUS) / 2
         self.x = int(self.x_f)  # pylint: disable=attribute-defined-outside-init
         self.y = int(self.y_f)  # pylint: disable=attribute-defined-outside-init
 
         self.speed_x = (
-            const.BALL_SPEED if p_player == const.Player.P1 else -1 * const.BALL_SPEED
+            gconst.BALL_SPEED
+            if p_player == gconst.Player.P1
+            else -1 * gconst.BALL_SPEED
         )
-        self.speed_y = const.BALL_SPEED * random.choice([-1, 1])
+        self.speed_y = gconst.BALL_SPEED * random.choice([-1, 1])
 
         # def reverseX(self) -> None:
         #    self.speedX *= -1
@@ -57,8 +59,8 @@ class Ball(pygame.Rect):
     def __determine_speed(self, p_speed: float) -> float:
         """Adjust the speed of the ball according to its sign,
         ensuring it does not exceed maximum limits."""
-        if p_speed < 0 and p_speed > -1 * const.BALL_MAX_SPEED:
-            p_speed -= const.BALL_INCREASE_SPEED
-        elif p_speed > 0 and p_speed < const.BALL_MAX_SPEED:
-            p_speed += const.BALL_INCREASE_SPEED
+        if p_speed < 0 and p_speed > -1 * gconst.BALL_MAX_SPEED:
+            p_speed -= gconst.BALL_INCREASE_SPEED
+        elif p_speed > 0 and p_speed < gconst.BALL_MAX_SPEED:
+            p_speed += gconst.BALL_INCREASE_SPEED
         return p_speed
