@@ -1,23 +1,23 @@
 """This module handles audio management for the game,
 including loading, playing, and unloading sounds and music."""
 
-import os
-import typing
+# import os
+from typing import Optional
 import pygame
 import game_constants as const
 import settings
 
 
-AnyPath = typing.Union[str, bytes, os.PathLike[str], os.PathLike[bytes]]
-FileArg = typing.Union[AnyPath, typing.IO[bytes], typing.IO[str]]
+# AnyPath = typing.Union[str, bytes, os.PathLike[str], os.PathLike[bytes]]
+# FileArg = typing.Union[AnyPath, typing.IO[bytes], typing.IO[str]]
 
 
 # @final
 class SoundTools:
     """This class handles loading, unloading, and playing sounds and music."""
 
-    sounds = {}
-    musics = {}
+    sounds: dict[const.SoundChoice, pygame.mixer.Sound] = {}
+    musics: dict[const.SoundChoice, pygame.mixer.Sound] = {}
 
     @classmethod
     def load_sounds(cls):
@@ -41,9 +41,9 @@ class SoundTools:
         cls.musics.clear()
 
     @classmethod
-    def play_sound(cls, p_sound_choice: const.SoundChoice, p_max_time=None) -> None:
+    def play_sound(cls, p_sound_choice: const.SoundChoice, p_max_time: int = 0) -> None:
         """Play a sound effect based on the provided choice."""
-        sound: typing.Optional[pygame.mixer.Sound] = cls.sounds.get(p_sound_choice)
+        sound: Optional[pygame.mixer.Sound] = cls.sounds.get(p_sound_choice)
         if sound:
             if p_max_time:
                 sound.play(maxtime=p_max_time)

@@ -1,5 +1,6 @@
 """This module contains the Paddle class and its movement, rebound and AI methods for the game."""
 
+from typing import Tuple
 import math
 import random as rnd
 import pygame
@@ -14,20 +15,19 @@ class Paddle(pygame.Rect):
 
     def __init__(self, p_player: const.Player):
 
+        self.player = p_player
         width_ = const.PADDLE_WIDTH
         height_ = const.PADDLE_HEIGHT
-        offset_x = (
+        self.left = (
             const.PADDLE1_OFFSET
-            if p_player == const.Player.P1
+            if self.player == const.Player.P1
             else const.PADDLE2_OFFSET
         )
-        left_ = offset_x
-        top_ = (const.GAME_SURFACE_HEIGHT - height_) / 2
+        self.top = int((const.GAME_SURFACE_HEIGHT - height_) / 2)
 
-        super().__init__(left_, top_, width_, height_)
+        super().__init__(self.left, self.top, width_, height_)
 
         self.speed_y = 0
-        self.player = p_player
         self.predict_pos_y = None
 
     def control_paddle_player(self) -> None:
@@ -140,22 +140,18 @@ class Paddle(pygame.Rect):
 
     def reset(self, p_player: const.Player) -> None:
         """Reset the paddle's position and speed."""
-        height_ = const.PADDLE_HEIGHT
-        offset_x = (
+        self.left = (
             const.PADDLE1_OFFSET
             if p_player == const.Player.P1
             else const.PADDLE2_OFFSET
         )
-        self.left = offset_x  # pylint: disable=attribute-defined-outside-init
-        self.top = (  # pylint: disable=attribute-defined-outside-init
-            const.GAME_SURFACE_HEIGHT - height_
-        ) / 2
+        self.top = int((const.GAME_SURFACE_HEIGHT - const.PADDLE_HEIGHT) / 2)
         self.speed_y = 0
         self.predict_pos_y = None
 
     def __stir(self, p_speed_y: float) -> None:
         """Move the paddle vertically by a given speed."""
-        self.y += p_speed_y  # pylint: disable=no-member
+        self.y += int(p_speed_y)  # pylint: disable=no-member
 
     def __reflect_ball(self, p_ball: ball.Ball) -> None:
         """Reflect the ball's in a vector based on the paddle's position."""
@@ -177,7 +173,9 @@ class Paddle(pygame.Rect):
                 p_ball.speed_x, p_ball.speed_y, reflect_angle
             )
 
-    def __calculate_new_direction_ball(self, p_speed_x, p_speed_y, p_angle) -> tuple:
+    def __calculate_new_direction_ball(
+        self, p_speed_x: float, p_speed_y: float, p_angle: float
+    ) -> Tuple[float, float]:
         """Calculate the new vector of the ball after it hits the paddle."""
         hypot = math.hypot(p_speed_x, p_speed_y)
         speed_x = math.cos(math.radians(p_angle)) * hypot

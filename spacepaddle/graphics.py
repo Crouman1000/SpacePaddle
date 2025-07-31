@@ -9,7 +9,7 @@ import game_constants as const
 class ImageTools:
     """This class handles loading and unloading images used in the game."""
 
-    images = {}
+    images: dict[const.ImageChoice, pygame.Surface] = {}
 
     @classmethod
     def load_images(cls) -> None:

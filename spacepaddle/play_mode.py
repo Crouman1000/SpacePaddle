@@ -21,9 +21,9 @@ class GamePlay:
         self.game_surface = pygame.display.set_mode(
             (const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT)
         )
-        self.p1_paddle = paddle.Paddle(const.Player.P1)
-        self.p2_paddle = paddle.Paddle(const.Player.P2)
-        self.game_ball = ball.Ball()
+        self.p1_paddle: paddle.Paddle = paddle.Paddle(const.Player.P1)
+        self.p2_paddle: paddle.Paddle = paddle.Paddle(const.Player.P2)
+        self.game_ball: ball.Ball = ball.Ball()
         self.game_scoreboard = game_text.ScoreBoard("Arial", 25, True, False)
 
     def run_multiplayer(self, p_game_state: const.GameState):
