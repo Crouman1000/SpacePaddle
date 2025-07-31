@@ -60,7 +60,7 @@ class SoundTools:
                     if settings.current_song != gconst.MusicChoice.GAME_MENU:
                         pygame.mixer.music.load(gconst.MusicChoice.GAME_MENU.value)
                         pygame.mixer.music.set_volume(settings.music_volume)
-                        pygame.mixer.music.play(-1)
+                        pygame.mixer.music.play(loops=-1, start=3)
                         settings.current_song = gconst.MusicChoice.GAME_MENU
 
                 case gconst.MusicChoice.GAME_PLAY:
