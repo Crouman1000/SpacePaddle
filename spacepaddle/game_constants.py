@@ -74,6 +74,18 @@ OPTIONS_BUTTON_COORDS = (
     100 + 4 * MENU_BUTTON_HEIGHT,
 )
 
+## COLORS
+
+
+class Color(Enum):
+    """Enum for colors used in the game."""
+
+    BLACK = (0, 0, 0)
+    WHITE = (255, 255, 255)
+    RED = (255, 0, 0)
+    GREEN = (0, 255, 0)
+    YELLOW = (255, 255, 0)
+
 
 ## SINGLE PLAYER, MULTIPLAYER
 class Player(Enum):

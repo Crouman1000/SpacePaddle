@@ -4,11 +4,11 @@ for rendering text and holding the score in the game."""
 from typing import Iterable, Union, Literal, Tuple
 import pygame
 import audio
-import game_constants as const
+import game_constants as gconst
 
 
 ColorType = Union[Tuple[int, int, int], Tuple[int, int, int, int], str, pygame.Color]
-NameType = Union[str, bytes, Iterable[Union[str, bytes]], None]
+FontType = Union[str, bytes, Iterable[Union[str, bytes]], None]
 
 
 class GameText:
@@ -16,7 +16,7 @@ class GameText:
 
     def __init__(
         self,
-        p_font_name: Union[str, bytes, Iterable[Union[str, bytes]], None],
+        p_font_name: FontType,
         p_font_size: int,
         p_is_font_bold: bool = False,
         p_is_font_italic: bool = False,
@@ -30,7 +30,7 @@ class GameText:
         self,
         p_text: str | bytes | None,
         p_antialias: bool | Literal[0, 1],
-        p_color: ColorType = (255, 255, 255),
+        p_color: ColorType = gconst.Color.WHITE.value,
         p_background: ColorType | None = None,
     ) -> pygame.Surface:
         """Render text to a surface with the specified color and background."""
@@ -42,7 +42,7 @@ class ScoreBoard(GameText):
 
     def __init__(
         self,
-        p_name: NameType,
+        p_name: FontType,
         p_size: int,
         p_bold: bool = False,
         p_italic: bool = False,
@@ -54,32 +54,47 @@ class ScoreBoard(GameText):
         self.game_over = False
 
         self.score_surface = self.render_(
-            f"SCORE: P1 {self.score_p1} | P2 {self.score_p2}", 0, (255, 255, 255)
+            f"SCORE: P1 {self.score_p1} | P2 {self.score_p2}",
+            0,
+            gconst.Color.WHITE.value,
         )
-        self.start_surface = self.render_("PRESS SPACEBAR TO START", 0, (255, 255, 255))
+        self.start_surface = self.render_(
+            "PRESS SPACEBAR TO START", 0, gconst.Color.WHITE.value
+        )
         self.control_surface_p1 = self.render_(
-            " P1 CONTROLS  |   Move up: W     Move down: S ", 0, (255, 255, 0)
+            " P1 CONTROLS  |   Move up: W     Move down: S ",
+            0,
+            gconst.Color.YELLOW.value,
         )
         self.control_surface_p2 = self.render_(
-            " P2 CONTROLS  |   Move up: ↑      Move down: ↓ ", 0, (255, 255, 0)
+            " P2 CONTROLS  |   Move up: ↑      Move down: ↓ ",
+            0,
+            gconst.Color.YELLOW.value,
         )
-        self.escape_surface = self.render_("PRESS ESC TO QUIT", 0, (255, 255, 0))
+        self.escape_surface = self.render_(
+            "PRESS ESC TO QUIT", 0, gconst.Color.YELLOW.value
+        )
         self.who_scored_surface = None
         self.winner_surface = None
 
-    def increase_score(self, p_player: const.Player) -> None:
+    def increase_score(self, p_player: gconst.Player) -> None:
         """Increase the score for the player who scored."""
         self.last_winner = p_player.value
         match p_player:
-            case const.Player.P1:
+            case gconst.Player.P1:
                 self.score_p1 += 1
-            case const.Player.P2:
+            case gconst.Player.P2:
                 self.score_p2 += 1
-        if self.score_p1 == const.GAME_MAXSCORE or self.score_p2 == const.GAME_MAXSCORE:
+        if (
+            self.score_p1 == gconst.GAME_MAXSCORE
+            or self.score_p2 == gconst.GAME_MAXSCORE
+        ):
             self.game_over = True
 
         self.score_surface = self.render_(
-            f"SCORE: P1 {self.score_p1} | P2 {self.score_p2}", 0, (255, 255, 255)
+            f"SCORE: P1 {self.score_p1} | P2 {self.score_p2}",
+            0,
+            gconst.Color.WHITE.value,
         )
 
     def show_score(self, p_canvas: pygame.Surface) -> None:
@@ -95,11 +110,15 @@ class ScoreBoard(GameText):
         """Display the round or game winner message"""
         if self.last_winner:
 
-            message_color_tuple = (255, 0, 0) if self.last_winner == 1 else (0, 255, 0)
+            message_color_tuple = (
+                gconst.Color.RED.value
+                if self.last_winner == 1
+                else gconst.Color.GREEN.value
+            )
 
             if self.game_over:
                 ## If the game is over, display the final winner message
-                audio.SoundTools.play_sound(const.SoundChoice.VICTORY)
+                audio.SoundTools.play_sound(gconst.SoundChoice.VICTORY)
                 self.winner_surface = self.render_(
                     f"Player {self.last_winner} HAS WON THE GAME!",
                     0,
@@ -132,7 +151,7 @@ class ScoreBoard(GameText):
         p_canvas.blit(self.start_surface, coord_xy)
 
     def show_controls(
-        self, p_canvas: pygame.Surface, p_game_state: const.GameState
+        self, p_canvas: pygame.Surface, p_game_state: gconst.GameState
     ) -> None:
         """Display the controls for players."""
 
@@ -146,7 +165,7 @@ class ScoreBoard(GameText):
             17 * p_canvas.get_height() / 20,
         )
         p_canvas.blit(self.control_surface_p1, coord_xy)
-        if p_game_state == const.GameState.MULTIPLAYER:
+        if p_game_state == gconst.GameState.MULTIPLAYER:
             coord_xy = (
                 (p_canvas.get_width() - self.control_surface_p2.get_width()) / 2,
                 18 * p_canvas.get_height() / 20,
@@ -160,5 +179,7 @@ class ScoreBoard(GameText):
         self.score_p1 = 0
         self.score_p2 = 0
         self.score_surface = self.render_(
-            f"SCORE: P1 {self.score_p1} | P2 {self.score_p2}", 0, (255, 255, 255)
+            f"SCORE: P1 {self.score_p1} | P2 {self.score_p2}",
+            0,
+            gconst.Color.WHITE.value,
         )

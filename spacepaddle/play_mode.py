@@ -2,7 +2,7 @@
 both singleplayer and multiplayer modes."""
 
 import pygame
-import game_constants as const
+import game_constants as gconst
 import audio
 import ball
 import paddle
@@ -19,14 +19,16 @@ class GamePlay:
         self.start_game = False
         self.clock = pygame.time.Clock()
         self.game_surface = pygame.display.set_mode(
-            (const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT)
+            (gconst.GAME_SURFACE_WIDTH, gconst.GAME_SURFACE_HEIGHT)
         )
-        self.p1_paddle: paddle.Paddle = paddle.Paddle(const.Player.P1)
-        self.p2_paddle: paddle.Paddle = paddle.Paddle(const.Player.P2)
+        self.p1_paddle: paddle.Paddle = paddle.Paddle(gconst.Player.P1)
+        self.p2_paddle: paddle.Paddle = paddle.Paddle(gconst.Player.P2)
         self.game_ball: ball.Ball = ball.Ball()
-        self.game_scoreboard = game_text.ScoreBoard("Arial", 25, True, False)
+        self.game_scoreboard: game_text.ScoreBoard = game_text.ScoreBoard(
+            "Arial", 25, True, False
+        )
 
-    def run_multiplayer(self, p_game_state: const.GameState):
+    def run_multiplayer(self, p_game_state: gconst.GameState):
         """Run the multiplayer game loop, handling player controls,
         ball movement and scoring."""
 
@@ -34,7 +36,7 @@ class GamePlay:
         self.running = True
         self.start_game = False
 
-        audio.SoundTools.play_music(const.MusicChoice.GAME_PLAY)
+        audio.SoundTools.play_music(gconst.MusicChoice.GAME_PLAY)
 
         while self.running:
 
@@ -80,7 +82,7 @@ class GamePlay:
 
         return game_state
 
-    def run_singleplayer(self, p_game_state: const.GameState):
+    def run_singleplayer(self, p_game_state: gconst.GameState):
         """Run the single player game loop, handling player and AI controls,
         ball movement and scoring."""
 
@@ -88,7 +90,7 @@ class GamePlay:
         self.running = True
         self.start_game = False
 
-        audio.SoundTools.play_music(const.MusicChoice.GAME_PLAY)
+        audio.SoundTools.play_music(gconst.MusicChoice.GAME_PLAY)
 
         while self.running:
 
@@ -137,7 +139,7 @@ class GamePlay:
 
         return game_state
 
-    def __poll_events(self, p_game_state: const.GameState) -> const.GameState:
+    def __poll_events(self, p_game_state: gconst.GameState) -> gconst.GameState:
         """Polls for events and handles game state transitions."""
 
         game_state = p_game_state
@@ -148,7 +150,7 @@ class GamePlay:
             if event.type == pygame.QUIT:  ## pylint: disable=no-member
                 self.start_game = False
                 self.running = False
-                game_state = const.GameState.OFF
+                game_state = gconst.GameState.OFF
 
             elif event.type == pygame.KEYDOWN:  ## pylint: disable=no-member
                 # print(f"{event.key}=?={pygame.K_ESCAPE}")
@@ -157,7 +159,7 @@ class GamePlay:
                 if event.key == pygame.K_ESCAPE:  ## pylint: disable=no-member
                     self.start_game = False
                     self.running = False
-                    game_state = const.GameState.MAIN_MENU
+                    game_state = gconst.GameState.MAIN_MENU
                 elif event.key == pygame.K_SPACE:  ## pylint: disable=no-member
                     ## Start game
                     self.start_game = True
@@ -167,18 +169,18 @@ class GamePlay:
     def __handle_goal(self) -> None:
         """Handle scoring when the ball goes out of bounds."""
 
-        if self.game_ball.x <= 0 or self.game_ball.x >= const.GAME_SURFACE_WIDTH:
+        if self.game_ball.x <= 0 or self.game_ball.x >= gconst.GAME_SURFACE_WIDTH:
 
             ## Calculate score
             if self.game_ball.x <= 0:
                 # print("P2 Scored!")
-                self.game_scoreboard.increase_score(const.Player.P2)
-                self.game_ball.reset(const.Player.P2)
+                self.game_scoreboard.increase_score(gconst.Player.P2)
+                self.game_ball.reset(gconst.Player.P2)
 
             else:
                 # print("P1 Scored!")
-                self.game_scoreboard.increase_score(const.Player.P1)
-                self.game_ball.reset(const.Player.P1)
+                self.game_scoreboard.increase_score(gconst.Player.P1)
+                self.game_ball.reset(gconst.Player.P1)
 
             paddle.PaddleTools.reset_all_paddles(self.p1_paddle, self.p2_paddle)
             self.start_game = False
@@ -187,7 +189,7 @@ class GamePlay:
         """Handle the ball bouncing off the top and bottom walls."""
         if (
             self.game_ball.y <= 0
-            or self.game_ball.y + self.game_ball.height >= const.GAME_SURFACE_HEIGHT
+            or self.game_ball.y + self.game_ball.height >= gconst.GAME_SURFACE_HEIGHT
         ):
-            audio.SoundTools.play_sound(const.SoundChoice.Y_WALL_HIT, 1000)
+            audio.SoundTools.play_sound(gconst.SoundChoice.Y_WALL_HIT, 1000)
             self.game_ball.reverse_y()

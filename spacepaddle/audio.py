@@ -4,34 +4,30 @@ including loading, playing, and unloading sounds and music."""
 # import os
 from typing import Optional
 import pygame
-import game_constants as const
+import game_constants as gconst
 import settings
-
-
-# AnyPath = typing.Union[str, bytes, os.PathLike[str], os.PathLike[bytes]]
-# FileArg = typing.Union[AnyPath, typing.IO[bytes], typing.IO[str]]
 
 
 # @final
 class SoundTools:
     """This class handles loading, unloading, and playing sounds and music."""
 
-    sounds: dict[const.SoundChoice, pygame.mixer.Sound] = {}
-    musics: dict[const.SoundChoice, pygame.mixer.Sound] = {}
+    sounds: dict[gconst.SoundChoice, pygame.mixer.Sound] = {}
+    musics: dict[gconst.SoundChoice, pygame.mixer.Sound] = {}
 
     @classmethod
     def load_sounds(cls):
         """Load all sound effects used in the game."""
         pygame.mixer.init()
 
-        cls.sounds[const.SoundChoice.PADDLE_HIT] = pygame.mixer.Sound(
-            const.SoundChoice.PADDLE_HIT.value
+        cls.sounds[gconst.SoundChoice.PADDLE_HIT] = pygame.mixer.Sound(
+            gconst.SoundChoice.PADDLE_HIT.value
         )
-        cls.sounds[const.SoundChoice.Y_WALL_HIT] = pygame.mixer.Sound(
-            const.SoundChoice.Y_WALL_HIT.value
+        cls.sounds[gconst.SoundChoice.Y_WALL_HIT] = pygame.mixer.Sound(
+            gconst.SoundChoice.Y_WALL_HIT.value
         )
-        cls.sounds[const.SoundChoice.VICTORY] = pygame.mixer.Sound(
-            const.SoundChoice.VICTORY.value
+        cls.sounds[gconst.SoundChoice.VICTORY] = pygame.mixer.Sound(
+            gconst.SoundChoice.VICTORY.value
         )
 
     @classmethod
@@ -41,7 +37,9 @@ class SoundTools:
         cls.musics.clear()
 
     @classmethod
-    def play_sound(cls, p_sound_choice: const.SoundChoice, p_max_time: int = 0) -> None:
+    def play_sound(
+        cls, p_sound_choice: gconst.SoundChoice, p_max_time: int = 0
+    ) -> None:
         """Play a sound effect based on the provided choice."""
         sound: Optional[pygame.mixer.Sound] = cls.sounds.get(p_sound_choice)
         if sound:
@@ -51,40 +49,40 @@ class SoundTools:
                 sound.play()
 
     @staticmethod
-    def play_music(p_song: const.MusicChoice) -> None:
+    def play_music(p_song: gconst.MusicChoice) -> None:
         """Play background music based on the provided choice."""
-        if settings.ENABLE_MUSIC:
+        if settings.enable_music:
 
             match p_song:
 
-                case const.MusicChoice.GAME_MENU:
+                case gconst.MusicChoice.GAME_MENU:
 
-                    if settings.CURRENT_SONG != const.MusicChoice.GAME_MENU:
-                        pygame.mixer.music.load(const.MusicChoice.GAME_MENU.value)
-                        pygame.mixer.music.set_volume(0.6)
+                    if settings.current_song != gconst.MusicChoice.GAME_MENU:
+                        pygame.mixer.music.load(gconst.MusicChoice.GAME_MENU.value)
+                        pygame.mixer.music.set_volume(settings.music_volume)
                         pygame.mixer.music.play(-1)
-                        settings.CURRENT_SONG = const.MusicChoice.GAME_MENU
+                        settings.current_song = gconst.MusicChoice.GAME_MENU
 
-                case const.MusicChoice.GAME_PLAY:
+                case gconst.MusicChoice.GAME_PLAY:
 
-                    if settings.CURRENT_SONG != const.MusicChoice.GAME_PLAY:
-                        pygame.mixer.music.load(const.MusicChoice.GAME_PLAY.value)
-                        pygame.mixer.music.set_volume(0.6)
+                    if settings.current_song != gconst.MusicChoice.GAME_PLAY:
+                        pygame.mixer.music.load(gconst.MusicChoice.GAME_PLAY.value)
+                        pygame.mixer.music.set_volume(settings.music_volume)
                         pygame.mixer.music.play(-1)
-                        settings.CURRENT_SONG = const.MusicChoice.GAME_PLAY
+                        settings.current_song = gconst.MusicChoice.GAME_PLAY
 
     @staticmethod
     def disable_music() -> None:
         """Stop and unload the currently playing music."""
         pygame.mixer.music.stop()
         pygame.mixer.music.unload()
-        settings.CURRENT_SONG = None
-        settings.ENABLE_MUSIC = False
+        settings.current_song = None
+        settings.enable_music = False
 
     @staticmethod
     def enable_music() -> None:
         """Enable music playback."""
-        settings.ENABLE_MUSIC = True
+        settings.enable_music = True
 
     # def controlSound(p_sound: pygame.mixer.,p_state: const.SoundState) -> None:
     #    if not p_sound.get_busy():

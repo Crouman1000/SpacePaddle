@@ -1,7 +1,7 @@
 """This module defines the Menu class, which manages the main menu of the game."""
 
 import pygame
-import game_constants as const
+import game_constants as gconst
 import graphics
 import audio
 
@@ -15,49 +15,49 @@ class Menu:
         self.clock = pygame.time.Clock()
         self.button_text_font = pygame.font.SysFont("Bank Gothic", 50, False, False)
         self.menu_surface = pygame.display.set_mode(
-            (const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT)
+            (gconst.GAME_SURFACE_WIDTH, gconst.GAME_SURFACE_HEIGHT)
         )
         self.background_surface = pygame.transform.scale(
-            graphics.ImageTools.images[const.ImageChoice.BACKGROUND_MENU],
-            (const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT),
+            graphics.ImageTools.images[gconst.ImageChoice.BACKGROUND_MENU],
+            (gconst.GAME_SURFACE_WIDTH, gconst.GAME_SURFACE_HEIGHT),
         )
 
         self.single_player_rect = pygame.Rect(
-            const.SINGLEPLAYER_BUTTON_COORDS[0],
-            const.SINGLEPLAYER_BUTTON_COORDS[1],
-            const.MENU_BUTTON_SIZE[0],
-            const.MENU_BUTTON_SIZE[1],
+            gconst.SINGLEPLAYER_BUTTON_COORDS[0],
+            gconst.SINGLEPLAYER_BUTTON_COORDS[1],
+            gconst.MENU_BUTTON_SIZE[0],
+            gconst.MENU_BUTTON_SIZE[1],
         )
         self.single_player_text_surface = self.button_text_font.render(
-            "SINGLE PLAYER", False, (0, 0, 0)
+            "SINGLE PLAYER", False, gconst.Color.BLACK.value
         )
 
         self.multi_player_rect = pygame.Rect(
-            const.MULTIPLAYER_BUTTON_COORDS[0],
-            const.MULTIPLAYER_BUTTON_COORDS[1],
-            const.MENU_BUTTON_SIZE[0],
-            const.MENU_BUTTON_SIZE[1],
+            gconst.MULTIPLAYER_BUTTON_COORDS[0],
+            gconst.MULTIPLAYER_BUTTON_COORDS[1],
+            gconst.MENU_BUTTON_SIZE[0],
+            gconst.MENU_BUTTON_SIZE[1],
         )
         self.multi_player_text_surface = self.button_text_font.render(
-            "MULTIPLAYER", False, (0, 0, 0)
+            "MULTIPLAYER", False, gconst.Color.BLACK.value
         )
 
         self.options_rect = pygame.Rect(
-            const.OPTIONS_BUTTON_COORDS[0],
-            const.OPTIONS_BUTTON_COORDS[1],
-            const.MENU_BUTTON_SIZE[0],
-            const.MENU_BUTTON_SIZE[1],
+            gconst.OPTIONS_BUTTON_COORDS[0],
+            gconst.OPTIONS_BUTTON_COORDS[1],
+            gconst.MENU_BUTTON_SIZE[0],
+            gconst.MENU_BUTTON_SIZE[1],
         )
         self.option_text_surface = self.button_text_font.render(
-            "OPTIONS", False, (0, 0, 0)
+            "OPTIONS", False, gconst.Color.BLACK.value
         )
 
-    def run_main_menu(self, p_game_state: const.GameState) -> const.GameState:
+    def run_main_menu(self, p_game_state: gconst.GameState) -> gconst.GameState:
         """Run the main menu loop, handling button clicks and transitions to other states."""
         game_state = p_game_state
         self.running = True
         ## Load the background image and play menu music
-        audio.SoundTools.play_music(const.MusicChoice.GAME_MENU)
+        audio.SoundTools.play_music(gconst.MusicChoice.GAME_MENU)
         ## Render the background
         self.menu_surface.blit(self.background_surface, (0, 0))
         ## Draw the buttons
@@ -65,7 +65,7 @@ class Menu:
             self.menu_surface,
             "gray",
             self.single_player_rect,
-            border_radius=const.MENU_BUTTON_BORDER_RAD,
+            border_radius=gconst.MENU_BUTTON_BORDER_RAD,
         )
         self.menu_surface.blit(
             self.single_player_text_surface,
@@ -81,7 +81,7 @@ class Menu:
             self.menu_surface,
             "gray",
             self.multi_player_rect,
-            border_radius=const.MENU_BUTTON_BORDER_RAD,
+            border_radius=gconst.MENU_BUTTON_BORDER_RAD,
         )
         self.menu_surface.blit(
             self.multi_player_text_surface,
@@ -97,7 +97,7 @@ class Menu:
             self.menu_surface,
             "gray",
             self.options_rect,
-            border_radius=const.MENU_BUTTON_BORDER_RAD,
+            border_radius=gconst.MENU_BUTTON_BORDER_RAD,
         )
         self.menu_surface.blit(
             self.option_text_surface,
@@ -113,7 +113,7 @@ class Menu:
                 # print(f"event: {event}")
                 if event.type == pygame.QUIT:  # pylint: disable=no-member
                     self.running = False
-                    game_state = const.GameState.OFF
+                    game_state = gconst.GameState.OFF
                 if event.type == pygame.MOUSEBUTTONDOWN:  # pylint: disable=no-member
                     mouse_clicked_coords_tuple = pygame.mouse.get_pos()
                     ## Check which button was clicked
@@ -121,19 +121,19 @@ class Menu:
                         mouse_clicked_coords_tuple[0], mouse_clicked_coords_tuple[1]
                     ):
                         self.running = False
-                        game_state = const.GameState.SINGLE_PLAYER
+                        game_state = gconst.GameState.SINGLE_PLAYER
 
                     elif self.multi_player_rect.collidepoint(
                         mouse_clicked_coords_tuple[0], mouse_clicked_coords_tuple[1]
                     ):
                         self.running = False
-                        game_state = const.GameState.MULTIPLAYER
+                        game_state = gconst.GameState.MULTIPLAYER
 
                     elif self.options_rect.collidepoint(
                         mouse_clicked_coords_tuple[0], mouse_clicked_coords_tuple[1]
                     ):
                         self.running = False
-                        game_state = const.GameState.OPTIONS
+                        game_state = gconst.GameState.OPTIONS
 
             ## Update the display on the screen
             pygame.display.flip()

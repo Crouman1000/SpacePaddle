@@ -6,7 +6,7 @@ import PygameUtils as pu  # type: ignore
 import settings
 import graphics
 import audio
-import game_constants as const
+import game_constants as gconst
 import game_text
 
 
@@ -18,16 +18,16 @@ class Menu:
         self.running = True
         self.clock = pygame.time.Clock()
         self.menu_surface = pygame.display.set_mode(
-            (const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT)
+            (gconst.GAME_SURFACE_WIDTH, gconst.GAME_SURFACE_HEIGHT)
         )
         self.background_surface = pygame.transform.scale(
-            graphics.ImageTools.images[const.ImageChoice.BACKGROUND_MENU],
-            (const.GAME_SURFACE_WIDTH, const.GAME_SURFACE_HEIGHT),
+            graphics.ImageTools.images[gconst.ImageChoice.BACKGROUND_MENU],
+            (gconst.GAME_SURFACE_WIDTH, gconst.GAME_SURFACE_HEIGHT),
         )
 
         self.game_text = game_text.GameText("Arial", 25, True, False)
         self.escape_surface = self.game_text.render_(
-            "PRESS ESC TO QUIT", 0, (255, 255, 0)
+            "PRESS ESC TO QUIT", 0, gconst.Color.YELLOW.value
         )
         self.music_checkbox = Menu.CheckboxOverriden(
             "red",
@@ -36,11 +36,11 @@ class Menu:
             50,
             50,
             outline=0,
-            check=settings.ENABLE_MUSIC,
+            check=settings.enable_music,
             text="MUSIC",
         )
 
-    def run_options(self, p_game_state: const.GameState) -> const.GameState:
+    def run_options(self, p_game_state: gconst.GameState) -> gconst.GameState:
         """Run the options menu loop, allowing users to change settings."""
         game_state = p_game_state
         self.running = True
@@ -63,11 +63,11 @@ class Menu:
                 # print(f"event: {event}")
                 if event.type == pygame.QUIT:  # pylint: disable=no-member
                     self.running = False
-                    game_state = const.GameState.OFF
+                    game_state = gconst.GameState.OFF
                 elif event.type == pygame.KEYDOWN:  # pylint: disable=no-member
                     if event.key == pygame.K_ESCAPE:  # pylint: disable=no-member
                         self.running = False
-                        game_state = const.GameState.MAIN_MENU
+                        game_state = gconst.GameState.MAIN_MENU
                 elif event.type == pygame.MOUSEBUTTONDOWN:  # pylint: disable=no-member
                     ## Check which button was clicked
                     mouse_clicked_coords_tuple = pygame.mouse.get_pos()
@@ -75,7 +75,7 @@ class Menu:
                         self.music_checkbox.convert()
                         if self.music_checkbox.isChecked():
                             audio.SoundTools.enable_music()
-                            audio.SoundTools.play_music(const.MusicChoice.GAME_MENU)
+                            audio.SoundTools.play_music(gconst.MusicChoice.GAME_MENU)
                         else:
                             audio.SoundTools.disable_music()
 
@@ -106,8 +106,8 @@ class Menu:
         def draw_(self, win: pygame.Surface) -> None:
             """Draw the checkbox with custom text and check state."""
 
-            checkbox_text_color = (255, 255, 255)
-            checkbox_x_color = (255, 255, 255)
+            checkbox_text_color = gconst.Color.WHITE.value
+            checkbox_x_color = gconst.Color.WHITE.value
             button = pu.button(
                 self.color,  # type: ignore
                 self.x,  # type: ignore
