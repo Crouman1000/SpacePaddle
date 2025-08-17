@@ -17,7 +17,7 @@ class Ball(pygame.Rect):
 
         super().__init__(left_, top_, width_, height_)
         self.speed_x = gconst.BALL_SPEED * random.choice([-1, 1])
-        self.speed_y = gconst.BALL_SPEED * random.choice([-1, 1])
+        self.speed_y = 0
         self.x_f = float(self.x)
         self.y_f = float(self.y)
 
@@ -33,7 +33,7 @@ class Ball(pygame.Rect):
             if p_player == gconst.Player.P1
             else -1 * gconst.BALL_SPEED
         )
-        self.speed_y = gconst.BALL_SPEED * random.choice([-1, 1])
+        self.speed_y = 0
 
         # def reverseX(self) -> None:
         #    self.speedX *= -1
