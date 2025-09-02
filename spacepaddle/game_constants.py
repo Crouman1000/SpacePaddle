@@ -9,7 +9,7 @@ import sys
 ## PATHING
 
 
-# assist in finding paths when using PyInstaller
+# Assist in finding paths when using PyInstaller
 _MEIPASS_DIR = getattr(sys, "_MEIPASS", None)
 
 BASE_DIR = _MEIPASS_DIR or os.path.dirname(os.path.abspath(__file__))
