@@ -1,6 +1,24 @@
 # Ignore virtual environment
 venv/
 
-# Ignore Python bytecode
+# Python bytecode
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+
+# PyInstaller build folders
+build/
+dist/      
+*.spec      
+
+# IDE/editor settings
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
