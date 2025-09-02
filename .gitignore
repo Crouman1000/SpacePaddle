@@ -9,8 +9,8 @@ __pycache__/
 
 # PyInstaller build folders
 build/
-dist/        
-*.spec       
+dist/      
+*.spec      
 
 # IDE/editor settings
 .vscode/
