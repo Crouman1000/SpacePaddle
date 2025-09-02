@@ -2,12 +2,17 @@
 
 from enum import Enum
 import os
+import sys
 
 ### CONSTANTS
 
 ## PATHING
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # path to pong/
+
+# assist in finding paths when using PyInstaller
+_MEIPASS_DIR = getattr(sys, "_MEIPASS", None)
+
+BASE_DIR = _MEIPASS_DIR or os.path.dirname(os.path.abspath(__file__))
 
 
 ## SOUND
