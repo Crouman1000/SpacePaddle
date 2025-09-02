@@ -28,8 +28,10 @@ SpacePaddle allows you to play against a very strong "AI", although it is beatab
 2. Create and activate a virtual environment:
 
     python -m venv venv
-    source venv/bin/activate   # Mac/Linux
-    venv\Scripts\activate      # Windows
+    # Mac/Linux
+    source venv/bin/activate  
+    # Windows
+    venv\Scripts\activate      
 
 3. Install dependencies:
 
