@@ -9,8 +9,8 @@ __pycache__/
 
 # PyInstaller build folders
 build/
-dist/        # optional: if you want to keep your exe out of Git
-*.spec       # PyInstaller spec file (optional, can keep if you want reproducible builds)
+dist/        
+*.spec
 
 # IDE / editor settings
 .vscode/
