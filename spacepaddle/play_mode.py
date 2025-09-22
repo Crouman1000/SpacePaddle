@@ -46,7 +46,7 @@ class GamePlay:
             if self.start_game:
 
                 ## Wipe away last frames
-                self.game_surface.fill("black")
+                self.game_surface.fill(gconst.Color.BLACK.value)
                 ## Move the ball
                 self.game_ball.travel()
                 ## P1 paddle
@@ -70,9 +70,14 @@ class GamePlay:
                 self.game_scoreboard.show_controls(self.game_surface, game_state)
 
             ## Render game objects
-            pygame.draw.rect(self.game_surface, "red", self.p1_paddle)
-            pygame.draw.rect(self.game_surface, "green", self.p2_paddle)
-            pygame.draw.rect(self.game_surface, "white", self.game_ball)
+            pygame.draw.rect(self.game_surface, gconst.Color.RED.value, self.p1_paddle)
+            pygame.draw.rect(self.game_surface, gconst.Color.GREEN.value, self.p2_paddle)
+            pygame.draw.rect(
+                self.game_surface,
+                gconst.Color.WHITE.value,
+                self.game_ball,
+                border_radius = gconst.BALL_BORDER_RADIUS
+            )
 
             ## Update the display on the screen
             pygame.display.flip()
@@ -100,7 +105,7 @@ class GamePlay:
             if self.start_game:
 
                 ## Wipe away last frames
-                self.game_surface.fill("black")
+                self.game_surface.fill(gconst.Color.BLACK.value)
                 ## Move the ball
                 self.game_ball.travel()
                 ## P1 paddle
@@ -127,9 +132,14 @@ class GamePlay:
                 self.game_scoreboard.show_controls(self.game_surface, game_state)
 
             ## Render game objects
-            pygame.draw.rect(self.game_surface, "red", self.p1_paddle)
-            pygame.draw.rect(self.game_surface, "green", self.p2_paddle)
-            pygame.draw.rect(self.game_surface, "white", self.game_ball)
+            pygame.draw.rect(self.game_surface, gconst.Color.RED.value, self.p1_paddle)
+            pygame.draw.rect(self.game_surface, gconst.Color.GREEN.value, self.p2_paddle)
+            pygame.draw.rect(
+                self.game_surface,
+                gconst.Color.WHITE.value,
+                self.game_ball,
+                border_radius = gconst.BALL_BORDER_RADIUS
+                )
 
             ## Update the display on the screen
             pygame.display.flip()
