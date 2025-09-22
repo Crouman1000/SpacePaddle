@@ -63,7 +63,7 @@ class Menu:
         ## Draw the buttons
         pygame.draw.rect(
             self.menu_surface,
-            "gray",
+            gconst.Color.LIGHT_GRAY.value,
             self.single_player_rect,
             border_radius=gconst.MENU_BUTTON_BORDER_RAD,
         )
@@ -79,7 +79,7 @@ class Menu:
 
         pygame.draw.rect(
             self.menu_surface,
-            "gray",
+            gconst.Color.LIGHT_GRAY.value,
             self.multi_player_rect,
             border_radius=gconst.MENU_BUTTON_BORDER_RAD,
         )
@@ -95,7 +95,7 @@ class Menu:
 
         pygame.draw.rect(
             self.menu_surface,
-            "gray",
+            gconst.Color.LIGHT_GRAY.value,
             self.options_rect,
             border_radius=gconst.MENU_BUTTON_BORDER_RAD,
         )
@@ -134,6 +134,78 @@ class Menu:
                     ):
                         self.running = False
                         game_state = gconst.GameState.OPTIONS
+
+
+                if event.type == pygame.MOUSEMOTION:  # pylint: disable=no-member
+
+                    mouse_over_coords_tuple = pygame.mouse.get_pos()
+                    singleplayer_button_color = gconst.Color.LIGHT_GRAY.value
+                    multiplayer_button_color = gconst.Color.LIGHT_GRAY.value
+                    option_button_color = gconst.Color.LIGHT_GRAY.value
+                    if self.single_player_rect.collidepoint(
+                        mouse_over_coords_tuple[0],mouse_over_coords_tuple[1]
+                    ):
+                        singleplayer_button_color = gconst.Color.YELLOW.value
+
+                    elif self.multi_player_rect.collidepoint(
+                        mouse_over_coords_tuple[0],mouse_over_coords_tuple[1]
+                    ):
+                        multiplayer_button_color = gconst.Color.YELLOW.value
+                       
+                    elif self.options_rect.collidepoint(
+                        mouse_over_coords_tuple[0],mouse_over_coords_tuple[1]
+                    ):
+                        option_button_color = gconst.Color.YELLOW.value
+
+                    ## Redraw the singleplayer button
+                    pygame.draw.rect(
+                        self.menu_surface,
+                        singleplayer_button_color,
+                        self.single_player_rect,
+                        border_radius=gconst.MENU_BUTTON_BORDER_RAD,
+                    )
+                    self.menu_surface.blit(
+                        self.single_player_text_surface,
+                        (
+                            self.single_player_rect.centerx
+                            - self.single_player_text_surface.get_width() / 2,
+                            self.single_player_rect.centery
+                            - self.single_player_text_surface.get_height() / 2,
+                        ),
+                    )
+                    ## Redraw the multiplayer button
+                    pygame.draw.rect(
+                        self.menu_surface,
+                        multiplayer_button_color,
+                        self.multi_player_rect,
+                        border_radius=gconst.MENU_BUTTON_BORDER_RAD,
+                    )
+                    self.menu_surface.blit(
+                        self.multi_player_text_surface,
+                        (
+                            self.multi_player_rect.centerx
+                            - self.multi_player_text_surface.get_width() / 2,
+                            self.multi_player_rect.centery
+                            - self.multi_player_text_surface.get_height() / 2,
+                        ),
+                    )
+
+                    ## Redraw the options button
+                    pygame.draw.rect(
+                        self.menu_surface,
+                        option_button_color,
+                        self.options_rect,
+                        border_radius=gconst.MENU_BUTTON_BORDER_RAD,
+                    )
+                    self.menu_surface.blit(
+                        self.option_text_surface,
+                        (
+                            self.options_rect.centerx
+                            - self.option_text_surface.get_width() / 2,
+                            self.options_rect.centery
+                            - self.option_text_surface.get_height() / 2,
+                        ),
+                    )
 
             ## Update the display on the screen
             pygame.display.flip()
